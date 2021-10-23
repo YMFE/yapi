@@ -2,7 +2,7 @@
 
 体验地址：
 
-[http://yapi.smart-xwork.cn/](http://yapi.smart-xwork.cn/)
+[https://yapi.feiyanyun.com/](https://yapi.feiyanyun.com/)
 
 官方文档：
 <p><a target="_blank" href="https://hellosean1025.github.io/yapi">hellosean1025.github.io/yapi</a></p>
