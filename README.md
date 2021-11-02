@@ -72,6 +72,8 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [export-docx-data](https://github.com/inceptiongt/Yapi-plugin-export-docx-data) 数据导出docx文档
 * [interface-oauth-token](https://github.com/shouldnotappearcalm/yapi-plugin-interface-oauth2-token) 定时自动获取鉴权token的插件
 * [import-swagger-customize](https://github.com/follow-my-heart/yapi-plugin-import-swagger-customize) 导入指定swagger接口
+* [autotest](https://github.com/duicym/yapi-plugin-autotest) 定时自动执行测试集合并发送钉钉的插件
+
 
 ### 代码生成
 * [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
