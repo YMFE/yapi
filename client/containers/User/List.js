@@ -2,10 +2,11 @@ import React, { PureComponent as Component } from 'react';
 import { formatTime } from '../../common.js';
 import { Link } from 'react-router-dom';
 import { setBreadcrumb } from '../../reducer/modules/user';
+import AddUserForm from './AddUserForm.js';
 //import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Table, Popconfirm, message, Input } from 'antd';
+import { Table, Popconfirm, message, Input, Button, Modal } from 'antd';
 import axios from 'axios';
 
 const Search = Input.Search;
@@ -28,7 +29,8 @@ class List extends Component {
       total: null,
       current: 1,
       backups: [],
-      isSearch: false
+      isSearch: false,
+      visible: false
     };
   }
   static propTypes = {
@@ -97,6 +99,18 @@ class List extends Component {
   async componentWillMount() {
     this.props.setBreadcrumb([{ name: '用户管理' }]);
   }
+
+  handleAddUser = data => {
+    const _this = this;
+    axios.post('/api/user/add', data).then(res => {
+      if (res.data.errcode !== 0) {
+        return message.error(`${res.data.errmsg}`);
+      }
+      _this.getUserList();
+      message.success('用户添加成功');
+      _this.setState({ visible: false })
+    });
+  };
 
   handleSearch = value => {
     let params = { q: value };
@@ -208,13 +222,22 @@ class List extends Component {
 
     return (
       <section className="user-table">
-        <div className="user-search-wrapper">
-          <h2 style={{ marginBottom: '10px' }}>用户总数：{this.state.total}位</h2>
-          <Search
+        <div className="user-control-wrapper">
+          <h2>用户总数：{this.state.total}位</h2>
+          <div className='user-control'>
+            <Search
+            style={{width: "250px", marginRight: "5px"}}
             onChange={e => this.handleSearch(e.target.value)}
             onSearch={this.handleSearch}
             placeholder="请输入用户名"
-          />
+            />
+            <Button
+            className="modal-button"
+            type="default"
+            onClick={() => this.setState({ visible: true })}
+            >添加用户
+            </Button>
+          </div>
         </div>
         <Table
           bordered={true}
@@ -223,6 +246,20 @@ class List extends Component {
           pagination={this.state.isSearch ? defaultPageConfig : pageConfig}
           dataSource={data}
         />
+        {this.state.visible && (
+          <Modal
+          title="添加用户"
+          visible={this.state.visible}
+          onCancel={() => this.setState({ visible: false })}
+          footer={null}
+          className="addcatmodal"
+          >
+            <AddUserForm
+              onCancel={() => this.setState({ visible: false })}
+              onSubmit={this.handleAddUser}
+            />
+          </Modal>
+        )}
       </section>
     );
   }
