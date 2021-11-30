@@ -35,6 +35,17 @@ class interfaceCat extends baseModel {
       .exec();
   }
 
+  //查询catid的子文件夹
+  getChildByid(id) {
+    return this.model
+      .find({
+        parent_id: id
+      })
+      .exec();
+  }
+  
+  
+
   checkRepeat(name) {
     return this.model.countDocuments({
       name: name
