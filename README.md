@@ -37,7 +37,7 @@
 <br/>
 
  **方式一**：`zip包解压安装`  
-    - 1 下载zip包，解压 [多级目录包](https://download.csdn.net/download/zybieku/34093967)   
+    - 1 下载zip包，解压 [CSDN多级目录包](https://download.csdn.net/download/zybieku/34093967) , 或者 [百度网盘，提取码: 9hd7 ](https://pan.baidu.com/s/177o1WmgN2bZJLq5NZj2Hlw)    
     - 2 切换到 yapi 目录，修改config配置  
     - 3 切换到 vendors 目录，运行 npm run install-server （初始数据库，有库数据略过）  
     - 4 node server/app.js 启动（pm2亦可）  
@@ -62,8 +62,10 @@
   ```shell
    #复制完成后请修改相关配置
    cp vendors/config_example.json ./config.json 
-    # 指令打开config，或者用鼠标打开
+   # 指令打开config，或者用鼠标打开
    vi ./config.json 
+   #再进入vendors
+   cd vendors
    npm install --production --registry https://registry.npm.taobao.org
    #安装程序会初始化数据库，管理员账号名可在 config.json 配置
     npm run install-server 
