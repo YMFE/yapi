@@ -105,9 +105,7 @@ class InterfaceMenu extends Component {
     this.getList();
   }
 
-  async getList() {
-    let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
-    let _list = r.payload.data.data
+  switchList(_list){
     let list = _list.filter((item) => {
       let childs = _list.filter(child => {
         return item._id === child.parent_id
@@ -117,9 +115,19 @@ class InterfaceMenu extends Component {
       }
       return !item.parent_id
     })
+    return list
+  }
+
+  async getList() {
+    let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
+    let _list = r.payload.data.data
+    let list =this.switchList(_list)
     this.draftList = JSON.parse(JSON.stringify(list))
     this.setState({ list });
   }
+
+  
+
 
   componentWillMount() {
     this.handleRequest();
@@ -129,7 +137,7 @@ class InterfaceMenu extends Component {
     if (this.props.list !== nextProps.list) {
       // console.log('next', nextProps.list)
       this.setState({
-        list: nextProps.list
+        list: this.switchList(nextProps.list)
       });
     }
   }
