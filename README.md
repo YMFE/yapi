@@ -41,7 +41,7 @@
 <br/>
 
  **方式一**：`zip包解压安装`  
-    - 1 下载zip包，解压 [CSDN多级目录包](https://download.csdn.net/download/zybieku/34093967) , 或者 [百度网盘，提取码: 9hd7 ](https://pan.baidu.com/s/177o1WmgN2bZJLq5NZj2Hlw)    
+    - 1 下载zip包，解压 [CSDN多级目录包](https://download.csdn.net/download/zybieku/34093967) , 或者 [百度网盘，提取码: 5qgk](https://pan.baidu.com/s/1wPwX0wW7StqoN5AIMvM5KA)    
     - 2 切换到 yapi 目录，修改config配置  
     - 3 切换到 vendors 目录，运行 npm run install-server （初始数据库，有库数据略过）  
     - 4 node server/app.js 启动（pm2亦可）  
