@@ -8,7 +8,11 @@
 
 <br/>
 
-> 参考图片 (`喜欢的老铁求个star`) 
+**喜欢的老铁,github求给个star❤️** 
+[仓库地址](https://github.com/zybieku/yapi) 
+
+
+> 参考图片 
 
   ![img](./yapi_menu.png)
 
