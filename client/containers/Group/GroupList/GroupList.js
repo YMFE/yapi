@@ -175,7 +175,7 @@ export default class GroupList extends Component {
     });
     this.props.setCurrGroup(currGroup);
     this.props.history.replace(`${currGroup._id}`);
-    this.props.fetchNewsData(groupId, 'group', 1, 10);
+    // this.props.fetchNewsData(groupId, 'group', 1, 10);
   }
 
   @autobind
