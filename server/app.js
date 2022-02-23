@@ -58,12 +58,15 @@ app.use(async (ctx, next) => {
 app.use(koaStatic(yapi.path.join(yapi.WEBROOT, 'static'), { index: indexFile, gzip: true }));
 
 
-const server = app.listen(yapi.WEBCONFIG.port);
+const bindIP = yapi.WEBCONFIG.bindIP || "0.0.0.0"
+const server = app.listen(yapi.WEBCONFIG.port, bindIP);
 
 server.setTimeout(yapi.WEBCONFIG.timeout);
 
+const displayIP = bindIP == '0.0.0.0' ? '127.0.0.1': bindIP
+
 commons.log(
-  `服务已启动，请打开下面链接访问: \nhttp://127.0.0.1${
+  `服务已启动，请打开下面链接访问: \nhttp://${displayIP}${
     yapi.WEBCONFIG.port == '80' ? '' : ':' + yapi.WEBCONFIG.port
   }/`
 );

@@ -1,4 +1,5 @@
 {
+  "bindIP": "127.0.0.1",
   "port": "3000",
   "adminAccount": "admin@admin.com",
   "timeout":120000,
