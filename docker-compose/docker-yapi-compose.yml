@@ -25,4 +25,4 @@ services:
       - TZ=Asia/Shanghai # 设置容器时区与宿主机保持一致
     volumes:
       - /etc/localtime:/etc/localtime:ro # 设置容器时区与宿主机保持一致
-      - /opt/yapi/my-mongo:/data # 映射数据库保存目录到宿主机，防止数据丢失
+      - /opt/yapi/mongo:/data/db # 映射数据库保存目录到宿主机，防止数据丢失
