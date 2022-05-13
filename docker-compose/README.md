@@ -22,10 +22,12 @@ docker-compose -p yapi -f ./docker-yapi-compose.yml up -d
 > 访问IP 9090 端口根据需求初始化项
 
 * 初始化部署路径不要修改[不建议修改，如果修改请保持与　yapi_start.sh中的目录保持一直]
+* 由于拆分数据镜像了　数据地址填写　mongo
 * 项目初始化成功会提示＂部署成功字样　提示访问　http://127.0.0.1:3000"　重启一下　yapi 服务即可正常访问
 
 > 重启　yapi 
 * 访问　访问IP 3000 端口
+
 ~~~~~~
 docker restart yapi
 ~~~~~~
@@ -53,11 +55,9 @@ docker-compose -p yapi -f ./docker-yapi-compose.yml down
 
 * ./docker-compose/dockerfile/Dockerfile
 
-* - 1. 使用了mongo:5.0-focal　基础镜像
-* - 2. 指定用户为root.
-* - 3. 安装net-tools nodejs npm软件包
-* - 4. 执行默认WORKDIR /data/yapi
-* - 5. 把初始化脚本放到了　/yapi_start.sh
+* - 1. 使用了FROM node:12　基础镜像
+* - 2. 执行默认WORKDIR /data/yapi
+* - 3. 把初始化脚本放到了　/yapi_start.sh
 
 ------
 
