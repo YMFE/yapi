@@ -9,6 +9,7 @@ import { fetchInterfaceData } from '../../../../reducer/modules/interface.js';
 import { withRouter } from 'react-router-dom';
 import Run from './Run/Run.js';
 const plugin = require('client/plugin.js');
+import Dynamic from './Dynamic/Dynamic.js';
 
 const TabPane = Tabs.TabPane;
 @connect(
@@ -123,6 +124,10 @@ class Content extends Component {
       run: {
         component: Run,
         name: '运行'
+      },
+      dynamic: {
+        component: Dynamic,
+        name: '动态'
       }
     };
 
