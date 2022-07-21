@@ -442,7 +442,7 @@ class ProjectData extends Component {
                           e.stopPropagation();
                         }}
                         dangerouslySetInnerHTML={{
-                          __html: this.state.curImportType
+                          __html: this.state.curImportType && importDataModule[this.state.curImportType]
                             ? importDataModule[this.state.curImportType].desc
                             : null
                         }}
