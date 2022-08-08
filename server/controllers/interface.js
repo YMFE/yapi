@@ -822,6 +822,7 @@ class interfaceController extends baseController {
     }
 
     yapi.emitHook('interface_update', id).then();
+    params.project_id = interfaceData.project_id;
     await this.autoAddTag(params);
 
     ctx.body = yapi.commons.resReturn(result);
