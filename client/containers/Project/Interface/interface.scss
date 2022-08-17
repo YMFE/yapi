@@ -110,6 +110,12 @@
   .interface-list {
     //max-height: 600px;
     //overflow-y: scroll;
+    .cat_switch_hidden {
+      .ant-tree-switcher {
+        visibility: hidden;
+      }
+    }
+
     a {
       color: rgba(13, 27, 62, 0.65);
     }
@@ -130,12 +136,6 @@
       line-height: 25px;
     }
     .interface-list {
-      .cat_switch_hidden {
-        .ant-tree-switcher {
-          visibility: hidden;
-        }
-      }
-
       .btn-http {
         height: 23px;
         font-size: 10px;

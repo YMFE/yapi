@@ -24,6 +24,7 @@ import './interfaceMenu.scss';
 const confirm = Modal.confirm;
 const TreeNode = Tree.TreeNode;
 const headHeight = 240; // menu顶部到网页顶部部分的高度
+const limit = 20;
 
 @connect(
   state => {
@@ -93,11 +94,11 @@ class InterfaceMenu extends Component {
       add_sub_cat_modal_visible: false,
       curCatdata: {},
       expands: null,
-      canFilter:true, //触发过滤条件
+      canFilter: true, //触发过滤条件
       list: []
     };
     this.draftList = []
-    this.onFilter=_.debounce(this.onFilter,500)
+    this.onFilter = _.debounce(this.onFilter, 500)
   }
 
   handleRequest() {
@@ -105,7 +106,7 @@ class InterfaceMenu extends Component {
     this.getList();
   }
 
-  switchList(_list){
+  switchList(_list) {
     let list = _list.filter((item) => {
       let childs = _list.filter(child => {
         return item._id === child.parent_id
@@ -121,12 +122,12 @@ class InterfaceMenu extends Component {
   async getList() {
     let r = await this.props.fetchInterfaceListMenu(this.props.projectId);
     let _list = r.payload.data.data
-    let list =this.switchList(_list)
+    let list = this.switchList(_list)
     this.draftList = JSON.parse(JSON.stringify(list))
     this.setState({ list });
   }
 
-  
+
 
 
   componentWillMount() {
@@ -236,7 +237,7 @@ class InterfaceMenu extends Component {
         await that.props.deleteInterfaceData(id, that.props.projectId);
         await that.getList();
         await that.props.getProject(that.props.projectId)
-        await that.props.fetchInterfaceCatList({ catid });
+        await that.props.fetchInterfaceCatList({ catid, limit, page: 1 });
         ref.destroy();
         that.props.history.push(
           '/project/' + that.props.match.params.id + '/interface/api/cat_' + catid
@@ -299,23 +300,23 @@ class InterfaceMenu extends Component {
   leaveItem = () => {
     this.setState({ delIcon: null });
   };
-  
-  onFilter =()=>{
+
+  onFilter = () => {
     this.setState({
-      canFilter:true,
+      canFilter: true,
       list: JSON.parse(JSON.stringify(this.draftList))
     });
   }
 
-  onSearchChange=(e)=>{
+  onSearchChange = (e) => {
     e.persist();
     this.setState({
-      canFilter:false,
-      filter:e.target.value
-    }); 
+      canFilter: false,
+      filter: e.target.value
+    });
     this.onFilter(e.target.value);
   }
-  
+
   onExpand = e => {
     this.setState({
       expands: e
@@ -696,7 +697,7 @@ class InterfaceMenu extends Component {
               </div>
             }
             key={'cat_' + item._id}
-            className={`interface-item-nav ${item.list.length ? '' : 'cat_switch_hidden'}`}
+            className={`interface-item-nav ${item.list.length || item.children ? '' : 'cat_switch_hidden'}`}
           >
             {item.children && item.children.length && renderItemLoop(item.children)}
             {item.list.map(itemInterfaceCreate)}
@@ -707,8 +708,8 @@ class InterfaceMenu extends Component {
 
     let currentKes = defaultExpandedKeys();
     let menuList;
-    if (this.state.filter&&this.state.canFilter) {
-     let res =this.filterList(this.state.list)
+    if (this.state.filter && this.state.canFilter) {
+      let res = this.filterList(this.state.list)
       menuList = res.menuList;
       currentKes.expands = res.arr;
     } else {
