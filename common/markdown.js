@@ -271,7 +271,7 @@ function createInterMarkdown(basepath, listItem, isToc) {
   let mdTemplate = ``;
   const toc = `[TOC]\n\n`;
   // 接口名称
-  mdTemplate += `\n## ${escapeStr(`${listItem.title}\n`, isToc)}\n`;
+  mdTemplate += `\n## ${escapeStr(`${listItem.title}\n<a id=${listItem.title + listItem.catid}> </a>`, isToc)}\n`;
   isToc && (mdTemplate += toc);
   // 基本信息
   mdTemplate += createBaseMessage(basepath, listItem);

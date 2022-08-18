@@ -1,6 +1,6 @@
 {
   "name": "yapi-vendor",
-  "version": "1.9.2",
+  "version": "1.10.2",
   "description": "YAPI",
   "main": "server/app.js",
   "scripts": {
@@ -11,6 +11,7 @@
     "dev": "npm run dev-server & npm run dev-client",
     "start": " node server/app.js",
     "test": "ava",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "build-client": "NODE_ENV=production ykit pack -m",
     "npm-publish": "node ./npm-publish.js",
     "docs": "ydoc build"
@@ -44,7 +45,7 @@
     "generate-schema": "^2.6.0",
     "immer": "^1.1.1",
     "js-base64": "^2.3.2",
-    "json-schema-faker": "^0.5.0-rc16",
+    "json-schema-faker": "0.5.0-rc16",
     "json-schema-ref-parser": "4.0.0",
     "json5": "0.5.1",
     "jsondiffpatch": "0.3.11",
@@ -108,6 +109,7 @@
     "brace": "^0.10.0",
     "buffer-shims": "^1.0.0",
     "compression-webpack-plugin": "^1.0.0",
+    "conventional-changelog-cli": "^2.1.1",
     "copy-webpack-plugin": "^4.0.1",
     "core-decorators": "^0.17.0",
     "css-loader": "^0.28.4",
