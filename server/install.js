@@ -17,7 +17,25 @@ function install() {
     );
   }
 
-  setupSql();
+  // 判断系统是否已经初始化
+  let userInst = yapi.getInst(userModel);
+  let user = userInst.findByEmail(yapi.WEBCONFIG.adminAccount);
+
+  yapi.connect
+    .then(function() {
+        user.then(function (user_info, err) {
+            if (!user_info || !user_info._id) {
+                setupSql();
+            }else {
+                fs.ensureFileSync(yapi.path.join(yapi.WEBROOT_RUNTIME, 'init.lock'));
+                console.log("系统已经初始化")
+                process.exit(0);
+            }
+        })
+    })
+    .catch(function(err) {
+      throw new Error(err.message);
+    });
 }
 
 function setupSql() {

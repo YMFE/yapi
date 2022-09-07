@@ -55,6 +55,17 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
     yapi ls //查看版本号列表
     yapi update //更新到最新版本
     yapi update -v {Version} //更新到指定版本
+
+### 容器部署
+#### 编译镜像
+```shell
+docker build -t yapi .
+```
+#### 启动镜像
+```shell
+docker run -p 3000:3000 --name yapi_web -e YAPI_ADMIN_ACCOUNT=admin@admin.com \
+-e YAPI_DB_SERVER_NAME={mongodb_ip} -e YAPI_DB_USER={mongodb_user} -e YAPI_DB_PASS={mongodb_pass} yapi
+```
     
 ### 教程
 * [使用 YApi 管理 API 文档，测试， mock](https://juejin.im/post/5acc879f6fb9a028c42e8822)
