@@ -155,7 +155,7 @@
     "webpack-dev-middleware": "^1.12.0",
     "webpack-node-externals": "^1.6.0",
     "ydoc-plugin-img-view": "^1.0.1",
-    "ykit": "0.6.2",
+    "ykit": "2.3.2",
     "ykit-config-antd": "0.1.3",
     "ykit-config-es6": "^1.1.0"
   },
