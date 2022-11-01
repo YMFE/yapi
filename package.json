@@ -124,7 +124,7 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "markdown-it-include": "^1.0.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",
     "rc-queue-anim": "^1.2.0",
