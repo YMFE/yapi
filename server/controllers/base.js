@@ -51,15 +51,16 @@ class baseController {
       '/api/interface/list_cat',
       '/api/project/get',
       '/api/plugin/export',
-      '/api/project/up'
+      '/api/project/up',
+      '/api/plugin/exportSwagger'
     ];
 
     let params = Object.assign({}, ctx.query, ctx.request.body);
     let token = params.token;
 
     // 如果前缀是 /api/open，执行 parse token 逻辑
-    if (token && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0 )) {
-      
+    if (token && typeof token === 'string' && (openApiRouter.indexOf(ctx.path) > -1 || ctx.path.indexOf('/api/open/') === 0 )) {
+
       let tokens = parseToken(token)
 
       const oldTokenUid = '999999'
@@ -82,7 +83,7 @@ class baseController {
       //   }
       //   return (this.$tokenAuth = true);
       // }
-      
+
       let checkId = await this.getProjectIdByToken(token);
       if(!checkId){
         ctx.body = yapi.commons.resReturn(null, 42014, 'token 无效');
@@ -104,7 +105,7 @@ class baseController {
           let userInst = yapi.getInst(userModel); //创建user实体
           result = await userInst.findById(tokenUid);
         }
-        
+
         this.$user = result;
         this.$auth = true;
       }
