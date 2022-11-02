@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  yapi:
+    hostname: yapi
+    image: yapi:v0.7.ry
+    container_name: yapi # 指定容器名称，如果不设置此参数，则由系统自动生成
+    restart: always # 设置容器自启模式
+    environment:
+      - TZ=Asia/Shanghai # 设置容器时区与宿主机保持一致
+    command: "bash /yapi_start.sh"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # 设置容器时区与宿主机保持一致
+      - /opt/yapi/my-yapi:/opt/yapi # 映射数据库保存目录到宿主机，防止数据丢失
+    ports:
+      - "9090:9090"
+      - "3000:3000"
+    depends_on:
+      - mongo
+  mongo:
+    hostname: mongo
+    image: mongo:5.0-focal
+    container_name: mongo # 指定容器名称，如果不设置此参数，则由系统自动生成
+    restart: always # 设置容器自启模式
+    environment:
+      - TZ=Asia/Shanghai # 设置容器时区与宿主机保持一致
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # 设置容器时区与宿主机保持一致
+      - /opt/yapi/mongo:/data/db # 映射数据库保存目录到宿主机，防止数据丢失
