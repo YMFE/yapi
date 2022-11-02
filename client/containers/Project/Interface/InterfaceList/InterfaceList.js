@@ -236,6 +236,7 @@ class InterfaceList extends Component {
               <Tooltip title="开放接口" placement="topLeft">
                 <span>{record.api_opened && <Icon className="opened" type="eye-o" />}</span>
               </Tooltip>
+              {' '}
               <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
                 <span className="path">{path}</span>
               </Tooltip>
