@@ -393,7 +393,15 @@ class interfaceController extends baseController {
     //检查是否提交了目前不存在的tag
     let tags = params.tag;
     if (tags && Array.isArray(tags) && tags.length > 0) {
-      let projectData = await this.projectModel.get(params.project_id);
+      let project_id = params.project_id;
+      if(!project_id){
+        let catData = await this.catModel.get(params.catid);
+        project_id = catData.project_id;
+      }
+      let projectData = await this.projectModel.get(project_id);
+      if(!projectData){
+        return
+      }
       let tagsInProject = projectData.tag;
       let needUpdate = false;
       if (tagsInProject && Array.isArray(tagsInProject) && tagsInProject.length > 0) {
