@@ -291,10 +291,10 @@ class userController extends baseController {
    * @category user
    * @foldnumber 10
    * @param {String} email email名称，不能为空
-   * @param  {String} password 密码，不能为空
+   * @param {String} password 密码，不能为空
    * @param {String} [username] 用户名
    * @returns {Object}
-   * @example ./api/user/login.json
+   * @example
    */
   async reg(ctx) {
     //注册
@@ -357,9 +357,8 @@ class userController extends baseController {
       });
       yapi.commons.sendMail({
         to: user.email,
-        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${
-          params.email
-        } 已经注册成功</p>`
+        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台,您的账号 ${params.email
+          } 已经注册成功</p>`
       });
     } catch (e) {
       ctx.body = yapi.commons.resReturn(null, 401, e.message);
@@ -436,6 +435,77 @@ class userController extends baseController {
       }));
     } catch (e) {
       return (ctx.body = yapi.commons.resReturn(null, 402, e.message));
+    }
+  }
+
+  /**
+ * 添加用户,只有admin用户才有此权限
+ * @interface /user/add
+ * @method POST
+ * @category user
+ * @foldnumber 10
+ * @param {String} email email名称，不能为空
+ * @param {String} [username] 用户名
+ * @returns {Object}
+ * @example
+ */
+  async add(ctx) {
+    if (this.getRole() !== 'admin') {
+      return (ctx.body = yapi.commons.resReturn(null, 401, '没有权限'));
+    }
+
+    let userInst = yapi.getInst(userModel);
+    let params = ctx.request.body; //获取请求的参数,检查是否存在用户名和密码
+    const defaultPassword = yapi.WEBCONFIG.defaultPassword || yapi.commons.randStr()
+
+    params = yapi.commons.handleParams(params, {
+      email: 'string',
+      username: 'string'
+    });
+
+    if (!params.email) {
+      return (ctx.body = yapi.commons.resReturn(null, 400, '邮箱不能为空'));
+    }
+
+    let checkRepeat = await userInst.checkRepeat(params.email); //然后检查是否已经存在该用户
+
+    if (checkRepeat > 0) {
+      return (ctx.body = yapi.commons.resReturn(null, 401, '该email已经注册'));
+    }
+
+    let passsalt = yapi.commons.randStr();
+    let data = {
+      username: params.username || params.email.substr(0, params.email.indexOf('@')),
+      password: yapi.commons.generatePassword(defaultPassword, passsalt), //加密
+      email: params.email,
+      passsalt: passsalt,
+      role: 'member',
+      add_time: yapi.commons.time(),
+      up_time: yapi.commons.time(),
+      type: 'site'
+    };
+
+    try {
+      let user = await userInst.save(data);
+
+      await this.handlePrivateGroup(user._id, user.username, user.email);
+      ctx.body = yapi.commons.resReturn({
+        uid: user._id,
+        email: user.email,
+        username: user.username,
+        add_time: user.add_time,
+        up_time: user.up_time,
+        role: 'member',
+        type: user.type,
+        study: false
+      });
+      yapi.commons.sendMail({
+        to: user.email,
+        contents: `<h3>亲爱的用户：</h3><p>您好，感谢使用YApi可视化接口平台，您的账号 ${params.email
+          } 已经成功初始化，密码为：${defaultPassword}</p><p>请尽快登陆并修改初始密码。</p>`
+      });
+    } catch (e) {
+      ctx.body = yapi.commons.resReturn(null, 401, e.message);
     }
   }
 
@@ -552,7 +622,6 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-
   async uploadAvatar(ctx) {
     try {
       let basecode = ctx.request.body.basecode;
@@ -593,7 +662,6 @@ class userController extends baseController {
    * @returns {Object}
    * @example
    */
-
   async avatar(ctx) {
     try {
       let uid = ctx.query.uid ? ctx.query.uid : this.getUid();
