@@ -269,5 +269,22 @@ extConfig.forEach(plugin => {
   pluginModule.call(yapi, plugin.options);
 });
 
+function findPluginOptions (name) {
+  let options = null;
+  pluginsConfig.forEach(plugin => {
+    if (plugin && plugin.enable === true && plugin.server === true && plugin.name === name) {
+      options = plugin.options;
+    }
+  });
+  extConfig.forEach(plugin => {
+    if (plugin && plugin.enable === true && plugin.server === true && plugin.name === name) {
+      options = plugin.options;
+    }
+  })
+  return options;
+}
+
+yapi.findPluginOptions = findPluginOptions;
+
 //delete bindHook方法，避免误操作
 delete yapi.bindHook;
