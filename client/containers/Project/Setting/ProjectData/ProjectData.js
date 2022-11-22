@@ -479,6 +479,28 @@ class ProjectData extends Component {
                 <RadioGroup defaultValue="all" onChange={this.handleChange}>
                   <Radio value="all">全部接口</Radio>
                   <Radio value="open">公开接口</Radio>
+                  <Radio value="category">分类接口</Radio>
+                  <div className="catidSelect">
+                    <Select
+                      value={this.state.selectCatid + ''}
+                      showSearch
+                      style={{ width: '100%' }}
+                      placeholder="请选择数据导出的默认分类"
+                      optionFilterProp="children"
+                      onChange={this.selectChange.bind(this)}
+                      filterOption={(input, option) =>
+                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {this.state.menuList.map((item, key) => {
+                        return (
+                          <Option key={key} value={item._id + ''}>
+                            {item.name}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </RadioGroup>
               </div>
               <div className="export-content">
