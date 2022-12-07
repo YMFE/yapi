@@ -154,6 +154,18 @@ const compareVersions = require('compare-versions');
     api.title = data.summary || data.path;
     api.desc = data.description;
     api.catname = null;
+
+    // 处理 swagger 扩展属性
+    // 如: x-yapi-status 映射为 yapi status字段
+    const extPrefix = 'x-yapi-';
+    _.each(api, (value, extfield) => {
+      if (extfield.startsWith(extPrefix)) {
+        const yapiField = extfield.replace(extPrefix, '');
+        api[yapiField] = value;
+        delete api[extfield];
+      }
+    })
+
     if(data.tags && Array.isArray(data.tags)){
       api.tag = data.tags;
       for(let i=0; i< data.tags.length; i++){
