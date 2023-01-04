@@ -258,7 +258,7 @@ function createInterMarkdown(basepath, listItem, isToc, depth) {
   let mdTemplate = ``;
   const toc = `[TOC]\n\n`;
   // 接口名称
-  mdTemplate += `\n${getMarkdownDepth(depth + 1)} ${escapeStr(`${listItem.title}\n<a id=${listItem.title}> </a>`, isToc)}\n`;
+  mdTemplate += `\n${getMarkdownDepth(depth + 1)} ${escapeStr(`${listItem.title}\n<a id=${listItem.title + listItem.catid}> </a>`, isToc)}\n`;
   isToc && (mdTemplate += toc);
   // 基本信息
   mdTemplate += createBaseMessage(basepath, listItem, depth);
@@ -306,8 +306,8 @@ function createClassMarkdown(curProject, list, isToc) {
 }
 
 function createClassTreeMarkdown(curProject, list, isToc, depth) {
-  const toc = `[TOC]\n`;
   let mdTemplate = ``;
+  const toc = `[TOC]\n\n`;
   list.map(item => {
     // 分类名称
     mdTemplate += `\n${getMarkdownDepth(depth)} ${escapeStr(item.name, isToc)}\n`;
@@ -332,7 +332,6 @@ function getMarkdownDepth(depth) {
   }
   return str;
 }
-
 
 let r = {
   createInterMarkdown,

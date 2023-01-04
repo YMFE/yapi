@@ -122,6 +122,22 @@ class openController extends baseController {
     }
 
     let menuList = await this.interfaceCatModel.list(project_id);
+    /**
+     * 防止分类被都被删除时取不到 selectCatid
+     * 如果没有分类,增加一个默认分类
+     */
+    if (menuList.length === 0) {
+      const catInst = yapi.getInst(interfaceCatModel);
+      const menu = await catInst.save({
+        name: '默认分类',
+        project_id: project_id,
+        desc: '默认分类',
+        uid: this.getUid(),
+        add_time: yapi.commons.time(),
+        up_time: yapi.commons.time()
+      });
+      menuList.push(menu);
+    }
     let selectCatid = menuList[0]._id;
     let projectData = await this.projectModel.get(project_id);
     let res = await importDataModule[type](content);

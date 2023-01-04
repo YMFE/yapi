@@ -328,7 +328,7 @@ module.exports = async (ctx, next) => {
       if (project.is_mock_open && project.project_mock_script) {
         // 项目层面的mock脚本解析
         let script = project.project_mock_script;
-        yapi.commons.handleMockScript(script, context);
+        await yapi.commons.handleMockScript(script, context);
       }
 
       await yapi.emitHook('mock_after', context);
