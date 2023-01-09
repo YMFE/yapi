@@ -75,6 +75,9 @@ function connect(callback) {
   return db;
 }
 
+// 数据库断开后重连
+mongoose.connection.on('disconnected', connect)
+
 yapi.db = model;
 
 module.exports = {
