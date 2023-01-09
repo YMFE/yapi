@@ -45,7 +45,7 @@ vi ./config.json
 
 ```bash
 cd vendors
-npm install  --registry https://registry.npm.taobao.org # 安装依赖
+npm install  --registry https://registry.npmmirror.com # 安装依赖
 ```
 
 4.初始化
