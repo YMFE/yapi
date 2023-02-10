@@ -329,7 +329,7 @@ class openController extends baseController {
         this.getUid(),
         interfaceData.project_id,
         interfaceData.interface_id
-      ));
+      ), yapi.WEBCONFIG.scriptEnable === true);
       let res = data.res;
 
       result = Object.assign(result, {
