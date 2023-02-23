@@ -1,6 +1,7 @@
 const Safeify = require('safeify').default;
 
 module.exports = async function sandboxFn(context, script) {
+    let result
     // 创建 safeify 实例
     const safeVm = new Safeify({
         timeout: 3000,
@@ -8,8 +9,13 @@ module.exports = async function sandboxFn(context, script) {
     })
 
     script += "; return this;";
-    // 执行动态代码
-    const result = await safeVm.run(script, context)
+    
+    try {
+        // 执行动态代码
+        result = await safeVm.run(script, context)
+    } catch (error) {
+        console.log('error: ', error)
+    }
 
     // 释放资源
     safeVm.destroy()
