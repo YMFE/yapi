@@ -392,7 +392,7 @@ class interfaceController extends baseController {
   async autoAddTag(params) {
     //检查是否提交了目前不存在的tag
     let tags = params.tag;
-    if (tags && Array.isArray(tags) && tags.length > 0) {
+    if (params.project_id && tags && Array.isArray(tags) && tags.length > 0) {
       let projectData = await this.projectModel.get(params.project_id);
       let tagsInProject = projectData.tag;
       let needUpdate = false;
