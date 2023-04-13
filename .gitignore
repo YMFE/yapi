@@ -44,3 +44,4 @@ tsconfig.json
 client/plugin-module.js
 .vscode
 /iconfont
+config.json

@@ -82,6 +82,8 @@ class projectModel extends baseModel {
   }
 
   handleEnvNullData(data){
+    if (data == null) return false;
+
     data = data.toObject();
     data.toObject = ()=> data;
     let isFix = false;

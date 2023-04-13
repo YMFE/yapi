@@ -249,6 +249,7 @@ const compareVersions = require('compare-versions');
             api.req_params.push(defaultParam);
             break;
           case 'query':
+            if (param.example) defaultParam.example = param.example;
             api.req_query.push(defaultParam);
             break;
           case 'body':
