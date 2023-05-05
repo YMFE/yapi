@@ -1,0 +1,26 @@
+{
+  "name": "yapi",
+  "script": "./yapi/server/app.js",
+  "cwd": "./",
+  "watch": [
+    "yapi/server"
+  ],
+  "ignore_watch": [
+    "yapi/node_modules",
+    "yapi/iconfont"
+  ],
+  "watch_options": {
+    "followSymlinks": true
+  },
+  "error_file": "./log/pm2/app/app-err.log",
+  "out_file": "./log/pm2/app/app-out.log",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "env_production": {
+    "NODE_ENV": "production"
+  },
+  "env_testing": {
+    "NODE_ENV": "testing"
+  }
+}

@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { Icon, Input, Tooltip } from 'antd';
-import PropTypes from 'prop-types';
-import './Label.scss';
+import React, { Component } from 'react'
+import { Icon, Input, Tooltip } from 'antd'
+import PropTypes from 'prop-types'
+import './Label.scss'
 
 export default class Label extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       inputShow: false,
       inputValue: ''
-    };
+    }
   }
   static propTypes = {
     onChange: PropTypes.func,
@@ -17,16 +17,16 @@ export default class Label extends Component {
     cat_name: PropTypes.string
   };
   toggle = () => {
-    this.setState({ inputShow: !this.state.inputShow });
+    this.setState({ inputShow: !this.state.inputShow })
   };
   handleChange = event => {
-    this.setState({ inputValue: event.target.value });
+    this.setState({ inputValue: event.target.value })
   };
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.desc === nextProps.desc) {
       this.setState({
         inputShow: false
-      });
+      })
     }
   }
   render() {
@@ -49,8 +49,8 @@ export default class Label extends Component {
                 <Icon
                   className="interface-delete-icon"
                   onClick={() => {
-                    this.props.onChange(this.state.inputValue);
-                    this.toggle();
+                    this.props.onChange(this.state.inputValue)
+                    this.toggle()
                   }}
                   type="check"
                 />
@@ -60,6 +60,6 @@ export default class Label extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }

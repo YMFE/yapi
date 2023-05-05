@@ -7,18 +7,18 @@
  * @return {Array} ['2017-01-17 00:00:00', '2017-01-20 23:59:59']
  */
 exports.getDateRange = (time = 90, start = false, withToday = true) => {
-    const gapTime = time * 24 * 3600 * 1000;
-    if (!start) {
-        // 没有规定start时间
-        let endTime = getNowMidnightDate().getTime();
-        if (!withToday) {
-            endTime -= 86400000;
-        }
-        return [this.formatYMD(endTime - gapTime), this.formatYMD(endTime - 1000)];
+  const gapTime = time * 24 * 3600 * 1000
+  if (!start) {
+    // 没有规定start时间
+    let endTime = getNowMidnightDate().getTime()
+    if (!withToday) {
+      endTime -= 86400000
     }
-    const startTime = dateSpacialWithSafari(start);
-    const endTime = startTime + (gapTime - 1000);
-    return [start, this.formatYMD(endTime)];
+    return [this.formatYMD(endTime - gapTime), this.formatYMD(endTime - 1000)]
+  }
+  const startTime = dateSpacialWithSafari(start)
+  const endTime = startTime + (gapTime - 1000)
+  return [start, this.formatYMD(endTime)]
 }
 
 // 时间
@@ -32,16 +32,16 @@ const convert2Decimal = num => (num > 9 ? num : `0${num}`)
  */
 
 exports.getDateInterval = (time = 30) => {
-    // const gapTime = time * 24 * 3600 * 1000;
-    // 今天
-    let endTime = new Date().getTime();
-    let timeList = []
-    for (let i = 0; i < time; i++) {
-        const gapTime = i * 24 * 3600 * 1000;
-        const time = this.formatYMD(endTime - gapTime);
-        timeList.push(time);
-    }
-    return timeList;
+  // const gapTime = time * 24 * 3600 * 1000;
+  // 今天
+  let endTime = new Date().getTime()
+  let timeList = []
+  for (let i = 0; i < time; i++) {
+    const gapTime = i * 24 * 3600 * 1000
+    const time = this.formatYMD(endTime - gapTime)
+    timeList.push(time)
+  }
+  return timeList
 }
 
 /**获取2017-10-27 00:00:00 和 2017-10-27 23:59:59的时间戳
@@ -49,23 +49,23 @@ exports.getDateInterval = (time = 30) => {
  *  @return {Array} [ 1509033600000, 1509119999000 ]
  */
 
-exports.getTimeInterval = (date) => {
-    const startTime = (getNowMidnightDate(date).getTime()-86400000)/1000;
-    const endTime =(getNowMidnightDate(date).getTime()-1000)/1000;
-    return [startTime, endTime];
+exports.getTimeInterval = date => {
+  const startTime = (getNowMidnightDate(date).getTime() - 86400000) / 1000
+  const endTime = (getNowMidnightDate(date).getTime() - 1000) / 1000
+  return [startTime, endTime]
 }
 
 /**
  * 获取当前时间午夜0点的日期对象
  */
-const getNowMidnightDate = (time) => {
-    let date;
-    if (time) {
-        date = new Date(time);
-    } else {
-        date = new Date();
-    }
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+const getNowMidnightDate = time => {
+  let date
+  if (time) {
+    date = new Date(time)
+  } else {
+    date = new Date()
+  }
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
 }
 
 /**
@@ -74,19 +74,19 @@ const getNowMidnightDate = (time) => {
  * @return {String} 2017-01-20 20:00:00
  */
 const formatDate = val => {
-    let date = val;
-    if (typeof val !== 'object') {
-        date = new Date(val);
-    }
-    return `${[
-        date.getFullYear(),
-        convert2Decimal(date.getMonth() + 1),
-        convert2Decimal(date.getDate())
-    ].join('-')}  ${[
-        convert2Decimal(date.getHours()),
-        convert2Decimal(date.getMinutes()),
-        convert2Decimal(date.getSeconds())
-    ].join(':')}`;
+  let date = val
+  if (typeof val !== 'object') {
+    date = new Date(val)
+  }
+  return `${[
+    date.getFullYear(),
+    convert2Decimal(date.getMonth() + 1),
+    convert2Decimal(date.getDate()),
+  ].join('-')}  ${[
+    convert2Decimal(date.getHours()),
+    convert2Decimal(date.getMinutes()),
+    convert2Decimal(date.getSeconds()),
+  ].join(':')}`
 }
 
 /**
@@ -95,17 +95,16 @@ const formatDate = val => {
  * @return {String} 2017-01-20
  */
 exports.formatYMD = (val, joinStr = '-') => {
-    let date = val;
-    if (typeof val !== 'object') {
-        date = new Date(val);
-    }
-    return `${[
-        date.getFullYear(),
-        convert2Decimal(date.getMonth() + 1),
-        convert2Decimal(date.getDate())
-    ].join(joinStr)}`;
+  let date = val
+  if (typeof val !== 'object') {
+    date = new Date(val)
+  }
+  return `${[
+    date.getFullYear(),
+    convert2Decimal(date.getMonth() + 1),
+    convert2Decimal(date.getDate()),
+  ].join(joinStr)}`
 }
-
 
 /**
  * 获取所需的时间差值,
@@ -114,11 +113,10 @@ exports.formatYMD = (val, joinStr = '-') => {
  * @return {Number} 3
  */
 exports.getDayGapFromRange = dateRange => {
-    const startTime = dateSpacialWithSafari(dateRange[0]);
-    const endTime = dateSpacialWithSafari(dateRange[1]);
-    return Math.ceil((endTime - startTime) / 86400000);
+  const startTime = dateSpacialWithSafari(dateRange[0])
+  const endTime = dateSpacialWithSafari(dateRange[1])
+  return Math.ceil((endTime - startTime) / 86400000)
 }
-
 
 /**
  * dateSpacialWithSafari 格式话safari下通用的格式
@@ -126,15 +124,18 @@ exports.getDayGapFromRange = dateRange => {
  * @return {number} date.getTime()
  */
 const dateSpacialWithSafari = str => {
-    if (str.indexOf('T') > -1) {
-        let date;
-        str.replace(/(\d{4})-(\d{2})-(\d{2})\w(\d{2}):(\d{2}):(\d{2})/, (match, p1, p2, p3, p4, p5, p6) => {
-            date = new Date(p1, +p2 - 1, p3, p4, p5, p6);
-            return;
-        })
-        return date.getTime();
-    }
-    return new Date(str.replace(/-/g, '/')).getTime();
+  if (str.indexOf('T') > -1) {
+    let date
+    str.replace(
+      /(\d{4})-(\d{2})-(\d{2})\w(\d{2}):(\d{2}):(\d{2})/,
+      (match, p1, p2, p3, p4, p5, p6) => {
+        date = new Date(p1, +p2 - 1, p3, p4, p5, p6)
+        return
+      },
+    )
+    return date.getTime()
+  }
+  return new Date(str.replace(/-/g, '/')).getTime()
 }
 
 /**
@@ -142,9 +143,9 @@ const dateSpacialWithSafari = str => {
  */
 
 exports.transformBytesToGB = bytes => {
-  return (bytes/1024/1024/1024).toFixed(2)
+  return (bytes / 1024 / 1024 / 1024).toFixed(2)
 }
 
 exports.transformSecondsToDay = seconds => {
-  return (seconds/3600/24).toFixed(2)
+  return (seconds / 3600 / 24).toFixed(2)
 }

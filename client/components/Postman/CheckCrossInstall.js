@@ -1,61 +1,55 @@
-import React from 'react';
-import { Alert } from 'antd';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { Alert } from 'antd'
+import PropTypes from 'prop-types'
 
-exports.initCrossRequest = function (fn) {
-  let startTime = 0;
+exports.initCrossRequest = function(fn) {
+  let startTime = 0
   let _crossRequest = setInterval(() => {
-    startTime += 500;
+    startTime += 500
     if (startTime > 5000) {
-      clearInterval(_crossRequest);
+      clearInterval(_crossRequest)
     }
     if (window.crossRequest) {
-      clearInterval(_crossRequest);
-      fn(true);
+      clearInterval(_crossRequest)
+      fn(true)
     } else {
-      fn(false);
+      fn(false)
     }
-  }, 500);
-  return _crossRequest;
-};
+  }, 500)
+  return _crossRequest
+}
 
 CheckCrossInstall.propTypes = {
-  hasPlugin: PropTypes.bool
-};
+  hasPlugin: PropTypes.bool,
+}
 
 function CheckCrossInstall(props) {
-  const hasPlugin = props.hasPlugin;
+  const hasPlugin = props.hasPlugin
   return (
     <div className={hasPlugin ? null : 'has-plugin'}>
-      {hasPlugin ? (
-        ''
-      ) : (
+      {!hasPlugin && (
         <Alert
-          message={
+          showIcon
+          type="warning"
+          message="请安装跨域插件"
+          description={
             <div>
-              重要：当前的接口测试服务，需安装免费测试增强插件,仅支持 chrome
-              浏览器，选择下面任意一种安装方式：
-              {/* <div>
-                <a
-                  target="blank"
-                  href="https://chrome.google.com/webstore/detail/cross-request/cmnlfmgbjmaciiopcgodlhpiklaghbok?hl=en-US"
-                >
-                  [Google 商店获取（需翻墙]
-                </a>
-              </div> */}
-              <div>
-                <a target="blank" href="https://juejin.im/post/5e3bbd986fb9a07ce152b53d">
-                  {' '}
-                  [谷歌请求插件详细安装教程]{' '}
-                </a>
-              </div>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="/api/interface/download_crx"
+              >
+                [手动下载插件包]
+              </a>
+              <span>，将 zip 文件解压后，在 Chrome 扩展页面中加载，</span>
+              {/* 文档预留 */}
+              查看详细安装教程
             </div>
           }
-          type="warning"
         />
       )}
     </div>
-  );
+  )
 }
 
-export default CheckCrossInstall;
+export default CheckCrossInstall

@@ -1,48 +1,48 @@
-const yapi = require('../yapi.js');
-const baseModel = require('./base.js');
+const yapi = require('../yapi.js')
+const baseModel = require('./base.js')
 
 class tokenModel extends baseModel {
   getName() {
-    return 'token';
+    return 'token'
   }
 
   getSchema() {
     return {
       project_id: { type: Number, required: true },
-      token: String
-    };
+      token: String,
+    }
   }
 
   save(data) {
-    let m = new this.model(data);
-    return m.save();
+    let m = new this.model(data)
+    return m.save()
   }
 
   get(project_id) {
     return this.model.findOne({
-      project_id: project_id
-    });
+      project_id: project_id,
+    })
   }
 
   findId(token) {
     return this.model
       .findOne({
-        token: token
+        token: token,
       })
       .select('project_id')
-      .exec();
+      .exec()
   }
 
   up(project_id, token) {
     return this.model.update(
       {
-        project_id: project_id
+        project_id: project_id,
       },
       {
-        token: token
-      }
-    );
+        token: token,
+      },
+    )
   }
 }
 
-module.exports = tokenModel;
+module.exports = tokenModel

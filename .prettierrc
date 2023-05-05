@@ -1,0 +1,12 @@
+{
+  "arrowParens": "avoid",
+  "semi": false,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "no-unused-vars": [
+    "error",
+    {
+      "args": "none"
+    }
+  ]
+}

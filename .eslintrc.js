@@ -3,31 +3,29 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'react-app'],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: ['react', 'import'],
+  plugins: ['react', 'import', 'prettier'],
   rules: {
     indent: ['off', 2],
     'react/display-name': ['off'],
     'react/jsx-indent': ['error', 2],
-    'comma-dangle': ['error', 'never'],
+    // 'comma-dangle': ['error', 'never'],
     'no-console': ['off'],
     'import/no-unresolved': ['off'],
     'react/no-find-dom-node': ['off'],
     'no-empty': ['off'],
-    'getter-return': ['off'],
-    'for-direction': ['off'],
-    'no-async-promise-executor': ['off'],
-    'no-misleading-character-class': ['off'],
-    'no-useless-catch': ['off']
+    semi: [2, 'never'],
+    eqeqeq: ['off'],
+    'no-useless-constructor': ['off'],
     // "react/no-unescaped-entities": 0
-  }
-};
+  },
+}

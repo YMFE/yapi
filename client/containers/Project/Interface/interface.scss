@@ -1,41 +1,33 @@
 @import '../../../styles/mixin.scss';
 
 .left-menu {
-  min-height: 5rem;
-  // background: #FFF;
-  // .item-all-interface {
-  //   background-color: red;
-  // }
-  // .ant-tabs-bar{
-  //     border-bottom: none;
-  //     margin-bottom: 0
-  // }
+  // min-height: 5rem;
   .ant-tag {
     margin-right: 0.16rem;
   }
   .ant-tabs-nav {
     width: 100%;
     background-color: $color-bg-gray;
+    .ant-tabs-tab {
+      margin: 0;
+    }
   }
   .ant-tabs-tab {
-    min-width: 49.4%;
+    width: 50%;
   }
   .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
     height: 39px;
     background: #fff;
     border-bottom: 0;
     border-radius: 0;
+    margin: auto;
+    border: none;
   }
-  .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-of-type(2) {
-    border-left: 0;
-  }
-  // .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-of-type {
-  //     border-right: 0;
-  // }
+
   .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
     height: 40px;
-    background-color: #ddd;
-    // color: $color-white;
+    background-color: #f5f5f5;
+    border-bottom: 3px solid #2395f1;
   }
 
   .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container {
@@ -55,23 +47,32 @@
   .ant-input {
     width: 100%;
   }
+  .ant-tree li span.ant-tree-switcher,
+  .ant-tree li span.ant-tree-iconEle {
+    width: 20px;
+  }
   .interface-filter {
-    padding: 12px 16px;
-    padding-right: 110px;
+    padding: 12px 20px;
     line-height: 32px;
-    background-color: #ddd;
+    background-color: #f5f5f5;
     position: relative;
   }
   .btn-filter {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 12px 0 0 0;
+  }
+  .btn-tip {
+    float: right;
+    font-size: 14px;
+    line-height: 32px;
+    color: rgba(0, 0, 0, 0.5);
   }
   .ant-tree li .ant-tree-node-content-wrapper {
     width: calc(100% - 28px);
     position: relative;
     .container-title {
+      height: 22px;
+      line-height: 22px;
+      box-sizing: border-box;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -81,7 +82,7 @@
       position: absolute;
       top: 50%;
       right: 0;
-      transform: translateY(-60%);
+      transform: translateY(-50%);
       transition: all 0.2s;
     }
   }
@@ -98,6 +99,7 @@
     float: right;
     line-height: 25px;
     width: 24px;
+    height: 24px;
     font-weight: bold;
   }
   .anticon-ellipsis {
@@ -108,8 +110,6 @@
   }
 
   .interface-list {
-    //max-height: 600px;
-    //overflow-y: scroll;
     .cat_switch_hidden {
       .ant-tree-switcher {
         visibility: hidden;
@@ -129,8 +129,17 @@
     }
     .interface-item {
       display: inline-block;
+      width: 100%;
       overflow: hidden;
-      top: 0px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      height: 28px;
+      div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
     }
     .interface-item-nav {
       line-height: 25px;
@@ -182,8 +191,6 @@
   .interface-content {
     .ant-tabs-nav {
       width: 100%;
-      // background-color: #ddd;
-      // color: $color-white;
     }
     .ant-tabs-nav-wrap {
       text-align: left;
@@ -276,23 +283,22 @@
   }
 }
 
-.common-setting-modal{
-  
-  .setting-item{
+.common-setting-modal {
+  .setting-item {
     margin: 10px;
     line-height: 35px;
-    .col-item{
-      padding:5px;
+    .col-item {
+      padding: 5px;
     }
   }
 
-  .case-script{
+  .case-script {
     min-height: 200px;
     margin: 10px;
     width: 98%;
   }
 
-  .insert-code{
+  .insert-code {
     padding-top: 45px;
   }
 }

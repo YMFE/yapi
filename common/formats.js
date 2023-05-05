@@ -96,6 +96,6 @@ const formats = [
     title: '中文标题',
     name: 'ctitle'
   }
-];
+]
 
-module.exports = formats;
+module.exports = formats

@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.tui-editor-contents {
+  letter-spacing: 0.05em;
+}
+
+.tui-editor-contents img {
+  max-width: 50%;
+  cursor: zoom-in;
+}
+
+.tui-editor-contents h1,
+.tui-editor-contents h2,
+.tui-editor-contents h3,
+.tui-editor-contents h4,
+.tui-editor-contents h5,
+.tui-editor-contents h6 {
+  border: 0;
+  color: #333333;
+  padding-top: 16px;
+}
+
+.tui-editor-contents h1 {
+  font-size: 22px;
+  color: #2395f1;
+  line-height: 22px;
+}
+
+.tui-editor-contents h2 {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.tui-editor-contents h3 {
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.tui-editor-contents h4,
+.tui-editor-contents h5,
+.tui-editor-contents h6 {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.tui-editor-contents p {
+  font-size: 14px;
+  color: #262626;
+  line-height: 22px;
+  white-space: pre-wrap;
+}
+
+
+.tui-editor-contents table th {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  background: #f4f5f7;
+  border: 1px solid #d9d9d9;
+}
+
+.tui-editor-contents table td {
+  font-size: 14px;
+  font-weight: normal;
+  border: 1px solid #d9d9d9;
+}
+
+.tui-editor-contents blockquote {
+  border-left: 6px solid rgba(30, 135, 240, 0.1);
+  padding: 12px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  background: rgba(30, 135, 240, 0.05);
+}

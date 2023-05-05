@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { Table } from 'antd';
-import json5 from 'json5';
-import PropTypes from 'prop-types';
-import { schemaTransformToTable } from '../../../common/schema-transformTo-table.js';
-import _ from 'underscore';
-import './index.scss';
+import React, { Component } from 'react'
+import { Table } from 'antd'
+import json5 from 'json5'
+import PropTypes from 'prop-types'
+import { schemaTransformToTable } from '../../../common/shema-transformTo-table.js'
+import _ from 'underscore'
+import './index.scss'
 
 const messageMap = {
   desc: '备注',
   default: '实例',
+  example: '示例',
   maximum: '最大值',
   minimum: '最小值',
   maxItems: '最大数量',
@@ -21,15 +22,16 @@ const messageMap = {
   itemType: 'item 类型',
   format: 'format',
   itemFormat: 'format',
-  mock: 'mock'
-};
+  mock: 'mock',
+}
 
 const columns = [
   {
     title: '名称',
     dataIndex: 'name',
     key: 'name',
-    width: 200
+    width: 200,
+    className: 'schema-talble-interface-key'
   },
   {
     title: '类型',
@@ -37,13 +39,12 @@ const columns = [
     key: 'type',
     width: 100,
     render: (text, item) => {
-      // console.log('text',item.sub);
       return text === 'array' ? (
         <span>{item.sub ? item.sub.itemType || '' : 'array'} []</span>
       ) : (
         <span>{text}</span>
-      );
-    }
+      )
+    },
   },
   {
     title: '是否必须',
@@ -51,8 +52,8 @@ const columns = [
     key: 'required',
     width: 80,
     render: text => {
-      return <div>{text ? '必须' : '非必须'}</div>;
-    }
+      return <div>{text ? '必须' : '非必须'}</div>
+    },
   },
   {
     title: '默认值',
@@ -60,8 +61,8 @@ const columns = [
     key: 'default',
     width: 80,
     render: text => {
-      return <div>{_.isBoolean(text) ? text + '' : text}</div>;
-    }
+      return <div>{_.isBoolean(text) ? text + '' : text}</div>
+    },
   },
   {
     title: '备注',
@@ -72,8 +73,8 @@ const columns = [
         <span className="table-desc">{text}</span>
       ) : (
         <span className="table-desc">{item.childrenDesc}</span>
-      );
-    }
+      )
+    },
   },
   {
     title: '其他信息',
@@ -81,48 +82,56 @@ const columns = [
     key: 'sub',
     width: 180,
     render: (text, record) => {
-      let result = text || record;
+      let result = text || record
 
       return Object.keys(result).map((item, index) => {
-        let name = messageMap[item];
-        let value = result[item];
-        let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name);
+        let name = messageMap[item]
+        let value = result[item]
+        let isShow = !_.isUndefined(result[item]) && !_.isUndefined(name)
 
         return (
           isShow && (
             <p key={index}>
               <span style={{ fontWeight: '700' }}>{name}: </span>
-              <span>{value.toString()}</span>
+              <span>{value && value.toString()}</span>
             </p>
           )
-        );
-      });
-    }
-  }
-];
+        )
+      })
+    },
+  },
+]
 
 class SchemaTable extends Component {
   static propTypes = {
-    dataSource: PropTypes.string
-  };
+    dataSource: PropTypes.string,
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    let product;
+    let product
     try {
-      product = json5.parse(this.props.dataSource);
+      product = json5.parse(this.props.dataSource)
     } catch (e) {
-      product = null;
+      product = null
     }
     if (!product) {
-      return null;
+      return null
     }
-    let data = schemaTransformToTable(product);
-    data = _.isArray(data) ? data : [];
-    return <Table bordered size="small" pagination={false} dataSource={data} columns={columns} />;
+    let data = schemaTransformToTable(product)
+    data = _.isArray(data) ? data : []
+    return (
+      <Table
+        bordered
+        size="small"
+        pagination={false}
+        dataSource={data}
+        columns={columns}
+      />
+    )
   }
 }
-export default SchemaTable;
+export default SchemaTable

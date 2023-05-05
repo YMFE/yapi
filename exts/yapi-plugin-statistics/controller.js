@@ -1,27 +1,29 @@
 /**
  * Created by gxl.gao on 2017/10/24.
  */
-const baseController = require('controllers/base.js');
-const statisMockModel = require('./statisMockModel.js');
-const groupModel = require('models/group.js');
-const projectModel = require('models/project.js');
-const interfaceModel = require('models/interface.js');
-const interfaceCaseModel = require('models/interfaceCase.js');
+const baseController = require('controllers/base.js')
+const statisMockModel = require('./statisMockModel.js')
+const wikiModel = require('../yapi-plugin-ke-wiki/wikiModel.js')
+const groupModel = require('models/group.js')
+const projectModel = require('models/project.js')
+const interfaceModel = require('models/interface.js')
+const interfaceCaseModel = require('models/interfaceCase.js')
 
-const yapi = require('yapi.js');
-const config = require('./index.js');
-const commons = require('./util.js');
-const os = require('os');
-let cpu = require('cpu-load');
+const yapi = require('yapi.js')
+const config = require('./index.js')
+const commons = require('./util.js')
+const os = require('os')
+let cpu = require('cpu-load')
 
 class statisMockController extends baseController {
   constructor(ctx) {
-    super(ctx);
-    this.Model = yapi.getInst(statisMockModel);
-    this.groupModel = yapi.getInst(groupModel);
-    this.projectModel = yapi.getInst(projectModel);
-    this.interfaceModel = yapi.getInst(interfaceModel);
-    this.interfaceCaseModel = yapi.getInst(interfaceCaseModel);
+    super(ctx)
+    this.Model = yapi.getInst(statisMockModel)
+    this.wikiModel = yapi.getInst(wikiModel)
+    this.groupModel = yapi.getInst(groupModel)
+    this.projectModel = yapi.getInst(projectModel)
+    this.interfaceModel = yapi.getInst(interfaceModel)
+    this.interfaceCaseModel = yapi.getInst(interfaceCaseModel)
   }
 
   /**
@@ -34,19 +36,21 @@ class statisMockController extends baseController {
    */
   async getStatisCount(ctx) {
     try {
-      let groupCount = await this.groupModel.getGroupListCount();
-      let projectCount = await this.projectModel.getProjectListCount();
-      let interfaceCount = await this.interfaceModel.getInterfaceListCount();
-      let interfaceCaseCount = await this.interfaceCaseModel.getInterfaceCaseListCount();
+      let groupCount = await this.groupModel.getGroupListCount()
+      let projectCount = await this.projectModel.getProjectListCount()
+      let interfaceCount = await this.interfaceModel.getInterfaceListCount()
+      let interfaceCaseCount = await this.interfaceCaseModel.getInterfaceCaseListCount()
+      let wikiCount = await this.wikiModel.listCount()
 
       return (ctx.body = yapi.commons.resReturn({
         groupCount,
         projectCount,
         interfaceCount,
-        interfaceCaseCount
-      }));
+        interfaceCaseCount,
+        wikiCount,
+      }))
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 400, err.message);
+      ctx.body = yapi.commons.resReturn(null, 400, err.message)
     }
   }
 
@@ -60,18 +64,18 @@ class statisMockController extends baseController {
    */
   async getMockDateList(ctx) {
     try {
-      let mockCount = await this.Model.getTotalCount();
-      let mockDateList = [];
+      let mockCount = await this.Model.getTotalCount()
+      let mockDateList = []
 
       if (!this.getRole() === 'admin') {
-        return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'));
+        return (ctx.body = yapi.commons.resReturn(null, 405, '没有权限'))
       }
       //  默认时间是30 天为一周期
-      let dateInterval = commons.getDateRange();
-      mockDateList = await this.Model.getDayCount(dateInterval);
-      return (ctx.body = yapi.commons.resReturn({ mockCount, mockDateList }));
+      let dateInterval = commons.getDateRange()
+      mockDateList = await this.Model.getDayCount(dateInterval)
+      return (ctx.body = yapi.commons.resReturn({ mockCount, mockDateList }))
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 400, err.message);
+      ctx.body = yapi.commons.resReturn(null, 400, err.message)
     }
   }
 
@@ -85,20 +89,20 @@ class statisMockController extends baseController {
    */
   async getSystemStatus(ctx) {
     try {
-      let mail = '';
+      let mail = ''
       if (yapi.WEBCONFIG.mail && yapi.WEBCONFIG.mail.enable) {
-        mail = await this.checkEmail();
+        mail = await this.checkEmail()
         // return ctx.body = yapi.commons.resReturn(result);
       } else {
-        mail = '未配置';
+        mail = '未配置'
       }
 
-      let load = (await this.cupLoad()) * 100;
+      let load = (await this.cupLoad()) * 100
 
-      let systemName = os.platform();
-      let totalmem = commons.transformBytesToGB(os.totalmem());
-      let freemem = commons.transformBytesToGB(os.freemem());
-      let uptime = commons.transformSecondsToDay(os.uptime());
+      let systemName = os.platform()
+      let totalmem = commons.transformBytesToGB(os.totalmem())
+      let freemem = commons.transformBytesToGB(os.freemem())
+      let uptime = commons.transformSecondsToDay(os.uptime())
 
       let data = {
         mail,
@@ -106,71 +110,72 @@ class statisMockController extends baseController {
         totalmem,
         freemem,
         uptime,
-        load: load.toFixed(2)
-      };
-      return (ctx.body = yapi.commons.resReturn(data));
+        load: load.toFixed(2),
+      }
+      return (ctx.body = yapi.commons.resReturn(data))
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 400, err.message);
+      ctx.body = yapi.commons.resReturn(null, 400, err.message)
     }
   }
 
   checkEmail() {
     return new Promise((resolve, reject) => {
-      let result = {};
+      let result = {}
       yapi.mail.verify(error => {
         if (error) {
-          result = '不可用';
-          resolve(result);
+          result = '不可用'
+          resolve(result)
         } else {
-          result = '可用';
-          resolve(result);
+          result = '可用'
+          resolve(result)
         }
-      });
-    });
+      })
+    })
   }
 
   async groupDataStatis(ctx) {
     try {
-      let groupData = await this.groupModel.list();
-      let result = [];
+      let groupData = await this.groupModel.list()
+      let result = []
       for (let i = 0; i < groupData.length; i++) {
-        let group = groupData[i];
-        let groupId = group._id;
+        let group = groupData[i]
+        let groupId = group._id
         const data = {
           name: group.group_name,
           interface: 0,
           mock: 0,
-          project: 0
-        };
-        result.push(data);
-
-        let projectCount = await this.projectModel.listCount(groupId);
-        let projectData = await this.projectModel.list(groupId);
-        let interfaceCount = 0;
-        for (let j = 0; j < projectData.length; j++) {
-          let project = projectData[j];
-          interfaceCount += await this.interfaceModel.listCount({
-            project_id: project._id
-          });
+          project: 0,
         }
-        let mockCount = await this.Model.countByGroupId(groupId);
-        data.interface = interfaceCount;
-        data.project = projectCount;
-        data.mock = mockCount;
+        result.push(data)
+
+        let projectCount = await this.projectModel.listCount(groupId)
+        let projectData = await this.projectModel.list(groupId)
+        let interfaceCount = 0
+        for (let j = 0; j < projectData.length; j++) {
+          let project = projectData[j]
+          interfaceCount += await this.interfaceModel.listCount({
+            project_id: project._id,
+            record_type: 0,
+          })
+        }
+        let mockCount = await this.Model.countByGroupId(groupId)
+        data.interface = interfaceCount
+        data.project = projectCount
+        data.mock = mockCount
       }
-      return (ctx.body = yapi.commons.resReturn(result));
+      return (ctx.body = yapi.commons.resReturn(result))
     } catch (err) {
-      ctx.body = yapi.commons.resReturn(null, 400, err.message);
+      ctx.body = yapi.commons.resReturn(null, 400, err.message)
     }
   }
 
   cupLoad() {
     return new Promise((resolve, reject) => {
       cpu(1000, function(load) {
-        resolve(load);
-      });
-    });
+        resolve(load)
+      })
+    })
   }
 }
 
-module.exports = statisMockController;
+module.exports = statisMockController

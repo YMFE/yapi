@@ -1,19 +1,19 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd';
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Modal, Form, Input, Icon, Tooltip, Select, message, Button, Row, Col } from 'antd'
 import {
   updateProject,
   fetchProjectList,
   delProject,
   changeUpdateModal,
   changeTableLoading
-} from '../../../reducer/modules/project';
-const { TextArea } = Input;
-const FormItem = Form.Item;
-const Option = Select.Option;
+} from '../../../reducer/modules/project'
 
-import './ProjectList.scss';
+import './ProjectList.scss'
+const { TextArea } = Input
+const FormItem = Form.Item
+const Option = Select.Option
 
 // layout
 const formItemLayout = {
@@ -25,14 +25,14 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 14 }
   }
-};
+}
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
     xs: { span: 24, offset: 0 },
     sm: { span: 20, offset: 6 }
   }
-};
-let uuid = 0;
+}
+let uuid = 0
 
 @connect(
   state => {
@@ -42,7 +42,7 @@ let uuid = 0;
       handleUpdateIndex: state.project.handleUpdateIndex,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup
-    };
+    }
   },
   {
     fetchProjectList,
@@ -54,11 +54,11 @@ let uuid = 0;
 )
 class UpDateModal extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       protocol: 'http://',
       envProtocolChange: 'http://'
-    };
+    }
   }
   static propTypes = {
     form: PropTypes.object,
@@ -77,17 +77,17 @@ class UpDateModal extends Component {
   protocolChange = value => {
     this.setState({
       protocol: value
-    });
+    })
   };
 
   handleCancel = () => {
-    this.props.form.resetFields();
-    this.props.changeUpdateModal(false, -1);
+    this.props.form.resetFields()
+    this.props.changeUpdateModal(false, -1)
   };
 
   // 确认修改
   handleOk = e => {
-    e.preventDefault();
+    e.preventDefault()
     const {
       form,
       updateProject,
@@ -97,97 +97,94 @@ class UpDateModal extends Component {
       handleUpdateIndex,
       fetchProjectList,
       changeTableLoading
-    } = this.props;
+    } = this.props
     form.validateFields((err, values) => {
       if (!err) {
-        // console.log(projectList[handleUpdateIndex]);
-        let assignValue = Object.assign(projectList[handleUpdateIndex], values);
-        values.protocol = this.state.protocol.split(':')[0];
+        let assignValue = Object.assign(projectList[handleUpdateIndex], values)
+        values.protocol = this.state.protocol.split(':')[0]
         assignValue.env = assignValue.envs.map((item, index) => {
           return {
             name: values['envs-name-' + index],
             domain: values['envs-protocol-' + index] + values['envs-domain-' + index]
-          };
-        });
-        // console.log(assignValue);
+          }
+        })
 
-        changeTableLoading(true);
+        changeTableLoading(true)
         updateProject(assignValue)
           .then(res => {
             if (res.payload.data.errcode == 0) {
-              changeUpdateModal(false, -1);
-              message.success('修改成功! ');
+              changeUpdateModal(false, -1)
+              message.success('修改成功! ')
               fetchProjectList(currGroup._id).then(() => {
-                changeTableLoading(false);
-              });
+                changeTableLoading(false)
+              })
             } else {
-              changeTableLoading(false);
-              message.error(res.payload.data.errmsg);
+              changeTableLoading(false)
+              message.error(res.payload.data.errmsg)
             }
           })
           .catch(() => {
-            changeTableLoading(false);
-          });
-        form.resetFields();
+            changeTableLoading(false)
+          })
+        form.resetFields()
       }
-    });
+    })
   };
 
   // 项目的修改操作 - 删除一项环境配置
   remove = id => {
-    const { form } = this.props;
+    const { form } = this.props
     // can use data-binding to get
-    const envs = form.getFieldValue('envs');
+    const envs = form.getFieldValue('envs')
     // We need at least one passenger
     if (envs.length === 0) {
-      return;
+      return
     }
 
     // can use data-binding to set
     form.setFieldsValue({
       envs: envs.filter(key => {
-        const realKey = key._id ? key._id : key;
-        return realKey !== id;
+        const realKey = key._id ? key._id : key
+        return realKey !== id
       })
-    });
+    })
   };
 
   // 项目的修改操作 - 添加一项环境配置
   add = () => {
-    uuid++;
-    const { form } = this.props;
+    uuid++
+    const { form } = this.props
     // can use data-binding to get
-    const envs = form.getFieldValue('envs');
-    const nextKeys = envs.concat(uuid);
+    const envs = form.getFieldValue('envs')
+    const nextKeys = envs.concat(uuid)
     // can use data-binding to set
     // important! notify form to detect changes
     form.setFieldsValue({
       envs: nextKeys
-    });
+    })
   };
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator, getFieldValue } = this.props.form
     // const that = this;
-    const { isUpdateModalShow, projectList, handleUpdateIndex } = this.props;
-    let initFormValues = {};
-    let envMessage = [];
+    const { isUpdateModalShow, projectList, handleUpdateIndex } = this.props
+    let initFormValues = {}
+    let envMessage = []
     // 如果列表存在且用户点击修改按钮时，设置表单默认值
     if (projectList.length !== 0 && handleUpdateIndex !== -1) {
-      // console.log(projectList[handleUpdateIndex]);
-      const { name, basepath, desc, env } = projectList[handleUpdateIndex];
-      initFormValues = { name, basepath, desc, env };
+      const { name, basepath, desc, env } = projectList[handleUpdateIndex]
+      initFormValues = { name, basepath, desc, env }
       if (env.length !== 0) {
-        envMessage = env;
+        envMessage = env
       }
-      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host;
-      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '://';
+      initFormValues.prd_host = projectList[handleUpdateIndex].prd_host
+      initFormValues.prd_protocol = projectList[handleUpdateIndex].protocol + '://'
     }
 
-    getFieldDecorator('envs', { initialValue: envMessage });
-    const envs = getFieldValue('envs');
+    getFieldDecorator('envs', { initialValue: envMessage })
+    const envs = getFieldValue('envs')
     const formItems = envs.map((k, index) => {
-      const secondIndex = 'next' + index; // 为保证key的唯一性
+      const secondIndex = 'next' + index // 为保证key的唯一性
       return (
         <Row key={index} type="flex" justify="space-between" align={index === 0 ? 'middle' : 'top'}>
           <Col span={10} offset={2}>
@@ -202,16 +199,16 @@ class UpDateModal extends Component {
                     validator(rule, value, callback) {
                       if (value) {
                         if (value.length === 0) {
-                          callback('请输入环境域名');
+                          callback('请输入环境域名')
                         } else if (!/\S/.test(value)) {
-                          callback('请输入环境域名');
+                          callback('请输入环境域名')
                         } else if (/prd/.test(value)) {
-                          callback('环境域名不能是"prd"');
+                          callback('环境域名不能是"prd"')
                         } else {
-                          return callback();
+                          return callback()
                         }
                       } else {
-                        callback('请输入环境域名');
+                        callback('请输入环境域名')
                       }
                     }
                   }
@@ -236,14 +233,14 @@ class UpDateModal extends Component {
                     validator(rule, value, callback) {
                       if (value) {
                         if (value.length === 0) {
-                          callback('请输入环境域名');
+                          callback('请输入环境域名')
                         } else if (!/\S/.test(value)) {
-                          callback('请输入环境域名');
+                          callback('请输入环境域名')
                         } else {
-                          return callback();
+                          return callback()
                         }
                       } else {
-                        callback('请输入环境域名');
+                        callback('请输入环境域名')
                       }
                     }
                   }
@@ -279,14 +276,14 @@ class UpDateModal extends Component {
                 className="dynamic-delete-button"
                 type="minus-circle-o"
                 onClick={() => {
-                  return this.remove(k._id ? k._id : k);
+                  return this.remove(k._id ? k._id : k)
                 }}
               />
             ) : null}
           </Col>
         </Row>
-      );
-    });
+      )
+    })
     return (
       <Modal
         title="修改项目"
@@ -380,8 +377,8 @@ class UpDateModal extends Component {
           </FormItem>
         </Form>
       </Modal>
-    );
+    )
   }
 }
 
-export default Form.create()(UpDateModal);
+export default Form.create()(UpDateModal)

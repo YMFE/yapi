@@ -1,46 +1,58 @@
 @charset "utf-8";
 
-
 html {
-  font-size:100px;
+  font-size: 100px;
 }
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-             "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
-             SimSun, sans-serif;
+html,
+body {
+  font-family: 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif,
+    'Apple Color Emoji';
   margin: 0;
   padding: 0;
 }
 
-html {
-  // background-color: #32363a;
-}
-
 ::selection {
-  background-color: #2395f1;
+  background: rgba(52, 155, 249, 0.2);
+  color: inherit !important;
 }
-
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
   width: 6px;
 }
 /* 外层轨道 */
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset006pxrgba(255,0,0,0.3);
-  // background-color: 
+  -webkit-box-shadow: inset006pxrgba(255, 0, 0, 0.3);
+  // background-color:
   background: rgba(255, 255, 255, 0.1);
 }
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background: rgba(0,0,0,0.2);
-  -webkit-box-shadow: inset006pxrgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
 }
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
 
-div, article, p, table, tr, td, th, ul, ol, li, h1, h2, h3, form, dl, dt, dd {
+div,
+article,
+p,
+table,
+tr,
+td,
+th,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+form,
+dl,
+dt,
+dd {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -52,8 +64,11 @@ ul {
 
 a {
   text-decoration: none;
-  &:active, &:hover, &:visited, &:focus{
-    text-decoration: none
+  &:active,
+  &:hover,
+  &:visited,
+  &:focus {
+    text-decoration: none;
   }
 }
 
@@ -65,22 +80,19 @@ em {
   font-style: normal;
 }
 
-[data-reactroot], .g-main, .router-main {
+[data-reactroot],
+.g-main,
+.router-main {
   height: 100%;
 }
 // 页面最外层元素 样式
 .router-main {
-  padding-bottom: .24rem;
+  // padding-bottom: 0.24rem;
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin-bottom: -2.4rem;
-  background-color: #eceef1;
-  &::after {
-    content: '';
-    display: block;
-    height: 2.4rem;
-  }
+  // margin-bottom: -1.4rem;
+  // background-color: #eceef1;
 }
 .m-tab {
   .ant-tabs-nav-wrap {
@@ -94,14 +106,14 @@ em {
 
 // 布局容器 guitter: 16px
 .g-row {
-  min-width: 7.52rem;  // Col宽度 (752+16)/24 = 32
+  min-width: 7.52rem; // Col宽度 (752+16)/24 = 32
   margin: 0 auto;
-  padding: 0 .24rem;
+  padding: 0 0.24rem;
 }
 
 .m-container {
-  margin: .24rem auto;
-  padding: .24rem;
+  margin: 0.24rem auto;
+  padding: 0.24rem;
 }
 
 .ant-dropdown .user-menu {
@@ -109,12 +121,12 @@ em {
 }
 
 // confirm 框内边距过大
-.ant-confirm .ant-modal-body{
-  padding: .24rem !important;
+.ant-confirm .ant-modal-body {
+  padding: 0.24rem !important;
 }
 
 .card-panel {
-  padding: .36rem .24rem 0;
+  padding: 0.36rem 0.24rem 0;
 }
 
 .pannel-without-tab {
@@ -122,7 +134,7 @@ em {
 }
 
 .panel-title {
-  margin-bottom: .16rem;
+  margin-bottom: 0.16rem;
   border-left: 3px solid #2395f1;
   padding-left: 8px;
   .title {
@@ -131,7 +143,6 @@ em {
   .desc {
     font-size: 13px;
     color: #919191;
-
   }
 }
 
@@ -160,33 +171,29 @@ em {
   }
 }
 
-
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
   border: none;
 }
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
   border: none;
 }
 
-.ant-tabs.ant-tabs-card > .ant-tabs-content{
+.ant-tabs.ant-tabs-card > .ant-tabs-content {
   margin-top: -1px;
 }
 
-.tabs-large .ant-tabs-nav-container{
+.tabs-large .ant-tabs-nav-container {
   font-size: 16px;
 }
 
-.ant-tree li .ant-tree-node-content-wrapper{
-  padding: 3px 5px;
-  height: unset;
-  // line-height: 25px;
+.ant-tree li .ant-tree-node-content-wrapper {
+  height: 26px;
+  padding: 0 5px;
 }
 
-.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
   background-color: #d5ebfc;
 }
-
-
 
 // 页面级底部固定 需要添加padding以保证页面底部不被覆盖
 // .has-affix-footer {
@@ -199,7 +206,7 @@ em {
     height: auto;
   }
   .title-container {
-    padding: .16rem 0;
+    padding: 0.16rem 0;
     .title {
       text-align: center;
     }
@@ -207,7 +214,7 @@ em {
   .btn-container {
     text-align: center;
     .btn {
-      margin: 0 .04rem;
+      margin: 0 0.04rem;
     }
   }
 }
@@ -218,7 +225,7 @@ em {
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,.35);
+  background-color: rgba(0, 0, 0, 0.35);
   z-index: 2;
 }
 
@@ -228,4 +235,10 @@ em {
   &:hover {
     color: #2395f1;
   }
+}
+
+// 覆盖antd 样式
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  width: calc(100%);
 }

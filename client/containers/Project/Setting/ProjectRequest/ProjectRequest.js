@@ -1,17 +1,17 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Form, Button, message } from 'antd';
-const FormItem = Form.Item;
-import './project-request.scss';
-import AceEditor from 'client/components/AceEditor/AceEditor';
-import { updateProjectScript, getProject } from '../../../../reducer/modules/project';
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Form, Button, message } from 'antd'
+import './project-request.scss'
+import AceEditor from 'client/components/AceEditor/AceEditor'
+import { updateProjectScript, getProject } from '../../../../reducer/modules/project'
+const FormItem = Form.Item
 
 @connect(
   state => {
     return {
       projectMsg: state.project.currProject
-    };
+    }
   },
   {
     updateProjectScript,
@@ -27,11 +27,11 @@ export default class ProjectRequest extends Component {
     projectId: PropTypes.number
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       pre_script: this.props.projectMsg.pre_script,
       after_script: this.props.projectMsg.after_script
-    });
+    })
   }
 
   handleSubmit = async () => {
@@ -39,12 +39,12 @@ export default class ProjectRequest extends Component {
       id: this.props.projectId,
       pre_script: this.state.pre_script,
       after_script: this.state.after_script
-    });
+    })
     if (result.payload.data.errcode === 0) {
-      message.success('保存成功');
-      await this.props.getProject(this.props.projectId);
+      message.success('保存成功')
+      await this.props.getProject(this.props.projectId)
     } else {
-      message.success('保存失败, ' + result.payload.data.errmsg);
+      message.success('保存失败, ' + result.payload.data.errmsg)
     }
   };
 
@@ -58,7 +58,7 @@ export default class ProjectRequest extends Component {
         xs: { span: 24 },
         sm: { span: 16 }
       }
-    };
+    }
 
     const tailFormItemLayout = {
       wrapperCol: {
@@ -71,9 +71,9 @@ export default class ProjectRequest extends Component {
           offset: 8
         }
       }
-    };
+    }
 
-    const { pre_script, after_script } = this.state;
+    const { pre_script, after_script } = this.state
 
     return (
       <div className="project-request">
@@ -101,6 +101,6 @@ export default class ProjectRequest extends Component {
           </FormItem>
         </Form>
       </div>
-    );
+    )
   }
 }

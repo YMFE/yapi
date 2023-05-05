@@ -1,89 +1,89 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Form, Button, Input, Icon, message } from 'antd';
-import { regActions } from '../../reducer/modules/user';
-import { withRouter } from 'react-router';
-const FormItem = Form.Item;
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Form, Button, Input, Icon, message } from 'antd'
+import { regActions } from '../../reducer/modules/user'
+import { withRouter } from 'react-router'
+const FormItem = Form.Item
 const formItemStyle = {
-  marginBottom: '.16rem'
-};
+  marginBottom: '.16rem',
+}
 
 const changeHeight = {
-  height: '.42rem'
-};
+  height: '.42rem',
+}
 
 @connect(
   state => {
     return {
-      loginData: state.user
-    };
+      loginData: state.user,
+    }
   },
   {
-    regActions
-  }
+    regActions,
+  },
 )
 @withRouter
 class Reg extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      confirmDirty: false
-    };
+      confirmDirty: false,
+    }
   }
 
   static propTypes = {
     form: PropTypes.object,
     history: PropTypes.object,
-    regActions: PropTypes.func
-  };
+    regActions: PropTypes.func,
+  }
 
   handleSubmit = e => {
-    e.preventDefault();
-    const form = this.props.form;
+    e.preventDefault()
+    const form = this.props.form
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.regActions(values).then(res => {
           if (res.payload.data.errcode == 0) {
-            this.props.history.replace('/group');
-            message.success('注册成功! ');
+            this.props.history.replace('/group')
+            message.success('注册成功! ')
           }
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   checkPassword = (rule, value, callback) => {
-    const form = this.props.form;
+    const form = this.props.form
     if (value && value !== form.getFieldValue('password')) {
-      callback('两次输入的密码不一致啊!');
+      callback('两次输入的密码不一致啊!')
     } else {
-      callback();
+      callback()
     }
-  };
+  }
 
   checkConfirm = (rule, value, callback) => {
-    const form = this.props.form;
+    const form = this.props.form
     if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
+      form.validateFields(['confirm'], { force: true })
     }
-    callback();
-  };
+    callback()
+  }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
     return (
       <Form onSubmit={this.handleSubmit}>
         {/* 用户名 */}
         <FormItem style={formItemStyle}>
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入用户名!' }]
+            rules: [{ required: true, message: '请输入用户名!' }],
           })(
             <Input
               style={changeHeight}
               prefix={<Icon type="user" style={{ fontSize: 13 }} />}
               placeholder="Username"
-            />
+            />,
           )}
         </FormItem>
 
@@ -94,15 +94,15 @@ class Reg extends Component {
               {
                 required: true,
                 message: '请输入email!',
-                pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
-              }
-            ]
+                pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/,
+              },
+            ],
           })(
             <Input
               style={changeHeight}
               prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
               placeholder="Email"
-            />
+            />,
           )}
         </FormItem>
 
@@ -112,19 +112,19 @@ class Reg extends Component {
             rules: [
               {
                 required: true,
-                message: '请输入密码!'
+                message: '请输入密码!',
               },
               {
-                validator: this.checkConfirm
-              }
-            ]
+                validator: this.checkConfirm,
+              },
+            ],
           })(
             <Input
               style={changeHeight}
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
               placeholder="Password"
-            />
+            />,
           )}
         </FormItem>
 
@@ -134,19 +134,19 @@ class Reg extends Component {
             rules: [
               {
                 required: true,
-                message: '请再次输入密码密码!'
+                message: '请再次输入密码密码!',
               },
               {
-                validator: this.checkPassword
-              }
-            ]
+                validator: this.checkPassword,
+              },
+            ],
           })(
             <Input
               style={changeHeight}
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
               placeholder="Confirm Password"
-            />
+            />,
           )}
         </FormItem>
 
@@ -162,8 +162,8 @@ class Reg extends Component {
           </Button>
         </FormItem>
       </Form>
-    );
+    )
   }
 }
-const RegForm = Form.create()(Reg);
-export default RegForm;
+const RegForm = Form.create()(Reg)
+export default RegForm

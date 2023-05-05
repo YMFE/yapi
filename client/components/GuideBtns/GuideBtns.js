@@ -1,8 +1,8 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'antd';
-import { connect } from 'react-redux';
-import { changeStudyTip, finishStudy } from '../../reducer/modules/user.js';
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { Button } from 'antd'
+import { connect } from 'react-redux'
+import { changeStudyTip, finishStudy } from '../../reducer/modules/user.js'
 
 @connect(
   null,
@@ -13,7 +13,7 @@ import { changeStudyTip, finishStudy } from '../../reducer/modules/user.js';
 )
 class GuideBtns extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   static propTypes = {
@@ -24,15 +24,15 @@ class GuideBtns extends Component {
 
   // 点击下一步
   nextStep = () => {
-    this.props.changeStudyTip();
+    this.props.changeStudyTip()
     if (this.props.isLast) {
-      this.props.finishStudy();
+      this.props.finishStudy()
     }
   };
 
   // 点击退出指引
   exitGuide = () => {
-    this.props.finishStudy();
+    this.props.finishStudy()
   };
 
   render() {
@@ -45,7 +45,7 @@ class GuideBtns extends Component {
           退出指引
         </Button>
       </div>
-    );
+    )
   }
 }
-export default GuideBtns;
+export default GuideBtns

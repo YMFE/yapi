@@ -4,17 +4,18 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        modules: 'commonjs'
-      }
-    ]
+        modules: 'commonjs',
+      },
+    ],
   ],
 
   plugins: [
+    process.env.NODE_ENV !== 'production' && 'react-refresh/babel',
     [
       '@babel/plugin-proposal-decorators',
       {
-        legacy: true
-      }
+        legacy: true,
+      },
     ],
     '@babel/transform-runtime',
     '@babel/plugin-proposal-class-properties',
@@ -22,9 +23,8 @@ module.exports = {
       'import',
       {
         libraryName: 'antd',
-        style: true
-      }
+        style: true,
+      },
     ],
-    'react-refresh/babel'
-  ]
-};
+  ].filter(Boolean),
+}

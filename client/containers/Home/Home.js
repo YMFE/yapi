@@ -1,15 +1,15 @@
-import './Home.scss';
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Row, Col, Button, Icon, Card } from 'antd';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
-import LogoSVG from '../../components/LogoSVG/index.js';
-import { changeMenuItem } from '../../reducer/modules/menu';
-const plugin = require('client/plugin.js');
+import './Home.scss'
+import React, { PureComponent as Component } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Row, Col, Button, Icon, Card } from 'antd'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
+import LogoSVG from '../../components/LogoSVG/index.js'
+import { changeMenuItem } from '../../reducer/modules/menu'
+const plugin = require('client/plugin.js')
 
-const ThirdLogin = plugin.emitHook('third_login');
+const ThirdLogin = plugin.emitHook('third_login')
 const HomeGuest = () => (
   <div className="g-body">
     <div className="m-bg">
@@ -23,17 +23,8 @@ const HomeGuest = () => (
         <Row>
           <Col span={24}>
             <div className="home-header">
-              <a href="#" className="item">
-                YAPI
-              </a>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://hellosean1025.github.io/yapi"
-                className="item"
-              >
-                使用文档
-              </a>
+              {/* 文档预留 */}
+              使用文档
             </div>
           </Col>
         </Row>
@@ -45,8 +36,11 @@ const HomeGuest = () => (
                 <span className="name">YAPI</span>
               </div>
               <div className="detail">
-                高效、易用、功能强大的API管理平台<br />
-                <span className="desc">旨在为开发、产品、测试人员提供更优雅的接口管理服务</span>
+                高效、易用、功能强大的API管理平台
+                <br />
+                <span className="desc">
+                  旨在为开发、产品、测试人员提供更优雅的接口管理服务
+                </span>
               </div>
               <div className="btn-group">
                 <Link to="/login">
@@ -59,9 +53,7 @@ const HomeGuest = () => (
             </div>
           </Col>
           <Col lg={15} xs={0} className="col-img">
-            <div className="img-container">
-              
-            </div>
+            <div className="img-container"></div>
           </Col>
         </Row>
       </div>
@@ -76,7 +68,9 @@ const HomeGuest = () => (
           <Col span={8} className="section-item" key="feat-wrapper-1">
             <Icon type="appstore-o" className="img" />
             <h4 className="title">项目管理</h4>
-            <span className="desc">提供基本的项目分组，项目管理，接口管理功能</span>
+            <span className="desc">
+              提供基本的项目分组，项目管理，接口管理功能
+            </span>
           </Col>
           <Col span={8} className="section-item" key="feat-wrapper-2">
             <Icon type="api" className="img" />
@@ -104,11 +98,11 @@ const HomeGuest = () => (
         <span className="desc">你想要的 Mock 服务都在这里</span>
         <Row className="row-card">
           <Col lg={12} xs={24} className="section-card">
-            <Card title="Mock 规则">
+            <Card title="选择 Mock 规则">
               <p className="mock-desc">
                 通过学习一些简单的 Mock
-                模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写 Mock 数据烦恼:
-                所有的数据都可以实时随机生成。
+                模板规则即可轻松编写接口，这将大大提高定义接口的效率，并且无需为编写
+                Mock 数据烦恼: 所有的数据都可以实时随机生成。
               </p>
               <div className="code">
                 <ol start="1">
@@ -121,7 +115,8 @@ const HomeGuest = () => (
                   <li className="item">
                     <span className="orderNum">2</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">
                         &quot;errcode|200-500&quot;
                       </span>
                       <span>
@@ -132,7 +127,8 @@ const HomeGuest = () => (
                   <li className="item">
                     <span className="orderNum">3</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">&quot;errmsg|4-8&quot;</span>
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;errmsg|4-8&quot;</span>
                       <span>:&ensp;</span>
                       <span className="string">&quot;@string&quot;</span>
                       <span>,&ensp;&ensp;</span>
@@ -141,16 +137,16 @@ const HomeGuest = () => (
                   <li className="item">
                     <span className="orderNum">4</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">&quot;data&quot;</span>
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;data&quot;</span>
                       <span>:&ensp;&#123;&ensp;&ensp;</span>
                     </span>
                   </li>
                   <li className="item">
                     <span className="orderNum">5</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">
-                        &quot;boolean|1&quot;
-                      </span>
+                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;boolean|1&quot;</span>
                       <span>:&ensp;</span>
                       <span className="keyword">true</span>
                       <span>,&ensp;&ensp;</span>
@@ -159,24 +155,25 @@ const HomeGuest = () => (
                   <li className="item">
                     <span className="orderNum">6</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">
-                        &quot;array|2&quot;
-                      </span>
+                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;array|2&quot;</span>
                       <span>
-                        :&ensp;&#91;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">
-                          &quot;Jim&quot;
-                        </span>&#93;,&ensp;&ensp;
+                        :&ensp;&#91;
+                        <span className="string">&quot;Bob&quot;</span>,&ensp;
+                        <span className="string">&quot;Jim&quot;</span>
+                        &#93;,&ensp;&ensp;
                       </span>
                     </span>
                   </li>
                   <li className="item">
                     <span className="orderNum">7</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<span className="string">
-                        &quot;combine&quot;
-                      </span>
+                      &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;combine&quot;</span>
                       <span>:&ensp;</span>
-                      <span className="string">&quot;@boolean&ensp;&amp;&ensp;@array&quot;</span>
+                      <span className="string">
+                        &quot;@boolean&ensp;&amp;&ensp;@array&quot;
+                      </span>
                       <span>&ensp;&ensp;</span>
                     </span>
                   </li>
@@ -209,7 +206,8 @@ const HomeGuest = () => (
                   <li className="">
                     <span className="orderNum">2</span>
                     <span>
-                      &ensp;&ensp;<span className="string">&quot;errcode&quot;</span>
+                      &ensp;&ensp;
+                      <span className="string">&quot;errcode&quot;</span>
                       <span>:&ensp;</span>
                       <span className="number">304</span>
                       <span>,&ensp;&ensp;</span>
@@ -218,23 +216,28 @@ const HomeGuest = () => (
                   <li className="alt">
                     <span className="orderNum">3</span>
                     <span>
-                      &ensp;&ensp;<span className="string">&quot;errmsg&quot;</span>
+                      &ensp;&ensp;
+                      <span className="string">&quot;errmsg&quot;</span>
                       <span>:&ensp;</span>
-                      <span className="string">&quot;JtkMIoRu)N#ie^h%Z77[F)&quot;</span>
+                      <span className="string">
+                        &quot;JtkMIoRu)N#ie^h%Z77[F)&quot;
+                      </span>
                       <span>,&ensp;&ensp;</span>
                     </span>
                   </li>
                   <li className="">
                     <span className="orderNum">4</span>
                     <span>
-                      &ensp;&ensp;<span className="string">&quot;data&quot;</span>
+                      &ensp;&ensp;
+                      <span className="string">&quot;data&quot;</span>
                       <span>:&ensp;&#123;&ensp;&ensp;</span>
                     </span>
                   </li>
                   <li className="alt">
                     <span className="orderNum">5</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">&quot;boolean&quot;</span>
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;boolean&quot;</span>
                       <span>:&ensp;</span>
                       <span className="keyword">true</span>
                       <span>,&ensp;&ensp;</span>
@@ -243,20 +246,21 @@ const HomeGuest = () => (
                   <li className="">
                     <span className="orderNum">6</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">&quot;array&quot;</span>
-                      <span>
-                        :&ensp;
-                      </span>&#91;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">
-                        &quot;Jim&quot;
-                      </span>,&ensp;<span className="string">&quot;Bob&quot;</span>,&ensp;<span className="string">
-                        &quot;Jim&quot;
-                      </span>&#93;<span>,&ensp;&ensp;</span>
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;array&quot;</span>
+                      <span>:&ensp;</span>&#91;
+                      <span className="string">&quot;Bob&quot;</span>,&ensp;
+                      <span className="string">&quot;Jim&quot;</span>,&ensp;
+                      <span className="string">&quot;Bob&quot;</span>,&ensp;
+                      <span className="string">&quot;Jim&quot;</span>&#93;
+                      <span>,&ensp;&ensp;</span>
                     </span>
                   </li>
                   <li className="alt">
                     <span className="orderNum">7</span>
                     <span>
-                      &ensp;&ensp;&ensp;&ensp;<span className="string">&quot;combine&quot;</span>
+                      &ensp;&ensp;&ensp;&ensp;
+                      <span className="string">&quot;combine&quot;</span>
                       <span>:&ensp;</span>
                       <span className="string">
                         &quot;true & Bob,&ensp;Jim,&ensp;Bob,&ensp;Jim&quot;
@@ -318,28 +322,28 @@ const HomeGuest = () => (
       </div>
     </div>
   </div>
-);
+)
 HomeGuest.propTypes = {
-  introList: PropTypes.array
-};
+  introList: PropTypes.array,
+}
 
 @connect(
   state => ({
-    login: state.user.isLogin
+    login: state.user.isLogin,
   }),
   {
-    changeMenuItem
-  }
+    changeMenuItem,
+  },
 )
 @withRouter
 class Home extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.login) {
-      this.props.history.push('/group/261');
+      this.props.history.push('/group/261')
     }
   }
 
@@ -348,11 +352,11 @@ class Home extends Component {
     introList: PropTypes.array,
     login: PropTypes.bool,
     history: PropTypes.object,
-    changeMenuItem: PropTypes.func
-  };
+    changeMenuItem: PropTypes.func,
+  }
   toStart = () => {
-    this.props.changeMenuItem('/group');
-  };
+    this.props.changeMenuItem('/group')
+  }
   render() {
     return (
       <div className="home-main">
@@ -361,7 +365,9 @@ class Home extends Component {
           <div className="container">
             <div className="tip-title">
               <h3 className="title">准备好使用了吗？</h3>
-              <p className="desc">注册账号尽请使用吧，查看使用文档了解更多信息</p>
+              <p className="desc">
+                注册账号尽请使用吧，查看使用文档了解更多信息
+              </p>
             </div>
             <div className="tip-btns">
               <div className="btn-group">
@@ -371,16 +377,15 @@ class Home extends Component {
                   </Button>
                 </Link>
                 <Button className="btn-home btn-home-normal">
-                  <a target="_blank" rel="noopener noreferrer" href="https://hellosean1025.github.io/yapi">
-                    使用文档
-                  </a>
+                  {/* 文档预留 */}
+                  使用文档
                 </Button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -406,4 +411,4 @@ class Home extends Component {
 //   ]
 // };
 
-export default Home;
+export default Home

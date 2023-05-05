@@ -1,33 +1,45 @@
-import { message } from 'antd';
-import URL from 'url';
-import _ from 'underscore';
-const GenerateSchema = require('generate-schema/src/schemas/json.js');
-import { json_parse } from '../../common/utils.js';
+import { message } from 'antd'
+import URL from 'url'
+import _ from 'underscore'
+const GenerateSchema = require('generate-schema/src/schemas/json.js')
+import { json_parse } from '../../common/utils.js'
 
 function postman(importDataModule) {
-  var folders = [];
+  var folders = []
 
   function parseUrl(url) {
-    return URL.parse(url);
+    return URL.parse(url)
   }
 
   function checkInterRepeat(interData) {
-    let obj = {};
-    let arr = [];
+    let obj = {}
+    let arr = []
     for (let item in interData) {
       // console.log(interData[item].url + "-" + interData[item].method);
-      if (!obj[interData[item].url + '-' + interData[item].method + '-' + interData[item].method]) {
-        arr.push(interData[item]);
+      if (
+        !obj[
+          interData[item].url +
+            '-' +
+            interData[item].method +
+            '-' +
+            interData[item].method
+        ]
+      ) {
+        arr.push(interData[item])
         obj[
-          interData[item].url + '-' + interData[item].method + '-' + interData[item].method
-        ] = true;
+          interData[item].url +
+            '-' +
+            interData[item].method +
+            '-' +
+            interData[item].method
+        ] = true
       }
     }
-    return arr;
+    return arr
   }
 
   function handleReq_query(query) {
-    let res = [];
+    let res = []
     if (query && query.length) {
       for (let item in query) {
         res.push({
@@ -35,29 +47,29 @@ function postman(importDataModule) {
           desc: query[item].description,
           // example: query[item].value,
           value: query[item].value,
-          required: query[item].enabled ? '1' : '0'
-        });
+          required: query[item].enabled ? '1' : '0',
+        })
       }
     }
-    return res;
+    return res
   }
   function handleReq_headers(headers) {
-    let res = [];
+    let res = []
     if (headers && headers.length) {
       for (let item in headers) {
         res.push({
           name: headers[item].key,
           desc: headers[item].description,
           value: headers[item].value,
-          required: headers[item].enabled ? '1' : '0'
-        });
+          required: headers[item].enabled ? '1' : '0',
+        })
       }
     }
-    return res;
+    return res
   }
 
   function handleReq_body_form(body_form) {
-    let res = [];
+    let res = []
     if (body_form && body_form.length) {
       for (let item in body_form) {
         res.push({
@@ -66,56 +78,56 @@ function postman(importDataModule) {
           value: body_form[item].value,
           type: body_form[item].type,
           required: body_form[item].enabled ? '1' : '0',
-          desc: body_form[item].description
-        });
+          desc: body_form[item].description,
+        })
       }
     }
-    return res;
+    return res
   }
 
   function handlePath(path) {
-    path = parseUrl(path).pathname;
-    path = decodeURIComponent(path);
-    if (!path) return '';
+    path = parseUrl(path).pathname
+    path = decodeURIComponent(path)
+    if (!path) return ''
 
-    path = path.replace(/\{\{.*\}\}/g, '');
+    path = path.replace(/\{\{.*\}\}/g, '')
 
     if (path[0] != '/') {
-      path = '/' + path;
+      path = '/' + path
     }
-    return path;
+    return path
   }
 
   function run(res) {
     try {
-      res = JSON.parse(res);
-      let interData = res.requests;
-      let interfaceData = { apis: [], cats: [] };
-      interData = checkInterRepeat.bind(this)(interData);
+      res = JSON.parse(res)
+      let interData = res.requests
+      let interfaceData = { apis: [], cats: [] }
+      interData = checkInterRepeat.bind(this)(interData)
 
       if (res.folders && Array.isArray(res.folders)) {
         res.folders.forEach(tag => {
           interfaceData.cats.push({
             name: tag.name,
-            desc: tag.description
-          });
-        });
+            desc: tag.description,
+          })
+        })
       }
 
       if (_.find(res.folders, item => item.collectionId === res.id)) {
-        folders = res.folders;
+        folders = res.folders
       }
 
       if (interData && interData.length) {
         for (let item in interData) {
-          let data = importPostman.bind(this)(interData[item]);
-          interfaceData.apis.push(data);
+          let data = importPostman.bind(this)(interData[item])
+          interfaceData.apis.push(data)
         }
       }
 
-      return interfaceData;
+      return interfaceData
     } catch (e) {
-      message.error('文件格式必须为JSON');
+      message.error('文件格式必须为JSON')
     }
   }
 
@@ -133,8 +145,8 @@ function postman(importDataModule) {
       req_body_form: 'data',
       req_body_other: 'rawModeData',
       res_body: 'text',
-      res_body_type: 'language'
-    };
+      res_body_type: 'language',
+    }
     let allKey = [
       'title',
       'path',
@@ -146,122 +158,139 @@ function postman(importDataModule) {
       'req_body_type',
       'req_body_form',
       'req_body_other',
-      'res'
-    ];
-    key = key || allKey;
-    let res = {};
+      'res',
+    ]
+    key = key || allKey
+    let res = {}
     try {
       for (let item in key) {
-        item = key[item];
+        item = key[item]
         if (item === 'req_query') {
-          res[item] = handleReq_query.bind(this)(data[reflect[item]]);
+          res[item] = handleReq_query.bind(this)(data[reflect[item]])
         } else if (item === 'req_headers') {
-          res[item] = handleReq_headers.bind(this)(data[reflect[item]]);
+          res[item] = handleReq_headers.bind(this)(data[reflect[item]])
         } else if (item === 'req_body_form') {
-          res[item] = handleReq_body_form.bind(this)(data[reflect[item]]);
+          res[item] = handleReq_body_form.bind(this)(data[reflect[item]])
         } else if (item === 'req_body_type') {
-          if (data[reflect[item]] === 'urlencoded' || data[reflect[item]] === 'params') {
-            res[item] = 'form';
+          if (
+            data[reflect[item]] === 'urlencoded' ||
+            data[reflect[item]] === 'params'
+          ) {
+            res[item] = 'form'
           } else {
-            if (_.isString(data.headers) && data.headers.indexOf('application/json') > -1) {
-              res[item] = 'json';
+            if (
+              _.isString(data.headers) &&
+              data.headers.indexOf('application/json') > -1
+            ) {
+              res[item] = 'json'
             } else {
-              res[item] = 'raw';
+              res[item] = 'raw'
             }
           }
         } else if (item === 'req_body_other') {
-          if (_.isString(data.headers) && data.headers.indexOf('application/json') > -1) {
-            res.req_body_is_json_schema = true;
-            res[item] = transformJsonToSchema(data[reflect[item]]);
+          if (
+            _.isString(data.headers) &&
+            data.headers.indexOf('application/json') > -1
+          ) {
+            res.req_body_is_json_schema = true
+            res[item] = transformJsonToSchema(data[reflect[item]])
           } else {
-            res[item] = data[reflect[item]];
+            res[item] = data[reflect[item]]
           }
         } else if (item === 'path') {
-          res[item] = handlePath.bind(this)(data[reflect[item]]);
+          res[item] = handlePath.bind(this)(data[reflect[item]])
           if (res[item] && res[item].indexOf('/:') > -1) {
-            let params = res[item].substr(res[item].indexOf('/:') + 2).split('/:');
+            let params = res[item]
+              .substr(res[item].indexOf('/:') + 2)
+              .split('/:')
             // res[item] = res[item].substr(0,res[item].indexOf("/:"));
-            let arr = [];
+            let arr = []
             for (let i in params) {
               arr.push({
                 name: params[i],
-                desc: ''
-              });
+                desc: '',
+              })
             }
-            res['req_params'] = arr;
+            res['req_params'] = arr
           }
         } else if (item === 'title') {
-          let path = handlePath.bind(this)(data[reflect['path']]);
+          let path = handlePath.bind(this)(data[reflect['path']])
           if (data[reflect[item]].indexOf(path) > -1) {
-            res[item] = path;
+            res[item] = path
             if (res[item] && res[item].indexOf('/:') > -1) {
-              res[item] = res[item].substr(0, res[item].indexOf('/:'));
+              res[item] = res[item].substr(0, res[item].indexOf('/:'))
             }
           } else {
-            res[item] = data[reflect[item]];
+            res[item] = data[reflect[item]]
           }
         } else if (item === 'catname') {
           let found = folders.filter(item => {
-            return item.id === data.folder;
-          });
-          res[item] = found && Array.isArray(found) && found.length > 0 ? found[0].name : null;
+            return item.id === data.folder
+          })
+          res[item] =
+            found && Array.isArray(found) && found.length > 0
+              ? found[0].name
+              : null
         } else if (item === 'res') {
-          let response = handleResponses(data['responses']);
+          let response = handleResponses(data['responses'])
           if (response) {
-            (res['res_body'] = response['res_body']),
-              (res['res_body_type'] = response['res_body_type']);
+            //新增了res_body_is_json_schema这个属性
+            ;(res['res_body_is_json_schema'] =
+              response['res_body_is_json_schema']),
+              (res['res_body'] = response['res_body']),
+              (res['res_body_type'] = response['res_body_type'])
           }
         } else {
-          res[item] = data[reflect[item]];
+          res[item] = data[reflect[item]]
         }
       }
     } catch (err) {
-      console.log(err.message);
-      message.error(`${err.message}, 导入的postman格式有误`);
+      console.log(err.message)
+      message.error(`${err.message}, 导入的postman格式有误`)
     }
-    return res;
+    return res
   }
 
   const handleResponses = data => {
     if (data && data.length) {
-      let res = data[0];
-      let response = {};
-      response['res_body_type'] = res.language === 'json' ? 'json' : 'raw';
+      let res = data[0]
+      let response = {}
+      response['res_body_type'] = res.language === 'json' ? 'json' : 'raw'
       // response['res_body'] = res.language === 'json' ? transformJsonToSchema(res.text): res.text;
       if (res.language === 'json') {
-        response['res_body_is_json_schema'] = true;
-        response['res_body'] = transformJsonToSchema(res.text);
+        response['res_body_is_json_schema'] = true
+        response['res_body'] = transformJsonToSchema(res.text)
       } else {
-        response['res_body'] = res.text;
+        response['res_body'] = res.text
       }
-      return response;
+      return response
     }
 
-    return null;
-  };
+    return null
+  }
 
   const transformJsonToSchema = json => {
-    json = json || {};
-    let jsonData = json_parse(json);
+    json = json || {}
+    let jsonData = json_parse(json)
 
-    jsonData = GenerateSchema(jsonData);
+    jsonData = GenerateSchema(jsonData)
 
-    let schemaData = JSON.stringify(jsonData);
-    return schemaData;
-  };
+    let schemaData = JSON.stringify(jsonData)
+    return schemaData
+  }
 
   if (!importDataModule || typeof importDataModule !== 'object') {
-    console.error('obj参数必需是一个对象');
-    return null;
+    console.error('obj参数必需是一个对象')
+    return null
   }
 
   importDataModule.postman = {
     name: 'Postman',
     run: run,
-    desc: '注意：只支持json格式数据'
-  };
+    desc: '注意：只支持json格式数据',
+  }
 }
 
 module.exports = function() {
-  this.bindHook('import_data', postman);
-};
+  this.bindHook('import_data', postman)
+}

@@ -3,12 +3,18 @@
     max-height: 520px;
     overflow-y: scroll;
   }
-  .ip-filter .ip>.ant-form-item, .ip-filter .ip-switch>.ant-form-item {
+
+  .ip-filter .ip>.ant-form-item,
+  .ip-filter .ip-switch>.ant-form-item {
     margin-bottom: 0;
   }
-  .headers>.ant-form-item, .paramsArr>.ant-form-item, .params-form>.ant-form-item {
+
+  .headers>.ant-form-item,
+  .paramsArr>.ant-form-item,
+  .params-form>.ant-form-item {
     margin-bottom: 0;
   }
+
   .sub-title {
     clear: both;
     font-weight: normal;
@@ -18,7 +24,7 @@
     padding-left: 8px;
   }
 
-  .pretty-editor{
+  .pretty-editor {
     min-height: 300px;
     border: 1px solid #d9d9d9;
     border-radius: 4px;

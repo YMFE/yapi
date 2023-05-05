@@ -1,0 +1,16 @@
+.public-wiki-container {
+  width: 100%;
+  background: #FFF;
+
+  &:before {
+    content: " ";
+    display: table;
+  }
+
+  .public-wiki-content {
+    margin: 0 auto;
+    width: 100vw;
+    max-width: 1000px;
+    padding: 0 20px 30px;
+  }
+}

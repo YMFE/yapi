@@ -1,10 +1,10 @@
-import React, { PureComponent as Component } from 'react';
-import { Timeline, Spin } from 'antd';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { formatTime } from '../../../common.js';
-import { fetchNewsData } from '../../../reducer/modules/news.js';
-import { timeago } from '../../../../common/utils';
+import React, { PureComponent as Component } from 'react'
+import { Timeline, Spin } from 'antd'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { formatTime } from '../../../common.js'
+import { fetchNewsData } from '../../../reducer/modules/news.js'
+import { timeago } from '../../../../common/utils'
 // timeago(new Date().getTime() - 40);
 
 @connect(
@@ -12,7 +12,7 @@ import { timeago } from '../../../../common/utils';
     return {
       newsData: state.news.newsData,
       curpage: state.news.curpage
-    };
+    }
   },
   {
     fetchNewsData: fetchNewsData
@@ -29,30 +29,30 @@ class NewsTimeline extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       bidden: '',
       loading: false
-    };
+    }
   }
 
   getMore() {
-    const that = this;
-    this.setState({ loading: true });
+    const that = this
+    this.setState({ loading: true })
     this.props.fetchNewsData(21, 'project', this.props.curpage, 8).then(function() {
-      that.setState({ loading: false });
+      that.setState({ loading: false })
       if (that.props.newsData.total + 1 === that.props.curpage) {
-        that.setState({ bidden: 'logbidden' });
+        that.setState({ bidden: 'logbidden' })
       }
-    });
+    })
   }
 
-  componentWillMount() {
-    this.props.fetchNewsData(21, 'project', this.props.curpage, 8);
+  UNSAFE_componentWillMount() {
+    this.props.fetchNewsData(21, 'project', this.props.curpage, 8)
   }
 
   render() {
-    let data = this.props.newsData ? this.props.newsData.list : [];
+    let data = this.props.newsData ? this.props.newsData.list : []
     if (data && data.length) {
       data = data.map(function(item, i) {
         return (
@@ -63,10 +63,10 @@ class NewsTimeline extends Component {
             <span className="logtime">{formatTime(item.add_time)}</span>
             <span className="logcontent">{item.content}</span>
           </Timeline.Item>
-        );
-      });
+        )
+      })
     } else {
-      data = '';
+      data = ''
     }
     let pending = this.state.bidden ? (
       <a className={this.state.bidden}>以上为全部内容</a>
@@ -74,16 +74,16 @@ class NewsTimeline extends Component {
       <a className="loggetMore" onClick={this.getMore.bind(this)}>
         查看更多
       </a>
-    );
+    )
     if (this.state.loading) {
-      pending = <Spin />;
+      pending = <Spin />
     }
     return (
       <section className="news-timeline">
         {data ? <Timeline pending={pending}>{data}</Timeline> : data}
       </section>
-    );
+    )
   }
 }
 
-export default NewsTimeline;
+export default NewsTimeline

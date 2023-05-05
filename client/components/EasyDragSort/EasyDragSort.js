@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 /**
  * @author suxiaoxin
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * {list}
  * </EasyDragSot>
  */
-let curDragIndex = null;
+let curDragIndex = null
 
 function isDom(obj) {
   return (
@@ -19,7 +19,7 @@ function isDom(obj) {
     obj.nodeType === 1 &&
     typeof obj.nodeName === 'string' &&
     typeof obj.getAttribute === 'function'
-  );
+  )
 }
 
 export default class EasyDragSort extends React.Component {
@@ -32,23 +32,23 @@ export default class EasyDragSort extends React.Component {
   };
 
   render() {
-    const that = this;
-    const props = this.props;
-    const { onlyChild } = props;
-    let container = props.children;
+    const that = this
+    const props = this.props
+    const { onlyChild } = props
+    let container = props.children
     const onChange = (from, to) => {
       if (from === to) {
-        return;
+        return
       }
-      let curValue;
+      let curValue
 
-      curValue = props.data();
+      curValue = props.data()
 
-      let newValue = arrMove(curValue, from, to);
+      let newValue = arrMove(curValue, from, to)
       if (typeof props.onChange === 'function') {
-        return props.onChange(newValue, from, to);
+        return props.onChange(newValue, from, to)
       }
-    };
+    }
     return (
       <div>
         {container.map((item, index) => {
@@ -58,7 +58,7 @@ export default class EasyDragSort extends React.Component {
               ref: 'x' + index,
               'data-ref': 'x' + index,
               onDragStart: function() {
-                curDragIndex = index;
+                curDragIndex = index
               },
               /**
                * 控制 dom 是否可拖动
@@ -66,52 +66,52 @@ export default class EasyDragSort extends React.Component {
                */
               onMouseDown(e) {
                 if (!onlyChild) {
-                  return;
+                  return
                 }
                 let el = e.target,
-                  target = e.target;
+                  target = e.target
                 if (!isDom(el)) {
-                  return;
+                  return
                 }
                 do {
                   if (el && isDom(el) && el.getAttribute(onlyChild)) {
-                    target = el;
+                    target = el
                   }
                   if (el && el.tagName == 'DIV' && el.getAttribute('data-ref')) {
-                    break;
+                    break
                   }
-                } while ((el = el.parentNode));
+                } while ((el = el.parentNode))
                 if (!el) {
-                  return;
+                  return
                 }
-                let ref = that.refs[el.getAttribute('data-ref')];
-                let dom = ReactDOM.findDOMNode(ref);
+                let ref = that.refs[el.getAttribute('data-ref')]
+                let dom = ReactDOM.findDOMNode(ref)
                 if (dom) {
-                  dom.draggable = target.getAttribute(onlyChild) ? true : false;
+                  dom.draggable = target.getAttribute(onlyChild) ? true : false
                 }
               },
               onDragEnter: function() {
-                onChange(curDragIndex, index);
-                curDragIndex = index;
+                onChange(curDragIndex, index)
+                curDragIndex = index
               },
               onDragEnd: function() {
-                curDragIndex = null;
+                curDragIndex = null
                 if (typeof props.onDragEnd === 'function') {
-                  props.onDragEnd();
+                  props.onDragEnd()
                 }
               }
-            });
+            })
           }
-          return item;
+          return item
         })}
       </div>
-    );
+    )
   }
 }
 
 function arrMove(arr, fromIndex, toIndex) {
-  arr = [].concat(arr);
-  let item = arr.splice(fromIndex, 1)[0];
-  arr.splice(toIndex, 0, item);
-  return arr;
+  arr = [].concat(arr)
+  let item = arr.splice(fromIndex, 1)[0]
+  arr.splice(toIndex, 0, item)
+  return arr
 }

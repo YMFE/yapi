@@ -324,6 +324,10 @@ body {
   right: 32px;
   top: 0;
 }
+.yapi-run-auto-test .m-header a .logo-img{
+  width: 48px;
+  height: 48px;
+}
 .yapi-run-auto-test .m-header .nav a {
   color: #fff;
   margin-left: 16px;
@@ -368,6 +372,7 @@ body {
   display: block;
   box-sizing: border-box;
   width: 87.5%;
+  overflow-x: auto;
 }
 
 .yapi-run-auto-test .icon {
@@ -438,5 +443,6 @@ body {
 .yapi-run-auto-test .status-warning {
   background-color: #ffb74c;
 }
+
 
 /*# sourceMappingURL=defaultTheme.css.map */

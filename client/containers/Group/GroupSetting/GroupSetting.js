@@ -1,8 +1,8 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Input, Button, message, Icon, Card, Alert, Modal, Switch, Row, Col, Tooltip } from 'antd';
-import { fetchNewsData } from '../../../reducer/modules/news.js';
+import React, { PureComponent as Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Input, Button, message, Icon, Card, Alert, Modal, Switch, Row, Col, Tooltip } from 'antd'
+import { fetchNewsData } from '../../../reducer/modules/news.js'
 import {
   changeGroupMsg,
   fetchGroupList,
@@ -10,12 +10,12 @@ import {
   fetchGroupMsg,
   updateGroupList,
   deleteGroup
-} from '../../../reducer/modules/group.js';
-const { TextArea } = Input;
-import { trim } from '../../../common.js';
-import _ from 'underscore';
-import './GroupSetting.scss';
-const confirm = Modal.confirm;
+} from '../../../reducer/modules/group.js'
+import { trim } from '../../../common.js'
+import _ from 'underscore'
+import './GroupSetting.scss'
+const { TextArea } = Input
+const confirm = Modal.confirm
 
 @connect(
   state => {
@@ -23,7 +23,7 @@ const confirm = Modal.confirm;
       groupList: state.group.groupList,
       currGroup: state.group.currGroup,
       curUserRole: state.user.role
-    };
+    }
   },
   {
     changeGroupMsg,
@@ -37,7 +37,7 @@ const confirm = Modal.confirm;
 )
 class GroupSetting extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       currGroupDesc: '',
       currGroupName: '',
@@ -45,7 +45,7 @@ class GroupSetting extends Component {
       custom_field1_name: '',
       custom_field1_enable: false,
       custom_field1_rule: false
-    };
+    }
   }
 
   static propTypes = {
@@ -67,58 +67,56 @@ class GroupSetting extends Component {
       currGroupDesc: props.currGroup.group_desc,
       custom_field1_name: props.currGroup.custom_field1.name,
       custom_field1_enable: props.currGroup.custom_field1.enable
-    });
+    })
   }
 
   // 修改分组名称
   changeName = e => {
     this.setState({
       currGroupName: e.target.value
-    });
+    })
   };
   // 修改分组描述
   changeDesc = e => {
     this.setState({
       currGroupDesc: e.target.value
-    });
+    })
   };
 
   // 修改自定义字段名称
   changeCustomName = e => {
-    let custom_field1_rule = this.state.custom_field1_enable ? !e.target.value : false;
+    let custom_field1_rule = this.state.custom_field1_enable ? !e.target.value : false
     this.setState({
       custom_field1_name: e.target.value,
       custom_field1_rule
-    });
+    })
   };
 
   // 修改开启状态
   changeCustomEnable = e => {
-    let custom_field1_rule = e ? !this.state.custom_field1_name : false;
+    let custom_field1_rule = e ? !this.state.custom_field1_name : false
     this.setState({
       custom_field1_enable: e,
       custom_field1_rule
-    });
+    })
   };
 
-  componentWillMount() {
-    // console.log('custom_field1',this.props.currGroup.custom_field1)
-    this.initState(this.props);
+  UNSAFE_componentWillMount() {
+    this.initState(this.props)
   }
 
   // 点击“查看危险操作”按钮
   toggleDangerOptions = () => {
-    // console.log(this.state.showDangerOptions);
     this.setState({
       showDangerOptions: !this.state.showDangerOptions
-    });
+    })
   };
 
   // 编辑分组信息
   editGroup = async () => {
-    const id = this.props.currGroup._id;
+    const id = this.props.currGroup._id
     if (this.state.custom_field1_rule) {
-      return;
+      return
     }
     const res = await this.props.changeGroupMsg({
       group_name: this.state.currGroupName,
@@ -128,39 +126,39 @@ class GroupSetting extends Component {
         enable: this.state.custom_field1_enable
       },
       id: this.props.currGroup._id
-    });
+    })
 
     if (!res.payload.data.errcode) {
-      message.success('修改成功！');
-      await this.props.fetchGroupList(this.props.groupList);
-      this.props.updateGroupList(this.props.groupList);
+      message.success('修改成功！')
+      await this.props.fetchGroupList(this.props.groupList)
+      this.props.updateGroupList(this.props.groupList)
       const currGroup = _.find(this.props.groupList, group => {
-        return +group._id === +id;
-      });
-      this.props.setCurrGroup(currGroup);
-      this.props.fetchGroupMsg(this.props.currGroup._id);
-      this.props.fetchNewsData(this.props.currGroup._id, 'group', 1, 10);
+        return +group._id === +id
+      })
+      this.props.setCurrGroup(currGroup)
+      this.props.fetchGroupMsg(this.props.currGroup._id)
+      this.props.fetchNewsData(this.props.currGroup._id, 'group', 1, 10)
     }
   };
 
   // 删除分组
 
   deleteGroup = async () => {
-    const that = this;
-    const { currGroup } = that.props;
-    const res = await this.props.deleteGroup({ id: currGroup._id });
+    const that = this
+    const { currGroup } = that.props
+    const res = await this.props.deleteGroup({ id: currGroup._id })
     if (!res.payload.data.errcode) {
-      message.success('删除成功');
-      await that.props.fetchGroupList();
-      const currGroup = that.props.groupList[0] || { group_name: '', group_desc: '' };
-      that.setState({ groupList: that.props.groupList });
-      that.props.setCurrGroup(currGroup);
+      message.success('删除成功')
+      await that.props.fetchGroupList()
+      const currGroup = that.props.groupList[0] || { group_name: '', group_desc: '' }
+      that.setState({ groupList: that.props.groupList })
+      that.props.setCurrGroup(currGroup)
     }
   };
 
   // 删除分组的二次确认
   showConfirm = () => {
-    const that = this;
+    const that = this
     confirm({
       title: '确认删除 ' + that.props.currGroup.group_name + ' 分组吗？',
       content: (
@@ -178,28 +176,28 @@ class GroupSetting extends Component {
         </div>
       ),
       onOk() {
-        const groupName = trim(document.getElementById('group_name').value);
+        const groupName = trim(document.getElementById('group_name').value)
         if (that.props.currGroup.group_name !== groupName) {
-          message.error('分组名称有误');
+          message.error('分组名称有误')
           return new Promise((resolve, reject) => {
-            reject('error');
-          });
+            reject('error')
+          })
         } else {
-          that.deleteGroup();
+          that.deleteGroup()
         }
       },
       iconType: 'delete',
       onCancel() {}
-    });
+    })
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // 切换分组时，更新分组信息并关闭删除分组操作
     if (this.props.currGroup._id !== nextProps.currGroup._id) {
-      this.initState(nextProps);
+      this.initState(nextProps)
       this.setState({
         showDangerOptions: false
-      });
+      })
     }
   }
 
@@ -299,8 +297,8 @@ class GroupSetting extends Component {
           </Row>
         ) : null}
       </div>
-    );
+    )
   }
 }
 
-export default GroupSetting;
+export default GroupSetting

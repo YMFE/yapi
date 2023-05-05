@@ -1,18 +1,18 @@
-import './index.scss';
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
-import List from './List.js';
-import PropTypes from 'prop-types';
-import Profile from './Profile.js';
-import { Row } from 'antd';
+import './index.scss'
+import React, { PureComponent as Component } from 'react'
+import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
+import List from './List.js'
+import PropTypes from 'prop-types'
+import Profile from './Profile.js'
+import { Row } from 'antd'
 @connect(
   state => {
     return {
       curUid: state.user.uid,
       userType: state.user.type,
       role: state.user.role
-    };
+    }
   },
   {}
 )
@@ -25,7 +25,7 @@ class User extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -38,8 +38,8 @@ class User extends Component {
           </Row>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default User;
+export default User
