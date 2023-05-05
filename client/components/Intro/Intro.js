@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Icon } from 'antd';
-import './Intro.scss';
-import { OverPack } from 'rc-scroll-anim';
-import TweenOne from 'rc-tween-one';
-import QueueAnim from 'rc-queue-anim';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Icon } from 'antd'
+import './Intro.scss'
+import { OverPack } from 'rc-scroll-anim'
+import TweenOne from 'rc-tween-one'
+import QueueAnim from 'rc-queue-anim'
 
 const IntroPart = props => (
   <li className="switch-content">
@@ -18,17 +18,17 @@ const IntroPart = props => (
       <p>{props.des}</p>
     </div>
   </li>
-);
+)
 
 IntroPart.propTypes = {
   title: PropTypes.string,
   des: PropTypes.string,
   iconType: PropTypes.string
-};
+}
 
 class Intro extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
   }
   static propTypes = {
     intro: PropTypes.shape({
@@ -45,12 +45,12 @@ class Intro extends React.PureComponent {
     className: PropTypes.string
   };
   render() {
-    const { intro } = this.props;
-    const id = 'motion';
+    const { intro } = this.props
+    const id = 'motion'
     const animType = {
       queue: 'right',
       one: { x: '-=30', opacity: 0, type: 'from' }
-    };
+    }
     return (
       <div className="intro-container">
         <OverPack playScale="0.3">
@@ -82,14 +82,14 @@ class Intro extends React.PureComponent {
               {intro.detail.map(function(item, i) {
                 return (
                   <IntroPart key={i} title={item.title} des={item.des} iconType={item.iconType} />
-                );
+                )
               })}
             </ul>
           </QueueAnim>
         </OverPack>
       </div>
-    );
+    )
   }
 }
 
-export default Intro;
+export default Intro

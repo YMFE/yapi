@@ -1,21 +1,25 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Row, Col, Button, Tooltip } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Row, Col, Button, Tooltip, Spin, notification } from 'antd'
+import { Link } from 'react-router-dom'
 import {
   addProject,
   fetchProjectList,
   delProject,
-  changeUpdateModal
-} from '../../../reducer/modules/project';
-import ProjectCard from '../../../components/ProjectCard/ProjectCard.js';
-import ErrMsg from '../../../components/ErrMsg/ErrMsg.js';
-import { autobind } from 'core-decorators';
-import { setBreadcrumb } from '../../../reducer/modules/user';
+  changeUpdateModal,
+} from '../../../reducer/modules/project'
+import ProjectCard from '../../../components/ProjectCard/ProjectCard.js'
+import ErrMsg from '../../../components/ErrMsg/ErrMsg.js'
+import { setBreadcrumb } from '../../../reducer/modules/user'
 
-import './ProjectList.scss';
-
+import './ProjectList.scss'
+const html = (
+  <div>
+    您没有权限,请切换到 <strong style={{ fontSize: '16px' }}>成员列表</strong>{' '}
+    查看并联系该分组组长或管理员
+  </div>
+)
 @connect(
   state => {
     return {
@@ -23,25 +27,26 @@ import './ProjectList.scss';
       userInfo: state.project.userInfo,
       tableLoading: state.project.tableLoading,
       currGroup: state.group.currGroup,
-      currPage: state.project.currPage
-    };
+      currPage: state.project.currPage,
+    }
   },
   {
     fetchProjectList,
     addProject,
     delProject,
     changeUpdateModal,
-    setBreadcrumb
-  }
+    setBreadcrumb,
+  },
 )
 class ProjectList extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       visible: false,
       protocol: 'http://',
-      projectData: []
-    };
+      projectData: [],
+      groupLoading: true,
+    }
   }
   static propTypes = {
     form: PropTypes.object,
@@ -56,73 +61,73 @@ class ProjectList extends Component {
     setBreadcrumb: PropTypes.func,
     currPage: PropTypes.number,
     studyTip: PropTypes.number,
-    study: PropTypes.bool
-  };
-
-  // 取消修改
-  @autobind
-  handleCancel() {
-    this.props.form.resetFields();
-    this.setState({
-      visible: false
-    });
-  }
-
-  // 修改线上域名的协议类型 (http/https)
-  @autobind
-  protocolChange(value) {
-    this.setState({
-      protocol: value
-    });
+    study: PropTypes.bool,
   }
 
   // 获取 ProjectCard 组件的关注事件回调，收到后更新数据
 
   receiveRes = () => {
-    this.props.fetchProjectList(this.props.currGroup._id, this.props.currPage);
-  };
+    this.props.fetchProjectList(this.props.currGroup._id, this.props.currPage)
+  }
 
-  componentWillReceiveProps(nextProps) {
-    this.props.setBreadcrumb([{ name: '' + (nextProps.currGroup.group_name || '') }]);
+  componentDidUpdate(prevProps) {
+    let curGroupName = this.props.currGroup.group_name
+    this.props.setBreadcrumb([{ name: '' + (curGroupName || '') }])
 
     // 切换分组
-    if (this.props.currGroup !== nextProps.currGroup && nextProps.currGroup._id) {
-      this.props.fetchProjectList(nextProps.currGroup._id, this.props.currPage);
+    if (
+      prevProps.currGroup !== this.props.currGroup &&
+      this.props.currGroup._id
+    ) {
+      this.setState({
+        projectData: [],
+        groupLoading: true,
+      })
+      this.props.fetchProjectList(this.props.currGroup._id, prevProps.currPage)
+      document.title = curGroupName ? `分组 · ${curGroupName}` : ''
     }
 
     // 切换项目列表
-    if (this.props.projectList !== nextProps.projectList) {
-      // console.log(nextProps.projectList);
-      const data = nextProps.projectList.map((item, index) => {
-        item.key = index;
-        return item;
-      });
+    if (prevProps.projectList !== this.props.projectList) {
+      const data = this.props.projectList.map((item, index) => {
+        item.key = index
+        return item
+      })
       this.setState({
-        projectData: data
-      });
+        projectData: data,
+        groupLoading: false,
+      })
     }
   }
 
+  openNotificationWithIcon = type => {
+    notification[type]({
+      message: '无权限操作提示',
+      description: html,
+      duration: 8,
+    })
+  }
+
   render() {
-    let projectData = this.state.projectData;
-    let noFollow = [];
-    let followProject = [];
+    let projectData = this.state.projectData
+    let noFollow = []
+    let followProject = []
     for (var i in projectData) {
       if (projectData[i].follow) {
-        followProject.push(projectData[i]);
+        followProject.push(projectData[i])
       } else {
-        noFollow.push(projectData[i]);
+        noFollow.push(projectData[i])
       }
     }
     followProject = followProject.sort((a, b) => {
-      return b.up_time - a.up_time;
-    });
+      return b.up_time - a.up_time
+    })
     noFollow = noFollow.sort((a, b) => {
-      return b.up_time - a.up_time;
-    });
-    projectData = [...followProject, ...noFollow];
+      return b.up_time - a.up_time
+    })
+    projectData = [...followProject, ...noFollow]
 
-    const isShow = /(admin)|(owner)|(dev)/.test(this.props.currGroup.role);
+    const isShow = /(admin)|(owner)|(dev)/.test(this.props.currGroup.role)
 
     const Follow = () => {
       return followProject.length ? (
@@ -130,14 +135,17 @@ class ProjectList extends Component {
           <h3 className="owner-type">我的关注</h3>
           {followProject.map((item, index) => {
             return (
-              <Col xs={8} lg={6} xxl={4} key={index}>
-                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
+              <Col md={12} lg={8} xl={6} xxl={4} key={index}>
+                <ProjectCard
+                  projectData={item}
+                  callbackResult={this.receiveRes}
+                />
               </Col>
-            );
+            )
           })}
         </Row>
-      ) : null;
-    };
+      ) : null
+    }
     const NoFollow = () => {
       return noFollow.length ? (
         <Row style={{ borderBottom: '1px solid #eee', marginBottom: '15px' }}>
@@ -145,13 +153,17 @@ class ProjectList extends Component {
           {noFollow.map((item, index) => {
             return (
               <Col xs={8} lg={6} xxl={4} key={index}>
-                <ProjectCard projectData={item} callbackResult={this.receiveRes} isShow={isShow} />
+                <ProjectCard
+                  projectData={item}
+                  callbackResult={this.receiveRes}
+                  isShow={isShow}
+                />
               </Col>
-            );
+            )
           })}
         </Row>
-      ) : null;
-    };
+      ) : null
+    }
 
     const OwnerSpace = () => {
       return projectData.length ? (
@@ -161,14 +173,18 @@ class ProjectList extends Component {
         </div>
       ) : (
         <ErrMsg type="noProject" />
-      );
-    };
+      )
+    }
 
     return (
-      <div style={{ paddingTop: '24px' }} className="m-panel card-panel card-panel-s project-list">
+      <div
+        style={{ paddingTop: '24px' }}
+        className="m-panel card-panel card-panel-s project-list"
+      >
         <Row className="project-list-header">
           <Col span={16} style={{ textAlign: 'left' }}>
-            {this.props.currGroup.group_name} 分组共 ({projectData.length}) 个项目
+            {this.props.currGroup.group_name} 分组共 ({projectData.length})
+            个项目
           </Col>
           <Col span={8}>
             {isShow ? (
@@ -176,42 +192,45 @@ class ProjectList extends Component {
                 <Button type="primary">添加项目</Button>
               </Link>
             ) : (
-              <Tooltip title="您没有权限,请联系该分组组长或管理员">
-                <Button type="primary" disabled>
+              <Tooltip>
+                <Button
+                  type="primary"
+                  onClick={() => this.openNotificationWithIcon('warning')}
+                >
                   添加项目
                 </Button>
               </Tooltip>
             )}
           </Col>
         </Row>
-        <Row>
-          {/* {projectData.length ? projectData.map((item, index) => {
-            return (
-              <Col xs={8} md={6} xl={4} key={index}>
-                <ProjectCard projectData={item} callbackResult={this.receiveRes} />
-              </Col>);
-          }) : <ErrMsg type="noProject" />} */}
-          {this.props.currGroup.type === 'private' ? (
-            <OwnerSpace />
-          ) : projectData.length ? (
-            projectData.map((item, index) => {
-              return (
-                <Col xs={8} lg={6} xxl={4} key={index}>
-                  <ProjectCard
-                    projectData={item}
-                    callbackResult={this.receiveRes}
-                    isShow={isShow}
-                  />
-                </Col>
-              );
-            })
-          ) : (
-            <ErrMsg type="noProject" />
-          )}
-        </Row>
+        {!this.state.groupLoading ? (
+          <Row>
+            {this.props.currGroup.type === 'private' ? (
+              <OwnerSpace />
+            ) : projectData.length ? (
+              projectData.map((item, index) => {
+                return (
+                  <Col xs={8} lg={6} xxl={4} key={index}>
+                    <ProjectCard
+                      projectData={item}
+                      callbackResult={this.receiveRes}
+                      isShow={isShow}
+                    />
+                  </Col>
+                )
+              })
+            ) : (
+              <ErrMsg type="noProject" />
+            )}
+          </Row>
+        ) : (
+          <div style={{ textAlign: 'center', marginTop: '200px' }}>
+            <Spin spinning={this.state.groupLoading} />
+          </div>
+        )}
       </div>
-    );
+    )
   }
 }
 
-export default ProjectList;
+export default ProjectList

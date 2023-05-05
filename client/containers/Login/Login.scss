@@ -1,44 +1,67 @@
 @import '../../styles/common.scss';
 
-// .login-body {
-//   background-color: #fff;
-// }
+body {
+  background: #fafafa;
+}
 .login-container {
-  padding-bottom: .6rem;
+  height: 100vh;
+  background: url('http://img-x.ljcdn.com/b7b07b61-8c1f-40ea-9324-080f06f99a2a')
+    no-repeat center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.login-form {
+  .ant-radio-group {
+    .admin-login {
+      // 默认隐藏管理员登陆按钮
+      opacity: 0;
+    }
+    .admin-login:hover,
+    .admin-login.ant-radio-wrapper-checked {
+      opacity: 1;
+    }
+  }
 }
 
 .login-form-button {
-  background-image: linear-gradient(to right, #6d69fe 0%, #48a0fa 100%) !important;
+  background: #3072f6 !important;
   border: none !important;
-  margin-top: .2rem;
+  font-size: 0.16rem !important;
+  margin-top: 0.2rem;
   width: 100%;
 }
 
 .ant-form-item {
-  margin-bottom: .1rem;
+  margin-bottom: 0.1rem;
 }
 
-.qsso-breakline{
+.qsso-breakline {
   display: flex;
   align-items: center;
   color: #6d7c90;
-  margin: .2rem auto;
-  &:before, &:after{
-    content: "";
+  margin: 0.2rem auto;
+  &:before,
+  &:after {
+    content: '';
     display: inline-block;
-    height: .02rem;
+    height: 0.02rem;
     flex: 1;
-    border-top: .01rem solid #6d7c90;
+    border-top: 0.01rem solid #6d7c90;
   }
-  .qsso-breakword{
-    padding: 0 .1rem;
+  .qsso-breakword {
+    padding: 0 0.1rem;
   }
 }
 
 .card-login {
-  margin-top: 1.6rem;
-  margin-bottom: 1.6rem;
-  border-radius: .04rem;
+  border: 1px solid #e9e9e9 !important;
+  background: #fff !important;
+  margin-top: 1rem !important;
+  padding-bottom: 0.1rem !important;
+  border-radius: 0.06rem !important;
   position: relative;
   .login-logo {
     font-size: 0;
@@ -47,16 +70,16 @@
     top: 0;
     background-image: linear-gradient(-20deg, #21d4fd 0%, #b721ff 100%);
     transform: translate(-50%, -50%);
-    padding: .16rem;
+    padding: 0.16rem;
     border-radius: 50%;
-    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   }
   .login-title {
     text-align: center;
-    padding-top: .5rem;
-    font-size: .4rem;
-    font-weight: 200;
-    color: #2e2e5a;
+    padding: 0.3rem 0;
+    font-size: 0.32rem;
+    line-height: 0.32rem;
+    color: #262626;
   }
   .svg {
     animation: spin 5s linear infinite;

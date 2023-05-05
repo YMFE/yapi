@@ -1,179 +1,189 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import './index.scss';
-import { Icon, Row, Col, Form, Input, Select, Button, AutoComplete, Tooltip } from 'antd';
-const FormItem = Form.Item;
-const Option = Select.Option;
-import constants from 'client/constants/variable.js';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './index.scss'
+import {
+  Icon,
+  Row,
+  Col,
+  Form,
+  Input,
+  Select,
+  Button,
+  AutoComplete,
+  Tooltip,
+} from 'antd'
+import constants from 'client/constants/variable.js'
+const FormItem = Form.Item
+const Option = Select.Option
 
 const initMap = {
   header: [
     {
       name: '',
-      value: ''
-    }
+      value: '',
+    },
   ],
   cookie: [
     {
       name: '',
-      value: ''
-    }
+      value: '',
+    },
   ],
   global: [
     {
       name: '',
-      value: ''
-    }
-  ]
-};
+      value: '',
+    },
+  ],
+}
 
 class ProjectEnvContent extends Component {
   static propTypes = {
     projectMsg: PropTypes.object,
     form: PropTypes.object,
     onSubmit: PropTypes.func,
-    handleEnvInput: PropTypes.func
-  };
+    handleEnvInput: PropTypes.func,
+  }
 
   initState(curdata) {
     let header = [
       {
         name: '',
-        value: ''
-      }
-    ];
+        value: '',
+      },
+    ]
     let cookie = [
       {
         name: '',
-        value: ''
-      }
-    ];
+        value: '',
+      },
+    ]
 
     let global = [
       {
         name: '',
-        value: ''
-      }
-    ];
+        value: '',
+      },
+    ]
 
-    const curheader = curdata.header;
-    const curGlobal = curdata.global;
+    const curheader = curdata.header
+    const curGlobal = curdata.global
 
     if (curheader && curheader.length !== 0) {
       curheader.forEach(item => {
         if (item.name === 'Cookie') {
-          let cookieStr = item.value;
+          let cookieStr = item.value
           if (cookieStr) {
             cookieStr = cookieStr.split(';').forEach(c => {
               if (c) {
-                c = c.split('=');
+                c = c.split('=')
                 cookie.unshift({
                   name: c[0] ? c[0].trim() : '',
-                  value: c[1] ? c[1].trim() : ''
-                });
+                  value: c[1] ? c[1].trim() : '',
+                })
               }
-            });
+            })
           }
         } else {
-          header.unshift(item);
+          header.unshift(item)
         }
-      });
+      })
     }
 
     if (curGlobal && curGlobal.length !== 0) {
       curGlobal.forEach(item => {
-        global.unshift(item);
-      });
+        global.unshift(item)
+      })
     }
-    return { header, cookie, global };
+    return { header, cookie, global }
   }
 
   constructor(props) {
-    super(props);
-    this.state = Object.assign({}, initMap);
+    super(props)
+    this.state = Object.assign({}, initMap)
   }
   addHeader = (value, index, name) => {
-    let nextHeader = this.state[name][index + 1];
+    let nextHeader = this.state[name][index + 1]
     if (nextHeader && typeof nextHeader === 'object') {
-      return;
+      return
     }
-    let newValue = {};
-    let data = { name: '', value: '' };
-    newValue[name] = [].concat(this.state[name], data);
-    this.setState(newValue);
-  };
-
-  delHeader = (key, name) => {
-    let curValue = this.props.form.getFieldValue(name);
-    let newValue = {};
-    newValue[name] = curValue.filter((val, index) => {
-      return index !== key;
-    });
-    this.props.form.setFieldsValue(newValue);
-    this.setState(newValue);
-  };
-
-  handleInit(data) {
-    this.props.form.resetFields();
-    let newValue = this.initState(data);
-    this.setState({ ...newValue });
+    let newValue = {}
+    let data = { name: '', value: '' }
+    newValue[name] = [].concat(this.state[name], data)
+    this.setState(newValue)
   }
 
-  componentWillReceiveProps(nextProps) {
-    let curEnvName = this.props.projectMsg.name;
-    let nextEnvName = nextProps.projectMsg.name;
+  delHeader = (key, name) => {
+    let curValue = this.props.form.getFieldValue(name)
+    let newValue = {}
+    newValue[name] = curValue.filter((val, index) => {
+      return index !== key
+    })
+    this.props.form.setFieldsValue(newValue)
+    this.setState(newValue)
+  }
+
+  handleInit(data) {
+    this.props.form.resetFields()
+    let newValue = this.initState(data)
+    this.setState({ ...newValue })
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    let curEnvName = this.props.projectMsg.name
+    let nextEnvName = nextProps.projectMsg.name
     if (curEnvName !== nextEnvName) {
-      this.handleInit(nextProps.projectMsg);
+      this.handleInit(nextProps.projectMsg)
     }
   }
 
   handleOk = e => {
-    e.preventDefault();
-    const { form, onSubmit, projectMsg } = this.props;
+    e.preventDefault()
+    const { form, onSubmit, projectMsg } = this.props
     form.validateFields((err, values) => {
       if (!err) {
         let header = values.header.filter(val => {
-          return val.name !== '';
-        });
+          return val.name !== ''
+        })
         let cookie = values.cookie.filter(val => {
-          return val.name !== '';
-        });
+          return val.name !== ''
+        })
         let global = values.global.filter(val => {
-          return val.name !== '';
-        });
+          return val.name !== ''
+        })
         if (cookie.length > 0) {
           header.push({
             name: 'Cookie',
-            value: cookie.map(item => item.name + '=' + item.value).join(';')
-          });
+            value: cookie.map(item => item.name + '=' + item.value).join(';'),
+          })
         }
-        let assignValue = {};
+        let assignValue = {}
         assignValue.env = Object.assign(
           { _id: projectMsg._id },
           {
             name: values.env.name,
             domain: values.env.protocol + values.env.domain,
             header: header,
-            global
-          }
-        );
-        onSubmit(assignValue);
+            global,
+          },
+        )
+        onSubmit(assignValue)
       }
-    });
-  };
+    })
+  }
 
   render() {
-    const { projectMsg } = this.props;
-    const { getFieldDecorator } = this.props.form;
+    const { projectMsg } = this.props
+    const { getFieldDecorator } = this.props.form
     const headerTpl = (item, index) => {
-      const headerLength = this.state.header.length - 1;
+      const headerLength = this.state.header.length - 1
       return (
         <Row gutter={2} key={index}>
           <Col span={10}>
             <FormItem>
               {getFieldDecorator('header[' + index + '].name', {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: item.name || ''
+                initialValue: item.name || '',
               })(
                 <AutoComplete
                   style={{ width: '200px' }}
@@ -182,9 +192,11 @@ class ProjectEnvContent extends Component {
                   placeholder="请输入header名称"
                   onChange={() => this.addHeader(item, index, 'header')}
                   filterOption={(inputValue, option) =>
-                    option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                    option.props.children
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
                   }
-                />
+                />,
               )}
             </FormItem>
           </Col>
@@ -192,40 +204,48 @@ class ProjectEnvContent extends Component {
             <FormItem>
               {getFieldDecorator('header[' + index + '].value', {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: item.value || ''
-              })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
+                initialValue: item.value || '',
+              })(
+                <Input
+                  placeholder="请输入参数内容"
+                  style={{ width: '90%', marginRight: 8 }}
+                />,
+              )}
             </FormItem>
           </Col>
-          <Col span={2} className={index === headerLength ? ' env-last-row' : null}>
+          <Col
+            span={2}
+            className={index === headerLength ? ' env-last-row' : null}
+          >
             {/* 新增的项中，只有最后一项没有有删除按钮 */}
             <Icon
               className="dynamic-delete-button delete"
               type="delete"
               onClick={e => {
-                e.stopPropagation();
-                this.delHeader(index, 'header');
+                e.stopPropagation()
+                this.delHeader(index, 'header')
               }}
             />
           </Col>
         </Row>
-      );
-    };
+      )
+    }
 
     const commonTpl = (item, index, name) => {
-      const length = this.state[name].length - 1;
+      const length = this.state[name].length - 1
       return (
         <Row gutter={2} key={index}>
           <Col span={10}>
             <FormItem>
               {getFieldDecorator(`${name}[${index}].name`, {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: item.name || ''
+                initialValue: item.name || '',
               })(
                 <Input
                   placeholder={`请输入 ${name} Name`}
                   style={{ width: '200px' }}
                   onChange={() => this.addHeader(item, index, name)}
-                />
+                />,
               )}
             </FormItem>
           </Col>
@@ -233,8 +253,13 @@ class ProjectEnvContent extends Component {
             <FormItem>
               {getFieldDecorator(`${name}[${index}].value`, {
                 validateTrigger: ['onChange', 'onBlur'],
-                initialValue: item.value || ''
-              })(<Input placeholder="请输入参数内容" style={{ width: '90%', marginRight: 8 }} />)}
+                initialValue: item.value || '',
+              })(
+                <Input
+                  placeholder="请输入参数内容"
+                  style={{ width: '90%', marginRight: 8 }}
+                />,
+              )}
             </FormItem>
           </Col>
           <Col span={2} className={index === length ? ' env-last-row' : null}>
@@ -243,14 +268,14 @@ class ProjectEnvContent extends Component {
               className="dynamic-delete-button delete"
               type="delete"
               onClick={e => {
-                e.stopPropagation();
-                this.delHeader(index, name);
+                e.stopPropagation()
+                this.delHeader(index, name)
               }}
             />
           </Col>
         </Row>
-      );
-    };
+      )
+    }
 
     const envTpl = data => {
       return (
@@ -267,24 +292,24 @@ class ProjectEnvContent extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境名称');
+                        callback('请输入环境名称')
                       } else if (!/\S/.test(value)) {
-                        callback('请输入环境名称');
+                        callback('请输入环境名称')
                       } else {
-                        return callback();
+                        return callback()
                       }
                     } else {
-                      callback('请输入环境名称');
+                      callback('请输入环境名称')
                     }
-                  }
-                }
-              ]
+                  },
+                },
+              ],
             })(
               <Input
                 onChange={e => this.props.handleEnvInput(e.target.value)}
                 placeholder="请输入环境名称"
                 style={{ width: '90%', marginRight: 8 }}
-              />
+              />,
             )}
           </FormItem>
           <h3 className="env-label">环境域名</h3>
@@ -299,46 +324,48 @@ class ProjectEnvContent extends Component {
                   validator(rule, value, callback) {
                     if (value) {
                       if (value.length === 0) {
-                        callback('请输入环境域名!');
+                        callback('请输入环境对应的 域名 或者 ip:port')
                       } else if (/\s/.test(value)) {
-                        callback('环境域名不允许出现空格!');
+                        callback('环境不允许出现空格!')
                       } else {
-                        return callback();
+                        return callback()
                       }
                     } else {
-                      callback('请输入环境域名!');
+                      callback('请输入环境对应的 域名 或者 ip:port')
                     }
-                  }
-                }
-              ]
+                  },
+                },
+              ],
             })(
               <Input
-                placeholder="请输入环境域名"
+                placeholder="请输入环境域名 或者 ip:port"
                 style={{ width: '90%', marginRight: 8 }}
                 addonBefore={getFieldDecorator('env.protocol', {
-                  initialValue: data.domain ? data.domain.split('//')[0] + '//' : 'http://',
+                  initialValue: data.domain
+                    ? data.domain.split('//')[0] + '//'
+                    : 'http://',
                   rules: [
                     {
-                      required: true
-                    }
-                  ]
+                      required: true,
+                    },
+                  ],
                 })(
                   <Select>
                     <Option value="http://">{'http://'}</Option>
                     <Option value="https://">{'https://'}</Option>
-                  </Select>
+                  </Select>,
                 )}
-              />
+              />,
             )}
           </FormItem>
           <h3 className="env-label">Header</h3>
           {this.state.header.map((item, index) => {
-            return headerTpl(item, index);
+            return headerTpl(item, index)
           })}
 
           <h3 className="env-label">Cookie</h3>
           {this.state.cookie.map((item, index) => {
-            return commonTpl(item, index, 'cookie');
+            return commonTpl(item, index, 'cookie')
           })}
 
           <h3 className="env-label">
@@ -346,20 +373,20 @@ class ProjectEnvContent extends Component {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://hellosean1025.github.io/yapi/documents/project.html#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"
+              // 文档预留
               style={{ marginLeft: 8 }}
             >
               <Tooltip title="点击查看文档">
-                <Icon type="question-circle-o" style={{fontSize: '13px'}}/>
+                <Icon type="question-circle-o" style={{ fontSize: '13px' }} />
               </Tooltip>
             </a>
           </h3>
           {this.state.global.map((item, index) => {
-            return commonTpl(item, index, 'global');
+            return commonTpl(item, index, 'global')
           })}
         </div>
-      );
-    };
+      )
+    }
 
     return (
       <div>
@@ -376,7 +403,7 @@ class ProjectEnvContent extends Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
-export default Form.create()(ProjectEnvContent);
+export default Form.create()(ProjectEnvContent)

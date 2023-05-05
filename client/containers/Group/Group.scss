@@ -1,10 +1,38 @@
 @import '../../styles/mixin.scss';
 
+
+.group-main-container {
+  min-height: calc(100vh - 80px);
+  margin-left: 16px;
+  margin-top: 16px;
+}
+
+.group-main-sider {
+  height: calc(100vh - 80px);
+  overflow: auto;
+}
+
+.group-main-content {
+  margin: 0 16px 0 16px;
+  height: calc(100vh - 80px);
+  overflow: auto;
+  background-color: #fff;
+}
+
 .g-doc {
   @include row-width-limit;
   margin: 0 auto .24rem;
 }
-.news-box .news-timeline .ant-timeline-item .ant-timeline-item-content{
+
+.news-box .news-timeline .ant-timeline-item .ant-timeline-item-content {
   min-width: 300px !important;
   width: 75% !important;
+}
+
+.group-compontent-loading-spin {
+  .ant-spin {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+  }
 }

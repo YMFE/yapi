@@ -1,4 +1,4 @@
-let hooks, pluginModule;
+let hooks, pluginModule
 
 /**
  * type component  组件
@@ -67,52 +67,6 @@ hooks = {
     }
    */
   interface_tab: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
-  /**
-   * 在运行页面或单个测试也里每次发送请求前调用
-   * 可以用插件针对某个接口的请求头或者数据进行修改或者记录
-  */
-  before_request: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
-  /**
-   * 在运行页面或单个测试也里每次发送完成后调用
-   * 返回值为响应原始值 + 
-   * {
-   *   type: 'inter' | 'case',
-   *   projectId: string,
-   *   interfaceId: string
-   * }
-  */
-  after_request: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
-  /**
-   * 在测试集里运行每次发送请求前调用
-  */
-  before_col_request: {
-    type: 'listener',
-    mulit: true,
-    listener: []
-  },
-  /**
-   * 在测试集里运行每次发送请求后调用
-   * 返回值为响应原始值 + 
-   * {
-   *   type: 'col',
-   *   caseId: string,
-   *   projectId: string,
-   *   interfaceId: string
-   * }
-  */
-  after_col_request: {
     type: 'listener',
     mulit: true,
     listener: []
@@ -245,43 +199,43 @@ hooks = {
     mulit: true,
     listener: []
   }
-};
+}
 
 function bindHook(name, listener) {
   if (!name) {
-    throw new Error('缺少hookname');
+    throw new Error('缺少hookname')
   }
   if (name in hooks === false) {
-    throw new Error('不存在的hookname');
+    throw new Error('不存在的hookname')
   }
   if (hooks[name].mulit === true) {
-    hooks[name].listener.push(listener);
+    hooks[name].listener.push(listener)
   } else {
-    hooks[name].listener = listener;
+    hooks[name].listener = listener
   }
 }
 
 function emitHook(name, ...args) {
   if (!hooks[name]) {
-    throw new Error('不存在的hook name');
+    throw new Error('不存在的hook name')
   }
-  let hook = hooks[name];
+  let hook = hooks[name]
   if (hook.mulit === true && hook.type === 'listener') {
     if (Array.isArray(hook.listener)) {
-      let promiseAll = [];
+      let promiseAll = []
       hook.listener.forEach(item => {
         if (typeof item === 'function') {
-          promiseAll.push(Promise.resolve(item.call(pluginModule, ...args)));
+          promiseAll.push(Promise.resolve(item.call(pluginModule, ...args)))
         }
-      });
-      return Promise.all(promiseAll);
+      })
+      return Promise.all(promiseAll)
     }
   } else if (hook.mulit === false && hook.type === 'listener') {
     if (typeof hook.listener === 'function') {
-      return Promise.resolve(hook.listener.call(pluginModule, ...args));
+      return Promise.resolve(hook.listener.call(pluginModule, ...args))
     }
   } else if (hook.type === 'component') {
-    return hook.listener;
+    return hook.listener
   }
 }
 
@@ -289,19 +243,19 @@ pluginModule = {
   hooks: hooks,
   bindHook: bindHook,
   emitHook: emitHook
-};
-let pluginModuleList;
+}
+let pluginModuleList
 try {
-  pluginModuleList = require('./plugin-module.js');
+  pluginModuleList = require('./plugin-module.js')
 } catch (err) {
-  pluginModuleList = {};
+  pluginModuleList = {}
 }
 
 Object.keys(pluginModuleList).forEach(plugin => {
-  if (!pluginModuleList[plugin]) return null;
+  if (!pluginModuleList[plugin]) return null
   if (pluginModuleList[plugin] && typeof pluginModuleList[plugin].module === 'function') {
-    pluginModuleList[plugin].module.call(pluginModule, pluginModuleList[plugin].options);
+    pluginModuleList[plugin].module.call(pluginModule, pluginModuleList[plugin].options)
   }
-});
+})
 
-module.exports = pluginModule;
+module.exports = pluginModule

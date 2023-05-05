@@ -1,4 +1,4 @@
 module.exports = {
   server: true,
-  client: true
+  client: true,
 }

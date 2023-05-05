@@ -1,0 +1,56 @@
+.ke-wiki-edit {
+  width: 96vw;
+  height: calc(100vh - 135px);
+  display: flex;
+  flex-direction: column;
+  margin: 0 2vw;
+  padding-bottom: 20px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 10px 0;
+    .title {
+      width: 100%;
+      margin-right: 20px;
+    }
+
+    .editor-status {
+      width: 160px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #8c8c8c;
+      margin-right: 15px;
+    }
+    .action-btn-group {
+      flex-shrink: 0;
+      button {
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.modal-upload {
+  .upload-file {
+    .file-state {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .file-upload-btn {
+      padding: 0 8px;
+    }
+    .ant-upload-list-item {
+      float: left;
+      width: 228px;
+      margin-right: 8px;
+    }
+    .ant-upload-animate-enter {
+      animation-name: uploadAnimateInlineIn;
+    }
+    .ant-upload-animate-leave {
+      animation-name: uploadAnimateInlineOut;
+    }
+  }
+}

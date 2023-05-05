@@ -1,8 +1,8 @@
-const yapi = require('./yapi.js');
-const plugin_path = yapi.path.join(yapi.WEBROOT, 'node_modules');
-const plugin_system_path = yapi.path.join(yapi.WEBROOT, 'exts');
-const initPlugins = require('../common/plugin.js').initPlugins;
-var extConfig = require('../common/config.js').exts;
+const yapi = require('./yapi.js')
+const plugin_path = yapi.path.join(yapi.WEBROOT, 'node_modules')
+const plugin_system_path = yapi.path.join(yapi.WEBROOT, 'exts')
+const initPlugins = require('../common/plugin.js').initPlugins
+var extConfig = require('../common/config.js').exts
 
 /**
  * 钩子配置
@@ -15,7 +15,7 @@ var hooks = {
    */
   third_login: {
     type: 'single',
-    listener: null
+    listener: null,
   },
   /**
    * 客户端增加接口成功后触发
@@ -23,7 +23,7 @@ var hooks = {
    */
   interface_add: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端删除接口成功后触发
@@ -31,7 +31,7 @@ var hooks = {
    */
   interface_del: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端更新接口成功后触发
@@ -39,7 +39,7 @@ var hooks = {
    */
   interface_update: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端获取接口数据列表
@@ -47,7 +47,7 @@ var hooks = {
    */
   interface_list: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端获取一条接口信息触发
@@ -55,7 +55,7 @@ var hooks = {
    */
   interface_get: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端增加一个新项目
@@ -63,7 +63,7 @@ var hooks = {
    */
   project_add: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端更新一个新项目
@@ -71,7 +71,7 @@ var hooks = {
    */
   project_up: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端获取一个项目
@@ -79,7 +79,7 @@ var hooks = {
    */
   project_get: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 客户端删除删除一个项目
@@ -87,7 +87,7 @@ var hooks = {
    */
   project_del: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
      * 导出 markdown 数据
@@ -102,7 +102,7 @@ var hooks = {
      */
   export_markdown: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
      * MockServer生成mock数据后触发
@@ -117,7 +117,7 @@ var hooks = {
      */
   mock_after: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 增加路由的钩子
@@ -143,7 +143,7 @@ var hooks = {
    */
   add_router: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
   /**
    * 增加websocket路由的钩子
@@ -169,40 +169,27 @@ var hooks = {
    */
   add_ws_router: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
 
   import_data: {
     type: 'multi',
-    listener: []
+    listener: [],
   },
-
-  /**
-   * addNoticePlugin(config)
-   * 
-   * config.weixin = {
-   *    title: 'wechat',
-   *    hander: (emails, title, content)=> {...}
-   * }
-   */
-  addNotice:{
-    type: 'multi',
-    listener: []
-  }
-};
+}
 
 function bindHook(name, listener) {
-  if (!name) throw new Error('缺少hookname');
+  if (!name) throw new Error('缺少hookname')
   if (name in hooks === false) {
-    throw new Error('不存在的hookname');
+    throw new Error('不存在的hookname')
   }
   if (hooks[name].type === 'multi') {
-    hooks[name].listener.push(listener);
+    hooks[name].listener.push(listener)
   } else {
     if (typeof hooks[name].listener === 'function') {
-      throw new Error('重复绑定singleHook(' + name + '), 请检查');
+      throw new Error('重复绑定singleHook(' + name + '), 请检查')
     }
-    hooks[name].listener = listener;
+    hooks[name].listener = listener
   }
 }
 
@@ -213,61 +200,71 @@ function bindHook(name, listener) {
  */
 function emitHook(name) {
   if (hooks[name] && typeof hooks[name] === 'object') {
-    let args = Array.prototype.slice.call(arguments, 1);
-    if (hooks[name].type === 'single' && typeof hooks[name].listener === 'function') {
-      return Promise.resolve(hooks[name].listener.apply(yapi, args));
+    let args = Array.prototype.slice.call(arguments, 1)
+    if (
+      hooks[name].type === 'single' &&
+      typeof hooks[name].listener === 'function'
+    ) {
+      return Promise.resolve(hooks[name].listener.apply(yapi, args))
     }
-    let promiseAll = [];
+    let promiseAll = []
     if (Array.isArray(hooks[name].listener)) {
-      let listenerList = hooks[name].listener;
+      let listenerList = hooks[name].listener
       for (let i = 0, l = listenerList.length; i < l; i++) {
-        promiseAll.push(Promise.resolve(listenerList[i].apply(yapi, args)));
+        promiseAll.push(Promise.resolve(listenerList[i].apply(yapi, args)))
       }
     }
-    return Promise.all(promiseAll);
+    return Promise.all(promiseAll)
   }
 }
 
-yapi.bindHook = bindHook;
-yapi.emitHook = emitHook;
-yapi.emitHookSync = emitHook;
+yapi.bindHook = bindHook
+yapi.emitHook = emitHook
+yapi.emitHookSync = emitHook
 
-let pluginsConfig = initPlugins(yapi.WEBCONFIG.plugins, 'plugin');
+let pluginsConfig = initPlugins(yapi.WEBCONFIG.plugins, 'plugin')
 pluginsConfig.forEach(plugin => {
-  if (!plugin || plugin.enable === false || plugin.server === false) return null;
+  if (!plugin || plugin.enable === false || plugin.server === false) return null
 
   if (
     !yapi.commons.fileExist(
-      yapi.path.join(plugin_path, 'yapi-plugin-' + plugin.name + '/server.js')
+      yapi.path.join(plugin_path, 'yapi-plugin-' + plugin.name + '/server.js'),
     )
   ) {
-    throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
+    throw new Error(
+      `config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`,
+    )
   }
   let pluginModule = require(yapi.path.join(
     plugin_path,
-    'yapi-plugin-' + plugin.name + '/server.js'
-  ));
-  pluginModule.call(yapi, plugin.options);
-});
+    'yapi-plugin-' + plugin.name + '/server.js',
+  ))
+  pluginModule.call(yapi, plugin.options)
+})
 
-extConfig = initPlugins(extConfig, 'ext');
+extConfig = initPlugins(extConfig, 'ext')
 
 extConfig.forEach(plugin => {
-  if (!plugin || plugin.enable === false || plugin.server === false) return null;
+  if (!plugin || plugin.enable === false || plugin.server === false) return null
 
   if (
     !yapi.commons.fileExist(
-      yapi.path.join(plugin_system_path, 'yapi-plugin-' + plugin.name + '/server.js')
+      yapi.path.join(
+        plugin_system_path,
+        'yapi-plugin-' + plugin.name + '/server.js',
+      ),
     )
   ) {
-    throw new Error(`config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`);
+    throw new Error(
+      `config.json配置了插件${plugin},但plugins目录没有找到此插件，请安装此插件`,
+    )
   }
   let pluginModule = require(yapi.path.join(
     plugin_system_path,
-    'yapi-plugin-' + plugin.name + '/server.js'
-  ));
-  pluginModule.call(yapi, plugin.options);
-});
+    'yapi-plugin-' + plugin.name + '/server.js',
+  ))
+  pluginModule.call(yapi, plugin.options)
+})
 
 //delete bindHook方法，避免误操作
-delete yapi.bindHook;
+delete yapi.bindHook

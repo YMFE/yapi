@@ -2,34 +2,34 @@ module.exports = {
   PAGE_LIMIT: 10, // 默认每页展示10条数据
   NAME_LIMIT: 100, // 限制名称的字符长度(中文算两个长度)
   HTTP_METHOD: {
-    'GET': {
+    GET: {
       request_body: false,
-      default_tab: 'query'
+      default_tab: 'query',
     },
-    'POST': {
+    POST: {
       request_body: true,
-      default_tab: 'body'
+      default_tab: 'body',
     },
-    'PUT': {
+    PUT: {
       request_body: true,
-      default_tab: 'body'
+      default_tab: 'body',
     },
-    'DELETE': {
+    DELETE: {
       request_body: true,
-      default_tab: 'body'
+      default_tab: 'body',
     },
-    'HEAD': {
+    HEAD: {
       request_body: false,
-      default_tab: 'query'
+      default_tab: 'query',
     },
-    'OPTIONS': {
+    OPTIONS: {
       request_body: false,
-      default_tab: 'query'
+      default_tab: 'query',
     },
-    'PATCH': {
+    PATCH: {
       request_body: true,
-      default_tab: 'body'
-    }
+      default_tab: 'body',
+    },
   },
   PROJECT_COLOR: {
     blue: '#2395f1',
@@ -39,7 +39,7 @@ module.exports = {
     pink: '#f5317f',
     cyan: '#00a2ae',
     gray: '#bfbfbf',
-    purple: '#7265e6'
+    purple: '#7265e6',
   },
   PROJECT_ICON: [
     'code-o',
@@ -83,38 +83,88 @@ module.exports = {
     'api',
     'fork',
     'android-o',
-    'apple-o'
+    'apple-o',
   ],
-  HTTP_REQUEST_HEADER: ["Accept", "Accept-Charset", "Accept-Encoding", "Accept-Language", "Accept-Datetime", "Authorization", "Cache-Control", "Connection", "Cookie", "Content-Disposition", "Content-Length", "Content-MD5", "Content-Type", "Date", "Expect", "From", "Host", "If-Match", "If-Modified-Since", "If-None-Match", "If-Range", "If-Unmodified-Since", "Max-Forwards", "Origin", "Pragma", "Proxy-Authorization", "Range", "Referer", "TE", "User-Agent", "Upgrade", "Via", "Warning", "X-Requested-With", "DNT", "X-Forwarded-For", "X-Forwarded-Host", "X-Forwarded-Proto", "Front-End-Https", "X-Http-Method-Override", "X-ATT-DeviceId", "X-Wap-Profile", "Proxy-Connection", "X-UIDH", "X-Csrf-Token"],
+  HTTP_REQUEST_HEADER: [
+    'Accept',
+    'Accept-Charset',
+    'Accept-Encoding',
+    'Accept-Language',
+    'Accept-Datetime',
+    'Authorization',
+    'Cache-Control',
+    'Connection',
+    'Cookie',
+    'Content-Disposition',
+    'Content-Length',
+    'Content-MD5',
+    'Content-Type',
+    'Date',
+    'Expect',
+    'From',
+    'Host',
+    'If-Match',
+    'If-Modified-Since',
+    'If-None-Match',
+    'If-Range',
+    'If-Unmodified-Since',
+    'Max-Forwards',
+    'Origin',
+    'Pragma',
+    'Proxy-Authorization',
+    'Range',
+    'Referer',
+    'TE',
+    'User-Agent',
+    'Upgrade',
+    'Via',
+    'Warning',
+    'X-Requested-With',
+    'DNT',
+    'X-Forwarded-For',
+    'X-Forwarded-Host',
+    'X-Forwarded-Proto',
+    'Front-End-Https',
+    'X-Http-Method-Override',
+    'X-ATT-DeviceId',
+    'X-Wap-Profile',
+    'Proxy-Connection',
+    'X-UIDH',
+    'X-Csrf-Token',
+  ],
   METHOD_COLOR: {
     post: {
-      bac: "#d2eafb",
-      color: "#108ee9"
+      bac: '#d2eafb',
+      color: '#108ee9',
     },
     get: {
-      bac: "#cfefdf",
-      color: "#00a854"
+      bac: '#cfefdf',
+      color: '#00a854',
     },
     put: {
-      bac: "#fff3cf",
-      color: "#ffbf00"
+      bac: '#fff3cf',
+      color: '#ffbf00',
     },
     delete: {
-      bac: "#fcdbd9",
-      color: "#f04134"
+      bac: '#fcdbd9',
+      color: '#f04134',
     },
     head: {
-      bac: "#fff3cf",
-      color: "#ffbf00"
+      bac: '#fff3cf',
+      color: '#ffbf00',
     },
     patch: {
-      bac: "#fff3cf",
-      color: "#ffbf00"
+      bac: '#fff3cf',
+      color: '#ffbf00',
     },
     options: {
-      bac: "#fff3cf",
-      color: "#ffbf00"
-    }
+      bac: '#fde3cf',
+      color: '#f56a00',
+    },
+    dubbo: {
+      bac: '#e4e2fa',
+      color: '#7265e6',
+    },
   },
   MOCK_SOURCE: [
     { name: '字符串', mock: '@string' },
@@ -128,12 +178,12 @@ module.exports = {
     { name: 'id', mock: '@id' },
     { name: 'guid', mock: '@guid' },
     { name: '当前时间', mock: '@now' },
-    { name: '时间戳', mock: '@timestamp'},
+    { name: '时间戳', mock: '@timestamp' },
     { name: '日期', mock: '@date' },
     { name: '时间', mock: '@time' },
     { name: '日期时间', mock: '@datetime' },
     { name: '图片连接', mock: '@image' },
-    { name: '图片data', mock: "@imageData" },
+    { name: '图片data', mock: '@imageData' },
     { name: '颜色', mock: '@color' },
     { name: '颜色hex', mock: '@hex' },
     { name: '颜色rgba', mock: '@rgba' },
@@ -163,11 +213,11 @@ module.exports = {
     { name: '转换为小写', mock: '@lower' },
     { name: '挑选（枚举）', mock: '@pick' },
     { name: '打乱数组', mock: '@shuffle' },
-    { name: '协议', mock: '@protocol' }
+    { name: '协议', mock: '@protocol' },
   ],
   IP_REGEXP: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$/,
   docHref: {
-    adv_mock_case: 'https://hellosean1025.github.io/yapi/documents/mock.html',
-    adv_mock_script: 'https://hellosean1025.github.io/yapi/documents/adv_mock.html'
-  }
-};
+    adv_mock_case: '文档预留',
+    adv_mock_script: '文档预留',
+  },
+}

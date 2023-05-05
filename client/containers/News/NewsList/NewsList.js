@@ -1,8 +1,8 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Menu } from 'antd';
-import { fetchNewsData } from '../../../reducer/modules/news.js';
+import React, { PureComponent as Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Menu } from 'antd'
+import { fetchNewsData } from '../../../reducer/modules/news.js'
 
 const logList = [
   {
@@ -17,14 +17,13 @@ const logList = [
   {
     name: '项目'
   }
-];
+]
 @connect(
   state => {
-    // console.log(state);
     return {
       uid: state.user.uid + '',
       newsData: state.news.newsData
-    };
+    }
   },
   {
     fetchNewsData
@@ -38,22 +37,21 @@ class NewsList extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       selectedKeys: 0
-    };
+    }
   }
   getLogData(e) {
     // page,size,logId
-    // console.log(e.key);
     this.setState({
       selectedKeys: +e.key
-    });
-    const that = this;
-    this.props.setLoading(true);
+    })
+    const that = this
+    this.props.setLoading(true)
     this.props.fetchNewsData(+this.props.uid, 0, 5).then(function() {
-      that.props.setLoading(false);
-    });
+      that.props.setLoading(false)
+    })
   }
   render() {
     return (
@@ -69,12 +67,12 @@ class NewsList extends Component {
               <Menu.Item key={i} className="log-item">
                 {item.name}
               </Menu.Item>
-            );
+            )
           })}
         </Menu>
       </div>
-    );
+    )
   }
 }
 
-export default NewsList;
+export default NewsList

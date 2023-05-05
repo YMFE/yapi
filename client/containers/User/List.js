@@ -1,20 +1,20 @@
-import React, { PureComponent as Component } from 'react';
-import { formatTime } from '../../common.js';
-import { Link } from 'react-router-dom';
-import { setBreadcrumb } from '../../reducer/modules/user';
+import React, { PureComponent as Component } from 'react'
+import { formatTime } from '../../common.js'
+import { Link } from 'react-router-dom'
+import { setBreadcrumb } from '../../reducer/modules/user'
 //import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Table, Popconfirm, message, Input } from 'antd';
-import axios from 'axios';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Table, Popconfirm, message, Input } from 'antd'
+import axios from 'axios'
 
-const Search = Input.Search;
-const limit = 20;
+const Search = Input.Search
+const limit = 20
 @connect(
   state => {
     return {
       curUserRole: state.user.role
-    };
+    }
   },
   {
     setBreadcrumb
@@ -22,14 +22,14 @@ const limit = 20;
 )
 class List extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       data: [],
       total: null,
       current: 1,
       backups: [],
       isSearch: false
-    };
+    }
   }
   static propTypes = {
     setBreadcrumb: PropTypes.func,
@@ -41,31 +41,31 @@ class List extends Component {
         current: current
       },
       this.getUserList
-    );
+    )
   };
 
   getUserList() {
     axios.get('/api/user/list?page=' + this.state.current + '&limit=' + limit).then(res => {
-      let result = res.data;
+      let result = res.data
 
       if (result.errcode === 0) {
-        let list = result.data.list;
-        let total = result.data.count;
+        let list = result.data.list
+        let total = result.data.count
         list.map((item, index) => {
-          item.key = index;
-          item.up_time = formatTime(item.up_time);
-        });
+          item.key = index
+          item.up_time = formatTime(item.up_time)
+        })
         this.setState({
           data: list,
           total: total,
           backups: list
-        });
+        })
       }
-    });
+    })
   }
 
   componentDidMount() {
-    this.getUserList();
+    this.getUserList()
   }
 
   confirm = uid => {
@@ -76,62 +76,62 @@ class List extends Component {
       .then(
         res => {
           if (res.data.errcode === 0) {
-            message.success('已删除此用户');
-            let userlist = this.state.data;
+            message.success('已删除此用户')
+            let userlist = this.state.data
             userlist = userlist.filter(item => {
-              return item._id != uid;
-            });
+              return item._id != uid
+            })
             this.setState({
               data: userlist
-            });
+            })
           } else {
-            message.error(res.data.errmsg);
+            message.error(res.data.errmsg)
           }
         },
         err => {
-          message.error(err.message);
+          message.error(err.message)
         }
-      );
+      )
   };
 
-  async componentWillMount() {
-    this.props.setBreadcrumb([{ name: '用户管理' }]);
+  async UNSAFE_componentWillMount() {
+    this.props.setBreadcrumb([{ name: '用户管理' }])
   }
 
   handleSearch = value => {
-    let params = { q: value };
+    let params = { q: value }
     if (params.q !== '') {
       axios.get('/api/user/search', { params }).then(data => {
-        let userList = [];
+        let userList = []
 
-        data = data.data.data;
+        data = data.data.data
         if (data) {
           data.forEach(v =>
             userList.push({
               ...v,
               _id: v.uid
             })
-          );
+          )
         }
 
         this.setState({
           data: userList,
           isSearch: true
-        });
-      });
+        })
+      })
     } else {
       this.setState({
         data: this.state.backups,
         isSearch: false
-      });
+      })
     }
   };
 
   render() {
-    const role = this.props.curUserRole;
-    let data = [];
+    const role = this.props.curUserRole
+    let data = []
     if (role === 'admin') {
-      data = this.state.data;
+      data = this.state.data
     }
     let columns = [
       {
@@ -140,13 +140,18 @@ class List extends Component {
         key: 'username',
         width: 180,
         render: (username, item) => {
-          return <Link to={'/user/profile/' + item._id}>{item.username}</Link>;
+          return <Link to={'/user/profile/' + item._id}>{item.username}</Link>
         }
       },
       {
         title: 'Email',
         dataIndex: 'email',
         key: 'email'
+      },
+      {
+        title: 'Ucid',
+        dataIndex: 'ucid',
+        key: 'ucid'
       },
       {
         title: '用户角色',
@@ -171,7 +176,7 @@ class List extends Component {
               <Popconfirm
                 title="确认删除此用户?"
                 onConfirm={() => {
-                  this.confirm(item._id);
+                  this.confirm(item._id)
                 }}
                 okText="确定"
                 cancelText="取消"
@@ -181,30 +186,30 @@ class List extends Component {
                 </a>
               </Popconfirm>
             </span>
-          );
+          )
         }
       }
-    ];
+    ]
 
     columns = columns.filter(item => {
       if (item.key === 'action' && role !== 'admin') {
-        return false;
+        return false
       }
-      return true;
-    });
+      return true
+    })
 
     const pageConfig = {
       total: this.state.total,
       pageSize: limit,
       current: this.state.current,
       onChange: this.changePage
-    };
+    }
 
     const defaultPageConfig = {
       total: this.state.data.length,
       pageSize: limit,
       current: 1
-    };
+    }
 
     return (
       <section className="user-table">
@@ -224,8 +229,8 @@ class List extends Component {
           dataSource={data}
         />
       </section>
-    );
+    )
   }
 }
 
-export default List;
+export default List

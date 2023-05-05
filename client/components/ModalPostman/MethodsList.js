@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Row, Icon, Input, Select, Tooltip } from 'antd';
-import _ from 'underscore';
-const Option = Select.Option;
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Row, Icon, Input, Select, Tooltip } from 'antd'
+import _ from 'underscore'
+const Option = Select.Option
 
 // 深拷贝
 function deepEqual(state) {
-  return JSON.parse(JSON.stringify(state));
+  return JSON.parse(JSON.stringify(state))
 }
 
 const METHODS_LIST = [
@@ -21,7 +21,7 @@ const METHODS_LIST = [
   { name: 'lconcat', type: true, component: 'input', params: [], desc: '左连接' },
   { name: 'upper', type: false, desc: '所有字母变成大写' },
   { name: 'number', type: false, desc: '字符串转换为数字类型' }
-];
+]
 
 class MethodsList extends Component {
   static propTypes = {
@@ -34,32 +34,32 @@ class MethodsList extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       list: METHODS_LIST,
       moreFlag: true
-    };
+    }
   }
 
   showMore = () => {
     this.setState({
       moreFlag: false
-    });
+    })
   };
 
   componentDidMount() {
-    var index = _.findIndex(METHODS_LIST, { name: this.props.clickValue });
+    var index = _.findIndex(METHODS_LIST, { name: this.props.clickValue })
 
-    let moreFlag = index > 3 ? false : true;
+    let moreFlag = index > 3 ? false : true
     this.setState({
       moreFlag
-    });
+    })
   }
 
   inputComponent = props => {
-    let clickIndex = props.clickIndex;
-    let paramsIndex = props.paramsIndex;
-    let params = props.params;
+    let clickIndex = props.clickIndex
+    let paramsIndex = props.paramsIndex
+    let params = props.params
     return (
       <Input
         size="small"
@@ -67,13 +67,13 @@ class MethodsList extends Component {
         value={params[0]}
         onChange={e => this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 0)}
       />
-    );
+    )
   };
 
   doubleInputComponent = props => {
-    let clickIndex = props.clickIndex;
-    let paramsIndex = props.paramsIndex;
-    let params = props.params;
+    let clickIndex = props.clickIndex
+    let paramsIndex = props.paramsIndex
+    let params = props.params
 
     return (
       <div>
@@ -90,14 +90,14 @@ class MethodsList extends Component {
           onChange={e => this.handleParamsChange(e.target.value, clickIndex, paramsIndex, 1)}
         />
       </div>
-    );
+    )
   };
 
   selectComponent = props => {
-    const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512'];
-    let clickIndex = props.clickIndex;
-    let paramsIndex = props.paramsIndex;
-    let params = props.params;
+    const subname = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512']
+    let clickIndex = props.clickIndex
+    let paramsIndex = props.paramsIndex
+    let params = props.params
     return (
       <Select
         value={params[0] || 'sha1'}
@@ -111,20 +111,20 @@ class MethodsList extends Component {
             <Option value={item} key={index}>
               {item}
             </Option>
-          );
+          )
         })}
       </Select>
-    );
+    )
   };
 
   // 处理参数输入
   handleParamsChange(value, clickIndex, paramsIndex, index) {
-    let newList = deepEqual(this.state.list);
-    newList[paramsIndex].params[index] = value;
+    let newList = deepEqual(this.state.list)
+    newList[paramsIndex].params[index] = value
     this.setState({
       list: newList
-    });
-    this.props.paramsInput(value, clickIndex, index);
+    })
+    this.props.paramsInput(value, clickIndex, index)
   }
 
   // 组件选择
@@ -133,23 +133,23 @@ class MethodsList extends Component {
       clickIndex: clickIndex,
       paramsIndex: index,
       params
-    };
+    }
     switch (item.component) {
       case 'select':
-        return this.selectComponent(query);
+        return this.selectComponent(query)
       case 'input':
-        return this.inputComponent(query);
+        return this.inputComponent(query)
       case 'doubleInput':
-        return this.doubleInputComponent(query);
+        return this.doubleInputComponent(query)
       default:
-        break;
+        break
     }
   }
 
   render() {
-    const { list, moreFlag } = this.state;
-    const { click, clickValue, clickIndex, params } = this.props;
-    let showList = moreFlag ? list.slice(0, 4) : list;
+    const { list, moreFlag } = this.state
+    const { click, clickValue, clickIndex, params } = this.props
+    let showList = moreFlag ? list.slice(0, 4) : list
 
     return (
       <div className="modal-postman-form-method">
@@ -176,7 +176,7 @@ class MethodsList extends Component {
                   )}
               </span>
             </Row>
-          );
+          )
         })}
         {moreFlag && (
           <div className="show-more" onClick={this.showMore}>
@@ -185,8 +185,8 @@ class MethodsList extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default MethodsList;
+export default MethodsList

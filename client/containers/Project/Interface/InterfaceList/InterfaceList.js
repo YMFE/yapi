@@ -1,22 +1,22 @@
-import React, { PureComponent as Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Table, Button, Modal, message, Tooltip, Select, Icon } from 'antd';
-import AddInterfaceForm from './AddInterfaceForm';
+import React, { PureComponent as Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import { Table, Modal, message, Tooltip, Select, Icon } from 'antd'
+import AddInterfaceForm from './AddInterfaceForm'
 import {
   fetchInterfaceListMenu,
   fetchInterfaceList,
   fetchInterfaceCatList
-} from '../../../../reducer/modules/interface.js';
-import { getProject } from '../../../../reducer/modules/project.js';
-import { Link } from 'react-router-dom';
-import variable from '../../../../constants/variable';
-import './Edit.scss';
-import Label from '../../../../components/Label/Label.js';
+} from '../../../../reducer/modules/interface.js'
+import { getProject } from '../../../../reducer/modules/project.js'
+import { Link } from 'react-router-dom'
+import variable from '../../../../constants/variable'
+import './Edit.scss'
+import Label from '../../../../components/Label/Label.js'
 
-const Option = Select.Option;
-const limit = 20;
+const Option = Select.Option
+const limit = 20
 
 @connect(
   state => {
@@ -28,7 +28,7 @@ const limit = 20;
       catTableList: state.inter.catTableList,
       totalCount: state.inter.totalCount,
       count: state.inter.count
-    };
+    }
   },
   {
     fetchInterfaceListMenu,
@@ -39,15 +39,15 @@ const limit = 20;
 )
 class InterfaceList extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       visible: false,
       data: [],
-      filteredInfo: {},
       catid: null,
       total: null,
-      current: 1
-    };
+      current: 1,
+      loading: true
+    }
   }
 
   static propTypes = {
@@ -67,32 +67,42 @@ class InterfaceList extends Component {
   };
 
   handleRequest = async props => {
-    const { params } = props.match;
+    const { params } = props.match
     if (!params.actionId) {
-      let projectId = params.id;
+      let projectId = params.id
       this.setState({
         catid: null
-      });
+      })
       let option = {
         page: this.state.current,
         limit,
-        project_id: projectId,
-        status: this.state.filteredInfo.status,
-        tag: this.state.filteredInfo.tag
-      };
-      await this.props.fetchInterfaceList(option);
+        project_id: projectId
+      }
+      await this.props.fetchInterfaceList(option).then(res=>{
+        if(res.payload.data && res.payload.data.data){
+          this.setState({
+            loading: false
+          })
+        }
+      })
     } else if (isNaN(params.actionId)) {
-      let catid = params.actionId.substr(4);
-      this.setState({catid: +catid});
+      let catid = params.actionId.substr(4)
+      this.setState({ catid: +catid })
       let option = {
         page: this.state.current,
         limit,
-        catid,
-        status: this.state.filteredInfo.status,
-        tag: this.state.filteredInfo.tag
-      };
-      await this.props.fetchInterfaceCatList(option);
+        catid
+      }
+
+      await this.props.fetchInterfaceCatList(option).then(res=>{
+        if(res.payload.data && res.payload.data.data){
+          this.setState({
+            loading: false
+          })
+        }
+      })
     }
+
   };
 
   // 更新分类简介
@@ -101,71 +111,69 @@ class InterfaceList extends Component {
       catid: this.state.catid,
       name: name,
       desc: desc
-    };
+    }
 
     axios.post('/api/interface/up_cat', params).then(async res => {
       if (res.data.errcode !== 0) {
-        return message.error(res.data.errmsg);
+        return message.error(res.data.errmsg)
       }
-      let project_id = this.props.match.params.id;
-      await this.props.getProject(project_id);
-      await this.props.fetchInterfaceListMenu(project_id);
-      message.success('接口集合简介更新成功');
-    });
+      let project_id = this.props.match.params.id
+      await this.props.getProject(project_id)
+      await this.props.fetchInterfaceListMenu(project_id)
+      message.success('接口集合简介更新成功')
+    })
   };
-
   handleChange = (pagination, filters, sorter) => {
     this.setState({
-      current: pagination.current || 1,
-      sortedInfo: sorter,
-      filteredInfo: filters
-    }, () => this.handleRequest(this.props));
+      sortedInfo: sorter
+    })
   };
 
-  componentWillMount() {
-    this.actionId = this.props.match.params.actionId;
-    this.handleRequest(this.props);
+  UNSAFE_componentWillMount() {
+    this.actionId = this.props.match.params.actionId
+    this.handleRequest(this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
-    let _actionId = nextProps.match.params.actionId;
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    let _actionId = nextProps.match.params.actionId
 
     if (this.actionId !== _actionId) {
-      this.actionId = _actionId;
+      this.actionId = _actionId
       this.setState(
         {
-          current: 1
+          current: 1,
+          loading: true
         },
         () => this.handleRequest(nextProps)
-      );
+      )
     }
   }
 
   handleAddInterface = data => {
-    data.project_id = this.props.curProject._id;
+    data.project_id = this.props.curProject._id
     axios.post('/api/interface/add', data).then(res => {
       if (res.data.errcode !== 0) {
-        return message.error(`${res.data.errmsg}, 你可以在左侧的接口列表中对接口进行删改`);
+        return message.error(`${res.data.errmsg}, 你可以在左侧的接口列表中对接口进行删改`)
       }
-      message.success('接口添加成功');
-      let interfaceId = res.data.data._id;
-      this.props.history.push('/project/' + data.project_id + '/interface/api/' + interfaceId);
-      this.props.fetchInterfaceListMenu(data.project_id);
-    });
+      message.success('接口添加成功')
+      let interfaceId = res.data.data._id
+      this.props.history.push('/project/' + data.project_id + '/interface/api/' + interfaceId)
+      this.props.fetchInterfaceListMenu(data.project_id)
+    })
   };
 
   changeInterfaceCat = async (id, catid) => {
     const params = {
       id: id,
       catid
-    };
-    let result = await axios.post('/api/interface/up', params);
+    }
+    let result = await axios.post('/api/interface/up', params)
     if (result.data.errcode === 0) {
-      message.success('修改成功');
-      this.handleRequest(this.props);
-      this.props.fetchInterfaceListMenu(this.props.curProject._id);
+      message.success('修改成功')
+      this.handleRequest(this.props)
+      this.props.fetchInterfaceListMenu(this.props.curProject._id)
     } else {
-      message.error(result.data.errmsg);
+      message.error(result.data.errmsg)
     }
   };
 
@@ -173,106 +181,120 @@ class InterfaceList extends Component {
     const params = {
       id: value.split('-')[0],
       status: value.split('-')[1]
-    };
-    let result = await axios.post('/api/interface/up', params);
+    }
+    let result = await axios.post('/api/interface/up', params)
     if (result.data.errcode === 0) {
-      message.success('修改成功');
-      this.handleRequest(this.props);
+      message.success('修改成功')
+      this.handleRequest(this.props)
     } else {
-      message.error(result.data.errmsg);
+      message.error(result.data.errmsg)
     }
   };
 
-  //page change will be processed in handleChange by pagination
-  // changePage = current => {
-  //   if (this.state.current !== current) {
-  //     this.setState(
-  //       {
-  //         current: current
-  //       },
-  //       () => this.handleRequest(this.props)
-  //     );
-  //   }
-  // };
+  changePage = current => {
+    this.setState(
+      {
+        current: current
+      },
+      () => this.handleRequest(this.props)
+    )
+  };
+
+  confirm = async () => {
+    const {params} = this.props.match
+
+    const projectId = params.id
+    let catid = ''
+    if (params.actionId) {
+        catid = params.actionId.substr(4)
+    }
+
+    const param = {
+        project_id: projectId,
+        catid: catid
+    }
+    let result = await axios.post('/api/interface/batch_up_mock', param)
+
+    if (result.data.errcode === 0) {
+        message.success('修改成功')
+        this.handleRequest(this.props)
+        this.props.fetchInterfaceListMenu(this.props.curProject._id)
+    } else {
+        message.error(result.data.errmsg)
+    }
+}
 
   render() {
-    let tag = this.props.curProject.tag;
-    let tagFilter = tag.map(item => {
-      return {text: item.name, value: item.name};
-    });
+    let tag = this.props.curProject.tag
+    let filter = tag.map(item => {
+      return { text: item.name, value: item.name }
+    })
 
     const columns = [
       {
         title: '接口名称',
         dataIndex: 'title',
         key: 'title',
-        width: 30,
+        width: 150,
+        fixed: 'left',
         render: (text, item) => {
           return (
             <Link to={'/project/' + item.project_id + '/interface/api/' + item._id}>
               <span className="path">{text}</span>
             </Link>
-          );
+          )
         }
       },
       {
         title: '接口路径',
         dataIndex: 'path',
         key: 'path',
-        width: 50,
         render: (item, record) => {
-          const path = this.props.curProject.basepath + item;
+          const path = this.props.curProject.basepath + item
+          const r_path = `接口: ${record.r_facade} 方法: ${record.r_method}`
           let methodColor =
             variable.METHOD_COLOR[record.method ? record.method.toLowerCase() : 'get'] ||
-            variable.METHOD_COLOR['get'];
-          return (
-            <div>
-              <span
-                style={{ color: methodColor.color, backgroundColor: methodColor.bac }}
-                className="colValue"
-              >
-                {record.method}
-              </span>
-              <Tooltip title="开放接口" placement="topLeft">
-                <span>{record.api_opened && <Icon className="opened" type="eye-o" />}</span>
-              </Tooltip>
-              <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
-                <span className="path">{path}</span>
-              </Tooltip>
-            </div>
-          );
-        }
-      },
-      {
-        title: '接口分类',
-        dataIndex: 'catid',
-        key: 'catid',
-        width: 28,
-        render: (item, record) => {
-          return (
-            <Select
-              value={item + ''}
-              className="select path"
-              onChange={catid => this.changeInterfaceCat(record._id, catid)}
-            >
-              {this.props.catList.map(cat => {
-                return (
-                  <Option key={cat.id + ''} value={cat._id + ''}>
-                    <span>{cat.name}</span>
-                  </Option>
-                );
-              })}
-            </Select>
-          );
-        }
+            variable.METHOD_COLOR['get']
+            if(record.interface_type === 'http') {
+              return (
+                <div>
+                  <span
+                    style={{ color: methodColor.color, backgroundColor: methodColor.bac }}
+                    className="colValue"
+                  >
+                    {record.method}
+                  </span>
+                  <Tooltip title="开放接口" placement="topLeft">
+                    <span>{record.api_opened && <Icon className="opened" type="eye-o" />}</span>
+                  </Tooltip>
+                  <Tooltip title={path} placement="topLeft" overlayClassName="toolTip">
+                    <span className="path">{path}</span>
+                  </Tooltip>
+                </div>)
+            } else {
+              methodColor = variable.METHOD_COLOR['dubbo']
+              return (
+                <div>
+                  <span
+                    style={{ color: methodColor.color, backgroundColor: methodColor.bac }}
+                    className="colValue"
+                  >DUBBO</span>
+                  <Tooltip title={r_path} placement="topLeft" overlayClassName="toolTip">
+                    <span className="path">{r_path}</span>
+                  </Tooltip>
+                </div>)
+            }
+          }
       },
       {
         title: '状态',
         dataIndex: 'status',
+        width: 100,
+        align: 'center',
         key: 'status',
-        width: 24,
+        fixed: 'right',
         render: (text, record) => {
-          const key = record.key;
+          const key = record.key
           return (
             <Select
               value={key + '-' + text}
@@ -286,7 +308,7 @@ class InterfaceList extends Component {
                 <span className="tag-status undone">未完成</span>
               </Option>
             </Select>
-          );
+          )
         },
         filters: [
           {
@@ -301,30 +323,32 @@ class InterfaceList extends Component {
         onFilter: (value, record) => record.status.indexOf(value) === 0
       },
       {
-        title: 'tag',
+        title: 'Tag',
         dataIndex: 'tag',
         key: 'tag',
-        width: 14,
+        align: 'center',
+        width: 100,
+        fixed: 'right',
         render: text => {
-          let textMsg = text.length > 0 ? text.join('\n') : '未设置';
-          return <div className="table-desc">{textMsg}</div>;
+          let textMsg = text.length > 0 ? text.join('\n') : '未设置'
+          return <div className="table-desc">{textMsg}</div>
         },
-        filters: tagFilter,
+        filters: filter,
         onFilter: (value, record) => {
-          return record.tag.indexOf(value) >= 0;
+          return record.tag.indexOf(value) >= 0
         }
       }
-    ];
+    ]
     let intername = '',
-      desc = '';
-    let cat = this.props.curProject ? this.props.curProject.cat : [];
+      desc = ''
+    let cat = this.props.curProject ? this.props.curProject.cat : []
 
     if (cat) {
       for (let i = 0; i < cat.length; i++) {
         if (cat[i]._id === this.state.catid) {
-          intername = cat[i].name;
-          desc = cat[i].desc;
-          break;
+          intername = cat[i].name
+          desc = cat[i].desc
+          break
         }
       }
     }
@@ -332,47 +356,35 @@ class InterfaceList extends Component {
     //   item.key = item._id;
     //   return item;
     // }) : [];
-    let data = [];
-    let total = 0;
-    const { params } = this.props.match;
+    let data = []
+    let total = 0
+    const { params } = this.props.match
     if (!params.actionId) {
-      data = this.props.totalTableList;
-      total = this.props.totalCount;
+      data = this.props.totalTableList
+      total = this.props.totalCount
     } else if (isNaN(params.actionId)) {
-      data = this.props.catTableList;
-      total = this.props.count;
+      data = this.props.catTableList
+      total = this.props.count
     }
 
     data = data.map(item => {
-      item.key = item._id;
-      return item;
-    });
+      item.key = item._id
+      return item
+    })
 
     const pageConfig = {
       total: total,
       pageSize: limit,
-      current: this.state.current
-      // onChange: this.changePage
-    };
-
-    const isDisabled = this.props.catList.length === 0;
+      current: this.state.current,
+      onChange: this.changePage
+    }
 
     // console.log(this.props.curProject.tag)
-
     return (
       <div style={{ padding: '24px' }}>
         <h2 className="interface-title" style={{ display: 'inline-block', margin: 0 }}>
           {intername ? intername : '全部接口'}共 ({total}) 个
         </h2>
-
-        <Button
-          style={{ float: 'right' }}
-          disabled={isDisabled}
-          type="primary"
-          onClick={() => this.setState({ visible: true })}
-        >
-          添加接口
-        </Button>
         <div style={{ marginTop: '10px' }}>
           <Label onChange={value => this.handleChangeInterfaceCat(value, intername)} desc={desc} />
         </div>
@@ -380,8 +392,10 @@ class InterfaceList extends Component {
           className="table-interfacelist"
           pagination={pageConfig}
           columns={columns}
+          scroll={{ x: true}}
           onChange={this.handleChange}
           dataSource={data}
+          loading={this.state.loading}
         />
         {this.state.visible && (
           <Modal
@@ -400,8 +414,8 @@ class InterfaceList extends Component {
           </Modal>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default InterfaceList;
+export default InterfaceList

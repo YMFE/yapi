@@ -1,17 +1,17 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { Table, Select, Tooltip, Icon } from 'antd';
-import variable from '../../../../constants/variable';
-import { connect } from 'react-redux';
-const Option = Select.Option;
-import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js';
-
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { Table, Select, Tooltip, Icon } from 'antd'
+import variable from '../../../../constants/variable'
+import { connect } from 'react-redux'
+import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js'
+import _ from 'lodash'
+const Option = Select.Option
 @connect(
   state => {
     return {
       projectList: state.project.projectList,
       list: state.inter.list
-    };
+    }
   },
   {
     fetchInterfaceListMenu
@@ -19,7 +19,7 @@ import { fetchInterfaceListMenu } from '../../../../reducer/modules/interface.js
 )
 export default class ImportInterface extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   state = {
@@ -37,8 +37,7 @@ export default class ImportInterface extends Component {
   };
 
   async componentDidMount() {
-    // console.log(this.props.currProjectId)
-    await this.props.fetchInterfaceListMenu(this.props.currProjectId);
+    await this.props.fetchInterfaceListMenu(this.props.currProjectId, 'api')
   }
 
   // 切换项目
@@ -47,15 +46,14 @@ export default class ImportInterface extends Component {
       project: val,
       selectedRowKeys: [],
       categoryCount: {}
-    });
-    await this.props.fetchInterfaceListMenu(val);
+    })
+    await this.props.fetchInterfaceListMenu(val)
   };
 
   render() {
-    const { list, projectList } = this.props;
-
+    const { list, projectList } = this.props
     // const { selectedRowKeys } = this.state;
-    const data = list.map(item => {
+    /* const data = list.map(item => {
       return {
         key: 'category_' + item._id,
         title: item.name,
@@ -69,113 +67,170 @@ export default class ImportInterface extends Component {
             })
           : []
       };
-    });
-    const self = this;
+    }); */
+    const arr = []
+    const loop = (data)=>{
+      data.forEach((v)=>{
+        if(v&&v.list){
+          arr.push('dir_'+v._id)
+          return loop(v.list)
+
+        }
+        return arr.push('api_'+v._id)
+      })
+    }
+    const filterArr = []
+    const filterLoop = (data)=>{
+      data.forEach(v=>{
+        return filterArr.push(parseInt( v.substr(4)))
+      })
+    }
+    const self = this
     const rowSelection = {
-      // onChange: (selectedRowKeys) => {
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      // if (selectedRows.isCategory) {
-      //   const selectedRowKeys = selectedRows.children.map(item => item._id)
-      //   this.setState({ selectedRowKeys })
-      // }
-      // this.props.onChange(selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1));
-      // },
-      onSelect: (record, selected) => {
-        // console.log(record, selected, selectedRows);
-        const oldSelecteds = self.state.selectedRowKeys;
-        const categoryCount = self.state.categoryCount;
-        const categoryKey = record.categoryKey;
-        const categoryLength = record.categoryLength;
-        let selectedRowKeys = [];
-        if (record.isCategory) {
-          selectedRowKeys = record.children.map(item => item._id).concat(record.key);
-          if (selected) {
-            selectedRowKeys = selectedRowKeys
-              .filter(id => oldSelecteds.indexOf(id) === -1)
-              .concat(oldSelecteds);
-            categoryCount[categoryKey] = categoryLength;
-          } else {
-            selectedRowKeys = oldSelecteds.filter(id => selectedRowKeys.indexOf(id) === -1);
-            categoryCount[categoryKey] = 0;
-          }
-        } else {
-          if (selected) {
-            selectedRowKeys = oldSelecteds.concat(record._id);
-            if (categoryCount[categoryKey]) {
-              categoryCount[categoryKey] += 1;
-            } else {
-              categoryCount[categoryKey] = 1;
-            }
-            if (categoryCount[categoryKey] === record.categoryLength) {
-              selectedRowKeys.push(categoryKey);
-            }
-          } else {
-            selectedRowKeys = oldSelecteds.filter(id => id !== record._id);
-            if (categoryCount[categoryKey]) {
-              categoryCount[categoryKey] -= 1;
-            }
-            selectedRowKeys = selectedRowKeys.filter(id => id !== categoryKey);
-          }
-        }
-        self.setState({ selectedRowKeys, categoryCount });
-        self.props.selectInterface(
-          selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1),
-          self.state.project
-        );
+      // hideDefaultSelections: true,
+      onChange: (selectedRowKeys, selectedRows) => {
+        let filter =  _.filter(selectedRowKeys, function(o) {
+          return !o.indexOf('api') 
+        }) 
+        filterLoop(filter)
+        this.setState({
+          selectedRowKeys:selectedRowKeys,
+          queryArr:_.uniq(filterArr)
+        })
       },
-      onSelectAll: selected => {
-        // console.log(selected, selectedRows, changeRows);
-        let selectedRowKeys = [];
-        let categoryCount = self.state.categoryCount;
-        if (selected) {
-          data.forEach(item => {
-            if (item.children) {
-              categoryCount['category_' + item._id] = item.children.length;
-              selectedRowKeys = selectedRowKeys.concat(item.children.map(item => item._id));
-            }
-          });
-          selectedRowKeys = selectedRowKeys.concat(data.map(item => item.key));
-        } else {
-          categoryCount = {};
-          selectedRowKeys = [];
+      onSelect: (record, selected, selectedRows) => {
+        if(selected){ //选中状态
+          if(record.itemType === 'cat'|| record.record_type === 2){ //
+            loop(record.list)
+            let ar = ['dir_'+record._id]
+            const arrKey = _.concat(arr,ar)
+
+            const arrKeySum = this.state.selectedRowKeys
+              ?_.concat(this.state.selectedRowKeys,arrKey)
+              :arrKey
+            let filter =  _.filter(arrKeySum, function(o) {
+              return !o.indexOf('api') 
+            }) 
+            filterLoop(filter)
+            this.setState({
+              selectedRowKeys:_.sortedUniq(arrKeySum),
+              queryArr: _.uniq(filterArr)
+            }) 
+          }
+        }else{//取消选中
+          if(record.itemType === 'cat'|| record.record_type === 2){ //
+            loop(record.list)
+            let ar = ['dir_'+record._id]
+            const arrKey = _.concat(arr,ar) //取消选中的keys
+            const rowKeys = this.state.selectedRowKeys
+            
+            const deArr = _.difference(rowKeys,arrKey)
+            let filter =  _.filter(deArr, function(o) {
+              return !o.indexOf('api') 
+            }) 
+            filterLoop(filter)
+            setTimeout(()=>{
+              this.setState({
+                selectedRowKeys:deArr,
+                queryArr: _.uniq(filterArr)
+              })
+            })
+          }
         }
-        self.setState({ selectedRowKeys, categoryCount });
-        self.props.selectInterface(
-          selectedRowKeys.filter(id => ('' + id).indexOf('category') === -1),
-          self.state.project
-        );
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        if(selected){
+          const arr = []
+          const onSelectAllLoop = (data)=>{
+            data.forEach((v)=>{
+              if(v.itemType === 'cat'|| v.record_type === 2){
+                arr.push('dir_'+v._id)
+              }else{
+                return arr.push('api_'+v._id)
+              }
+              
+            })
+          }
+          onSelectAllLoop(changeRows)
+          const arrKeySum = this.state.selectedRowKeys
+              ?_.concat(this.state.selectedRowKeys,arr)
+              :arr
+
+            let filter=  _.filter(arrKeySum, function(o) { return !o.indexOf('api') }) 
+            filterLoop(filter)
+          this.setState({
+            selectedRowKeys:_.sortedUniq(arrKeySum),
+            queryArr: _.uniq(filterArr)
+          })
+        }else{
+          this.setState({
+            selectedRowKeys:[],
+            queryArr:[]
+          })
+        }
       },
       selectedRowKeys: self.state.selectedRowKeys
-    };
+    }
+    self.props.selectInterface(
+      self.state.queryArr,
+      self.state.project
+    )
+
 
     const columns = [
       {
         title: '接口名称',
-        dataIndex: 'title',
-        width: '30%'
+        width: '40%',
+        render: (text, record) => (
+          <span>
+            {record.title||record.name}
+          </span>
+        ),
+        key: '_id'
       },
       {
         title: '接口路径',
+        width: '50%',
         dataIndex: 'path',
-        width: '40%'
-      },
-      {
-        title: '请求方法',
-        dataIndex: 'method',
-        render: item => {
-          let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get'];
-          return (
-            <span
-              style={{
-                color: methodColor.color,
-                backgroundColor: methodColor.bac,
-                borderRadius: 4
-              }}
-              className="colValue"
-            >
-              {item}
-            </span>
-          );
+        render: (text, record) => {
+          let item = record.method
+          if(record.record_type === 0 && record.interface_type === 'dubbo') {
+            item = 'DUBBO'
+          }
+          let methodColor = variable.METHOD_COLOR[item ? item.toLowerCase() : 'get']
+          if(record.record_type === 0) {
+            if(record.interface_type === 'http') {
+              return (<div style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+                <span
+                  style={{
+                    color: methodColor.color,
+                    backgroundColor: methodColor.bac,
+                    borderRadius: 4
+                  }}
+                  className="colValue"
+                >{item}
+                </span>
+                <span>{record.path}</span>
+              </div>)
+            } else {
+              return (<div style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+                <span
+                  style={{
+                    color: methodColor.color,
+                    backgroundColor: methodColor.bac,
+                    borderRadius: 4
+                  }}
+                  className="colValue"
+                >
+                  {item}
+                </span>
+                <span> METHOD: {record.r_method}</span>
+                <span> FACADE: {record.r_facade}</span>
+              </div>)
+            }
+          } else {
+            return null
+          }
         }
       },
       {
@@ -187,8 +242,13 @@ export default class ImportInterface extends Component {
             </Tooltip>
           </span>
         ),
+        width: '40%',
+        fixed:'right',
         dataIndex: 'status',
-        render: text => {
+        render: (text, record) => {
+          if(record.record_type !== 0) {
+            return false
+          }
           return (
             text &&
             (text === 'done' ? (
@@ -196,7 +256,7 @@ export default class ImportInterface extends Component {
             ) : (
               <span className="tag-status undone">未完成</span>
             ))
-          );
+          )
         },
         filters: [
           {
@@ -209,14 +269,13 @@ export default class ImportInterface extends Component {
           }
         ],
         onFilter: (value, record) => {
-          let arr = record.children.filter(item => {
-            return item.status.indexOf(value) === 0;
-          });
-          return arr.length > 0;
-          // record.status.indexOf(value) === 0
+          let arr = record.list.filter(item => {
+            return item.status.indexOf(value) === 0
+          })
+          return arr.length > 0
         }
       }
-    ];
+    ]
 
     return (
       <div>
@@ -230,12 +289,27 @@ export default class ImportInterface extends Component {
                 <Option value={`${item._id}`} key={item._id}>
                   {item.name}
                 </Option>
-              );
+              )
             })}
           </Select>
         </div>
-        <Table columns={columns} rowSelection={rowSelection} dataSource={data} pagination={false} />
+        <Table
+          childrenColumnName='list'
+          columns={columns} 
+          scroll={{ x: 1000 }}
+          rowSelection={rowSelection} 
+          dataSource={list} pagination={false}
+          rowKey={
+            record => {
+              if(record.itemType === 'cat' || record.record_type ===2){
+                return 'dir_'+record._id
+              }
+              return 'api_'+record._id
+            }
+          
+          } 
+        />
       </div>
-    );
+    )
   }
 }

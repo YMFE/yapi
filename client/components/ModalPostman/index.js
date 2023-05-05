@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import './index.scss';
-import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd';
-import MockList from './MockList.js';
-import MethodsList from './MethodsList.js';
-import VariablesSelect from './VariablesSelect.js';
-import { trim } from '../../common.js';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './index.scss'
+import { Alert, Modal, Row, Col, Icon, Collapse, Input, Tooltip } from 'antd'
+import MockList from './MockList.js'
+import MethodsList from './MethodsList.js'
+import VariablesSelect from './VariablesSelect.js'
+import { trim } from '../../common.js'
 
-const { handleParamsValue } = require('common/utils.js');
-const Panel = Collapse.Panel;
+const { handleParamsValue } = require('common/utils.js')
+const Panel = Collapse.Panel
 
 // 深拷贝
 function deepEqual(state) {
-  return JSON.parse(JSON.stringify(state));
+  return JSON.parse(JSON.stringify(state))
 }
 
 function closeRightTabsAndAddNewTab(arr, index, name, params) {
-  let newParamsList = [].concat(arr);
-  newParamsList.splice(index + 1, newParamsList.length - index);
+  let newParamsList = [].concat(arr)
+  newParamsList.splice(index + 1, newParamsList.length - index)
   newParamsList.push({
     name: '',
     params: []
-  });
+  })
 
-  let curParams = params || [];
-  let curname = name || '';
+  let curParams = params || []
+  let curname = name || ''
   newParamsList[index] = {
     ...newParamsList[index],
     name: curname,
     params: curParams
-  };
-  return newParamsList;
+  }
+  return newParamsList
 }
 
 class ModalPostman extends Component {
@@ -44,7 +44,7 @@ class ModalPostman extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       methodsShow: false,
       methodsShowMore: false,
@@ -58,30 +58,30 @@ class ModalPostman extends Component {
           type: 'dataSource'
         }
       ]
-    };
+    }
   }
 
-  componentWillMount() {
-    let { inputValue } = this.props;
+  UNSAFE_componentWillMount() {
+    let { inputValue } = this.props
     this.setState({
       constantInput: inputValue
-    });
+    })
     // this.props.inputValue && this.handleConstantsInput(this.props.inputValue, 0);
-    inputValue && this.handleInitList(inputValue);
+    inputValue && this.handleInitList(inputValue)
   }
 
   handleInitList(val) {
-    val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
-    let valArr = val.split('|');
+    val = val.replace(/^\{\{(.+)\}\}$/g, '$1')
+    let valArr = val.split('|')
 
     if (valArr[0].indexOf('@') >= 0) {
       this.setState({
         activeKey: '2'
-      });
+      })
     } else if (valArr[0].indexOf('$') >= 0) {
       this.setState({
         activeKey: '3'
-      });
+      })
     }
 
     let paramsList = [
@@ -90,22 +90,22 @@ class ModalPostman extends Component {
         params: [],
         type: 'dataSource'
       }
-    ];
+    ]
 
     for (let i = 1; i < valArr.length; i++) {
-      let nameArr = valArr[i].split(':');
+      let nameArr = valArr[i].split(':')
 
-      let paramArr = nameArr[1] && nameArr[1].split(',');
+      let paramArr = nameArr[1] && nameArr[1].split(',')
       paramArr =
         paramArr &&
         paramArr.map(item => {
-          return trim(item);
-        });
+          return trim(item)
+        })
       let item = {
         name: trim(nameArr[0]),
         params: paramArr || []
-      };
-      paramsList.push(item);
+      }
+      paramsList.push(item)
     }
 
     this.setState(
@@ -113,9 +113,9 @@ class ModalPostman extends Component {
         methodsParamsList: paramsList
       },
       () => {
-        this.mockClick(valArr.length)();
+        this.mockClick(valArr.length)()
       }
-    );
+    )
   }
 
   mockClick(index) {
@@ -125,27 +125,27 @@ class ModalPostman extends Component {
         index,
         curname,
         params
-      );
+      )
       this.setState({
         methodsParamsList: newParamsList
-      });
-    };
+      })
+    }
   }
   //  处理常量输入
   handleConstantsInput = val => {
-    val = val.replace(/^\{\{(.+)\}\}$/g, '$1');
+    val = val.replace(/^\{\{(.+)\}\}$/g, '$1')
     this.setState({
       constantInput: val
-    });
-    this.mockClick(0)(val);
+    })
+    this.mockClick(0)(val)
   };
 
   handleParamsInput = (e, clickIndex, paramsIndex) => {
-    let newParamsList = deepEqual(this.state.methodsParamsList);
-    newParamsList[clickIndex].params[paramsIndex] = e;
+    let newParamsList = deepEqual(this.state.methodsParamsList)
+    newParamsList[clickIndex].params[paramsIndex] = e
     this.setState({
       methodsParamsList: newParamsList
-    });
+    })
   };
 
   // 方法
@@ -158,12 +158,12 @@ class ModalPostman extends Component {
         paramsInput={this.handleParamsInput}
         clickIndex={props.index}
       />
-    );
+    )
   };
 
   //  处理表达式
   handleValue(val) {
-    return handleParamsValue(val, {});
+    return handleParamsValue(val, {})
   }
 
   // 处理错误
@@ -173,7 +173,7 @@ class ModalPostman extends Component {
         message="请求“变量集”尚未运行,所以我们无法从其响应中提取的值。您可以在测试集合中测试这些变量。"
         type="warning"
       />
-    );
+    )
   }
 
   // 初始化
@@ -184,48 +184,48 @@ class ModalPostman extends Component {
         params: [],
         type: 'dataSource'
       }
-    ];
+    ]
     this.setState({
       methodsParamsList: initParamsList
-    });
+    })
   }
   // 处理取消插入
   handleCancel = () => {
-    this.setInit();
-    this.props.handleCancel();
+    this.setInit()
+    this.props.handleCancel()
   };
 
   // 处理插入
   handleOk = installValue => {
-    this.props.handleOk(installValue);
-    this.setInit();
+    this.props.handleOk(installValue)
+    this.setInit()
   };
   // 处理面板切换
   handleCollapse = key => {
     this.setState({
       activeKey: key
-    });
+    })
   };
 
   render() {
-    const { visible, envType } = this.props;
-    const { methodsParamsList, constantInput } = this.state;
+    const { visible, envType } = this.props
+    const { methodsParamsList, constantInput } = this.state
 
     const outputParams = () => {
-      let str = '';
-      let length = methodsParamsList.length;
+      let str = ''
+      let length = methodsParamsList.length
       methodsParamsList.forEach((item, index) => {
-        let isShow = item.name && length - 2 !== index;
-        str += item.name;
+        let isShow = item.name && length - 2 !== index
+        str += item.name
         item.params.forEach((item, index) => {
-          let isParams = index > 0;
-          str += isParams ? ' , ' : ' : ';
-          str += item;
-        });
-        str += isShow ? ' | ' : '';
-      });
-      return '{{ ' + str + ' }}';
-    };
+          let isParams = index > 0
+          str += isParams ? ' , ' : ' : '
+          str += item
+        })
+        str += isShow ? ' | ' : ''
+      })
+      return '{{ ' + str + ' }}'
+    }
 
     return (
       <Modal
@@ -269,7 +269,7 @@ class ModalPostman extends Component {
                         <h3 className="mock-title">
                           变量&nbsp;<Tooltip
                             placement="top"
-                            title="YApi 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"
+                            title="落兵台 提供了强大的变量参数功能，你可以在测试的时候使用前面接口的 参数 或 返回值 作为 后面接口的参数，即使接口之间存在依赖，也可以轻松 一键测试~"
                           >
                             <Icon type="question-circle-o" />
                           </Tooltip>
@@ -290,7 +290,7 @@ class ModalPostman extends Component {
               <Col span={8} className="modal-postman-col" key={index}>
                 <this.MethodsListSource index={index} value={item.name} params={item.params} />
               </Col>
-            );
+            )
           })}
         </Row>
         <Row className="modal-postman-expression">
@@ -310,8 +310,8 @@ class ModalPostman extends Component {
           </Col>
         </Row>
       </Modal>
-    );
+    )
   }
 }
 
-export default ModalPostman;
+export default ModalPostman

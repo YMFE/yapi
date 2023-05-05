@@ -1,0 +1,126 @@
+@import 'tocbot/src/scss/tocbot.scss';
+@import 'tocbot/src/scss/_tocbot-default-theme.scss';
+
+.wiki-tooltip {
+  display: block;
+  font-size: 16px;
+  color: #595959;
+  width: 230px;
+  margin: 200px auto 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ke-wiki-page {
+  $remain-height: calc(100vh - 135px);
+  width: 100%;
+  min-height: $remain-height;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  .load-div {
+    width: 100%;
+    text-align: center;
+    margin-top: 280px;
+  }
+
+  .main {
+    width: 100%;
+    padding: 0 40px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    background: #fff;
+
+    .page-action {
+      position: fixed;
+      top: 130px;
+      right: 120px;
+    }
+
+    #viewContainer {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+  }
+
+  .aside-directory {
+    overflow-y: auto;
+    overflow-x: hidden;
+    right: 10px;
+    box-sizing: border-box;
+    font-size: 12px;
+
+    li {
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .is-active-link::before {
+      background-color: #2395f1;
+    }
+
+    a {
+      color: #595959;
+    }
+
+    .toc-link::before {
+      height: 25px;
+    }
+    .toc-list {
+      padding-left: 0;
+    }
+    .node-name--H1 {
+      padding-left: 6px;
+    }
+    .node-name--H2 {
+      padding-left: 18px;
+    }
+    .node-name--H3 {
+      padding-left: 30px;
+    }
+    .node-name--H4 {
+      padding-left: 38px;
+    }
+    .node-name--H5 {
+      padding-left: 54px;
+    }
+    .node-name--H6 {
+      padding-left: 66px;
+    }
+  }
+
+  .right-side {
+    width: 14vw;
+    height: 100vh;
+    // min-height: $remain-height;
+    background: #fff;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    padding-top: 10px;
+    .download-link {
+      margin-bottom: 20px;
+    }
+  }
+
+  .left-side {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 20%;
+    min-width: 250px;
+    max-width: 300px;
+    box-sizing: border-box;
+    flex-direction: column;
+    height: 100vh;
+    background: #fff;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0 0 15px;
+  }
+}

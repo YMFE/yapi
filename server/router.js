@@ -1,612 +1,799 @@
-const koaRouter = require('koa-router');
-const interfaceController = require('./controllers/interface.js');
-const groupController = require('./controllers/group.js');
-const userController = require('./controllers/user.js');
-const interfaceColController = require('./controllers/interfaceCol.js');
-const testController = require('./controllers/test.js');
+const koaRouter = require('koa-router')
+const interfaceController = require('./controllers/interface.js')
+const groupController = require('./controllers/group.js')
+const userController = require('./controllers/user.js')
+const interfaceColController = require('./controllers/interfaceCol.js')
+const testController = require('./controllers/test.js')
+const interfaceTemplateController = require('./controllers/interfaceTemplate.js')
+const ruleController = require('./controllers/rule.js')
+const yapi = require('./yapi.js')
+const projectController = require('./controllers/project.js')
+const logController = require('./controllers/log.js')
+const followController = require('./controllers/follow.js')
+const openController = require('./controllers/open.js')
+const interfaceChainController = require('./controllers/interfaceChain')
+const { createAction } = require('./utils/commons.js')
 
-const yapi = require('./yapi.js');
-const projectController = require('./controllers/project.js');
-const logController = require('./controllers/log.js');
-const followController = require('./controllers/follow.js');
-const openController = require('./controllers/open.js');
-const { createAction } = require('./utils/commons.js');
-
-const router = koaRouter();
+const router = koaRouter()
 
 let INTERFACE_CONFIG = {
   interface: {
     prefix: '/interface/',
-    controller: interfaceController
+    controller: interfaceController,
   },
   user: {
     prefix: '/user/',
-    controller: userController
+    controller: userController,
   },
   group: {
     prefix: '/group/',
-    controller: groupController
+    controller: groupController,
   },
   project: {
     prefix: '/project/',
-    controller: projectController
+    controller: projectController,
   },
   log: {
     prefix: '/log/',
-    controller: logController
+    controller: logController,
   },
   follow: {
     prefix: '/follow/',
-    controller: followController
+    controller: followController,
   },
   col: {
     prefix: '/col/',
-    controller: interfaceColController
+    controller: interfaceColController,
   },
   test: {
     prefix: '/test/',
-    controller: testController
+    controller: testController,
   },
   open: {
     prefix: '/open/',
-    controller: openController
-  }
-};
+    controller: openController,
+  },
+  interfacetemplate: {
+    prefix: '/interface_template/',
+    controller: interfaceTemplateController,
+  },
+  interfaceRule: {
+    prefix: '/rule/',
+    controller: ruleController,
+  },
+  interfaceChain: {
+    prefix: '/interface_chain/',
+    controller: interfaceChainController,
+  },
+}
 
 let routerConfig = {
   group: [
     {
       action: 'getMyGroup',
       path: 'get_mygroup',
-      method: 'get'
+      method: 'get',
     },
 
-    
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'add',
       path: 'add',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'up',
       path: 'up',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'del',
       path: 'del',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'addMember',
       path: 'add_member',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'changeMemberRole',
       path: 'change_member_role',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'delMember',
       path: 'del_member',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getMemberList',
       path: 'get_member_list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'get',
       path: 'get',
-      method: 'get'
-    }
+      method: 'get',
+    },
   ],
   user: [
     {
       action: 'login',
       path: 'login',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'reg',
       path: 'reg',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'findById',
       path: 'find',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'update',
       path: 'update',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'del',
       path: 'del',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getLoginStatus',
       path: 'status',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'logout',
       path: 'logout',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'loginByToken',
       path: 'login_by_token',
-      method: 'all'
+      method: 'all',
     },
     {
       action: 'getLdapAuth',
       path: 'login_by_ldap',
-      method: 'all'
+      method: 'all',
     },
     {
       action: 'upStudy',
       path: 'up_study',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'changePassword',
       path: 'change_password',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'search',
       path: 'search',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'project',
       path: 'project',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'avatar',
       path: 'avatar',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'uploadAvatar',
       path: 'upload_avatar',
-      method: 'post'
-    }
+      method: 'post',
+    },
   ],
   project: [
     {
       action: 'upSet',
       path: 'upset',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getEnv',
       path: 'get_env',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'add',
       path: 'add',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'get',
       path: 'get',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'up',
       path: 'up',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'del',
       path: 'del',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'addMember',
       path: 'add_member',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'delMember',
       path: 'del_member',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'changeMemberRole',
       path: 'change_member_role',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'changeMemberEmailNotice',
       path: 'change_member_email_notice',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getMemberList',
       path: 'get_member_list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'search',
       path: 'search',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'upEnv',
       path: 'up_env',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upTag',
       path: 'up_tag',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'token',
       path: 'token',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'updateToken',
       path: 'update_token',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'checkProjectName',
       path: 'check_project_name',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'copy',
       path: 'copy',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'swaggerUrl',
       path: 'swagger_url',
-      method: 'get'
-    }
+      method: 'get',
+    },
   ],
   interface: [
     {
       action: 'add',
       path: 'add',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'downloadCrx',
       path: 'download_crx',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'getCatMenu',
       path: 'getCatMenu',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'get',
       path: 'get',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'up',
       path: 'up',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'del',
       path: 'del',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'interUpload',
       path: 'interUpload',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'listByCat',
       path: 'list_cat',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'listByMenu',
       path: 'list_menu',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'listByOpen',
       path: 'list_open',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'addCat',
       path: 'add_cat',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upCat',
       path: 'up_cat',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'delCat',
       path: 'del_cat',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getCustomField',
       path: 'get_custom_field',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'save',
       path: 'save',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upIndex',
       path: 'up_index',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upCatIndex',
       path: 'up_cat_index',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'schema2json',
       path: 'schema2json',
-      method: 'post'
-    }
+      method: 'post',
+    },
+    {
+      action: 'invokeDubbo',
+      path: 'invoke_dubbo',
+      method: 'post',
+    },
+    {
+      action: 'upDir',
+      path: 'up_dir',
+      method: 'post',
+    },
+    // 通过 CatId 获取其下面所有信息，包括 CatId 下目录信息 + 接口信息
+    {
+      action: 'getAllByCatId',
+      path: 'get_all',
+      method: 'get',
+    },
   ],
   log: [
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'listByUpdate',
       path: 'list_by_update',
-      method: 'post'
-    }
+      method: 'post',
+    },
   ],
   follow: [
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'add',
       path: 'add',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'del',
       path: 'del',
-      method: 'post'
-    }
+      method: 'post',
+    },
   ],
   col: [
     {
       action: 'addCol',
       path: 'add_col',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'addCaseList',
       path: 'add_case_list',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'cloneCaseList',
       path: 'clone_case_list',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'list',
       path: 'list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'getCaseList',
       path: 'case_list',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'getCaseListByVariableParams',
       path: 'case_list_by_var_params',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'addCase',
       path: 'add_case',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upCase',
       path: 'up_case',
-      method: 'post'
+      method: 'post',
+    },
+    {
+      action: 'upDir',
+      path: 'up_dir',
+      method: 'post',
     },
     {
       action: 'getCase',
       path: 'case',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'upCol',
       path: 'up_col',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upCaseIndex',
       path: 'up_case_index',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'upColIndex',
       path: 'up_col_index',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'delCol',
       path: 'del_col',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'delCase',
       path: 'del_case',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'runCaseScript',
       path: 'run_script',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'getCaseEnvList',
       path: 'case_env_list',
-      method: 'get'
-    }
+      method: 'get',
+    },
   ],
   test: [
     {
       action: 'testPost',
       path: 'post',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'testGet',
       path: 'get',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'testPut',
       path: 'put',
-      method: 'put'
+      method: 'put',
     },
     {
       action: 'testDelete',
       path: 'delete',
-      method: 'del'
+      method: 'del',
     },
     {
       action: 'testHead',
       path: 'head',
-      method: 'head'
+      method: 'head',
     },
     {
       action: 'testOptions',
       path: 'options',
-      method: 'options'
+      method: 'options',
     },
     {
       action: 'testPatch',
       path: 'patch',
-      method: 'patch'
+      method: 'patch',
     },
     {
       action: 'testFilesUpload',
       path: 'files/upload',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'testSingleUpload',
       path: 'single/upload',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'testHttpCode',
       path: 'http/code',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'testRaw',
       path: 'raw',
-      method: 'post'
+      method: 'post',
     },
     {
       action: 'testResponse',
       path: 'response',
-      method: 'get'
-    }
+      method: 'get',
+    },
   ],
   open: [
     {
       action: 'projectInterfaceData',
       path: 'project_interface_data',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'runAutoTest',
       path: 'run_auto_test',
-      method: 'get'
+      method: 'get',
     },
     {
       action: 'importData',
       path: 'import_data',
-      method: 'post'
-    }
-  ]
-};
+      method: 'post',
+    },
+    {
+      action: 'getGrouplist',
+      path: 'get_cat_list',
+      method: 'get',
+    },
+    {
+      action: 'createProject',
+      path: 'create_project',
+      method: 'post',
+    },
+    {
+      action: 'getProjApi',
+      path: 'get_proj_api',
+      method: 'get',
+    },
+    {
+      action: 'getProjList',
+      path: 'get_proj_list',
+      method: 'get',
+    },
+    {
+      action: 'getProjMockList',
+      path: 'get_proj_mock_list',
+      method: 'get',
+    },
+    {
+      action: 'searchProject',
+      path: 'search_project',
+      method: 'get',
+    },
+    {
+      action: 'getGrouplist',
+      path: 'group/list',
+      method: 'get',
+    },
+    {
+      action: 'getProjList',
+      path: 'project/list',
+      method: 'get',
+    },
+    {
+      action: 'listProjectMenu',
+      path: 'interface/list_menu',
+      method: 'get',
+    },
+    {
+      action: 'getInterfaceDetail',
+      path: 'interface/detail',
+      method: 'get',
+    },
+    {
+      action: 'search',
+      path: 'search',
+      method: 'get',
+    },
+    {
+      action: 'getDocDetail',
+      path: 'doc/detail',
+      method: 'get',
+    },
+    {
+      action: 'getDocTree',
+      path: 'doc/tree',
+      method: 'get',
+    },
+  ],
+  interfacetemplate: [
+    {
+      action: 'add',
+      path: 'add',
+      method: 'post',
+    },
+    {
+      action: 'list',
+      path: 'list',
+      method: 'get',
+    },
+    {
+      action: 'del',
+      path: 'del',
+      method: 'get',
+    },
+    {
+      action: 'up',
+      path: 'up',
+      method: 'post',
+    },
+    {
+      action: 'search',
+      path: 'search',
+      method: 'get',
+    },
+  ],
+  interfaceRule: [
+    {
+      action: 'add',
+      path: 'add',
+      method: 'post',
+    },
+    {
+      action: 'list',
+      path: 'list',
+      method: 'get',
+    },
+    {
+      action: 'search',
+      path: 'search',
+      method: 'get',
+    },
+    {
+      action: 'del',
+      path: 'del',
+      method: 'post',
+    },
+    {
+      action: 'up',
+      path: 'up',
+      method: 'post',
+    },
+  ],
+  interfaceChain: [
+    {
+      action: 'addChain',
+      path: 'add',
+      method: 'post',
+    },
+    {
+      action: 'updateChain',
+      path: 'update',
+      method: 'post',
+    },
+    {
+      action: 'removeChain',
+      path: 'remove',
+      method: 'get',
+    },
+    {
+      action: 'getChainById',
+      path: 'list',
+      method: 'get',
+    },
+  ],
+}
 
-let pluginsRouterPath = [];
+let pluginsRouterPath = []
 
 function addPluginRouter(config) {
   if (!config.path || !config.controller || !config.action) {
-    throw new Error('Plugin Route config Error');
+    throw new Error('Plugin Route config Error')
   }
-  let method = config.method || 'GET';
-  // let routerPath = '/plugin/' + config.path;
-  // 支持 /api/open/plugin 前缀的 openApi
-  let routerPath = (config.prefix || '') + '/plugin/' + config.path;
+  let method = config.method || 'GET'
+  let routerPath = '/plugin/' + config.path
   if (pluginsRouterPath.indexOf(routerPath) > -1) {
-    throw new Error('Plugin Route path conflict, please try rename the path');
+    throw new Error('Plugin Route path conflict, please try rename the path')
   }
-  pluginsRouterPath.push(routerPath);
-  createAction(router, '/api', config.controller, config.action, routerPath, method, false);
+  pluginsRouterPath.push(routerPath)
+  createAction(
+    router,
+    '/api',
+    config.controller,
+    config.action,
+    routerPath,
+    method,
+    false,
+  )
 }
-
-yapi.emitHookSync('add_router', addPluginRouter);
+yapi.emitHookSync('add_router', addPluginRouter)
 
 for (let ctrl in routerConfig) {
-  let actions = routerConfig[ctrl];
+  let actions = routerConfig[ctrl]
   actions.forEach(item => {
-    let routerController = INTERFACE_CONFIG[ctrl].controller;
-    let routerPath = INTERFACE_CONFIG[ctrl].prefix + item.path;
-    createAction(router, '/api', routerController, item.action, routerPath, item.method);
-  });
+    let routerController = INTERFACE_CONFIG[ctrl].controller
+    let routerPath = INTERFACE_CONFIG[ctrl].prefix + item.path
+    createAction(
+      router,
+      '/api',
+      routerController,
+      item.action,
+      routerPath,
+      item.method,
+    )
+  })
 }
 
-module.exports = router;
+module.exports = router

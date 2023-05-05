@@ -19,6 +19,9 @@
     overflow: hidden;
     .casename {
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
     }
     .case-delete-icon {
       margin-left: 5px;
@@ -123,6 +126,9 @@
 
   .interface-col-table-body td {
     padding-left: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
   }
 
   .interface-col-table-action button {

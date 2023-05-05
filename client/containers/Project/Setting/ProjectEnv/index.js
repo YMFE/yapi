@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import './index.scss';
-import { Icon, Layout, Tooltip, message, Row, Popconfirm } from 'antd';
-const { Content, Sider } = Layout;
-import ProjectEnvContent from './ProjectEnvContent.js';
-import { connect } from 'react-redux';
-import { updateEnv, getProject, getEnv } from '../../../../reducer/modules/project';
-import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './index.scss'
+import { Icon, Layout, Tooltip, message, Row, Popconfirm } from 'antd'
+import ProjectEnvContent from './ProjectEnvContent.js'
+import { connect } from 'react-redux'
+import { updateEnv, getProject, getEnv } from '../../../../reducer/modules/project'
+import EasyDragSort from '../../../../components/EasyDragSort/EasyDragSort.js'
+const { Content, Sider } = Layout
 
 @connect(
   state => {
     return {
       projectMsg: state.project.currProject
-    };
+    }
   },
   {
     updateEnv,
@@ -31,75 +31,75 @@ class ProjectEnv extends Component {
   };
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       env: [],
       _id: null,
       currentEnvMsg: {},
       delIcon: null,
       currentKey: -2
-    };
+    }
   }
 
   initState(curdata, id) {
-    let newValue = {};
-    newValue['env'] = [].concat(curdata);
-    newValue['_id'] = id;
+    let newValue = {}
+    newValue['env'] = [].concat(curdata)
+    newValue['_id'] = id
     this.setState({
       ...this.state,
       ...newValue
-    });
+    })
   }
 
-  async componentWillMount() {
-    this._isMounted = true;
-    await this.props.getProject(this.props.projectId);
-    const { env, _id } = this.props.projectMsg;
-    this.initState(env, _id);
-    this.handleClick(0, env[0]);
+  async UNSAFE_componentWillMount() {
+    this._isMounted = true
+    await this.props.getProject(this.props.projectId)
+    const { env, _id } = this.props.projectMsg
+    this.initState(env, _id)
+    this.handleClick(0, env[0])
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   handleClick = (key, data) => {
     this.setState({
       currentEnvMsg: data,
       currentKey: key
-    });
+    })
   };
 
   // 增加环境变量项
   addParams = (name, data) => {
-    let newValue = {};
-    data = { name: '新环境', domain: '', header: [] };
-    newValue[name] = [].concat(data, this.state[name]);
-    this.setState(newValue);
-    this.handleClick(0, data);
+    let newValue = {}
+    data = { name: '新环境', domain: '', header: [] }
+    newValue[name] = [].concat(data, this.state[name])
+    this.setState(newValue)
+    this.handleClick(0, data)
   };
 
   // 删除提示信息
   showConfirm(key, name) {
-    let assignValue = this.delParams(key, name);
-    this.onSave(assignValue);
+    let assignValue = this.delParams(key, name)
+    this.onSave(assignValue)
   }
 
   // 删除环境变量项
   delParams = (key, name) => {
-    let curValue = this.state.env;
-    let newValue = {};
+    let curValue = this.state.env
+    let newValue = {}
     newValue[name] = curValue.filter((val, index) => {
-      return index !== key;
-    });
-    this.setState(newValue);
-    this.handleClick(0, newValue[name][0]);
-    newValue['_id'] = this.state._id;
-    return newValue;
+      return index !== key
+    })
+    this.setState(newValue)
+    this.handleClick(0, newValue[name][0])
+    newValue['_id'] = this.state._id
+    return newValue
   };
 
   enterItem = key => {
-    this.setState({ delIcon: key });
+    this.setState({ delIcon: key })
   };
 
   // 保存设置
@@ -108,34 +108,34 @@ class ProjectEnv extends Component {
       .updateEnv(assignValue)
       .then(res => {
         if (res.payload.data.errcode == 0) {
-          this.props.getProject(this.props.projectId);
-          this.props.getEnv(this.props.projectId);
-          message.success('修改成功! ');
+          this.props.getProject(this.props.projectId)
+          this.props.getEnv(this.props.projectId)
+          message.success('修改成功! ')
           if(this._isMounted) {
-            this.setState({ ...assignValue });
+            this.setState({ ...assignValue })
           }
         }
       })
       .catch(() => {
-        message.error('环境设置不成功 ');
-      });
+        message.error('环境设置不成功 ')
+      })
   }
 
   //  提交保存信息
   onSubmit = (value, index) => {
-    let assignValue = {};
-    assignValue['env'] = [].concat(this.state.env);
-    assignValue['env'].splice(index, 1, value['env']);
-    assignValue['_id'] = this.state._id;
-    this.onSave(assignValue);
-    this.props.onOk && this.props.onOk(assignValue['env'], index);
+    let assignValue = {}
+    assignValue['env'] = [].concat(this.state.env)
+    assignValue['env'].splice(index, 1, value['env'])
+    assignValue['_id'] = this.state._id
+    this.onSave(assignValue)
+    this.props.onOk && this.props.onOk(assignValue['env'], index)
   };
 
   // 动态修改环境名称
   handleInputChange = (value, currentKey) => {
-    let newValue = [].concat(this.state.env);
-    newValue[currentKey].name = value || '新环境';
-    this.setState({ env: newValue });
+    let newValue = [].concat(this.state.env)
+    newValue[currentKey].name = value || '新环境'
+    this.setState({ env: newValue })
   };
 
   // 侧边栏拖拽
@@ -143,16 +143,16 @@ class ProjectEnv extends Component {
     return (data, from, to) => {
       let newValue = {
         [name]: data
-      };
-      this.setState(newValue);
-      newValue['_id'] = this.state._id;
-      this.handleClick(to, newValue[name][to]);
-      this.onSave(newValue);
-    };
+      }
+      this.setState(newValue)
+      newValue['_id'] = this.state._id
+      this.handleClick(to, newValue[name][to])
+      this.onSave(newValue)
+    }
   };
 
   render() {
-    const { env, currentKey } = this.state;
+    const { env, currentKey } = this.state
 
     const envSettingItems = env.map((item, index) => {
       return (
@@ -169,8 +169,8 @@ class ProjectEnv extends Component {
             <Popconfirm
               title="您确认删除此环境变量?"
               onConfirm={e => {
-                e.stopPropagation();
-                this.showConfirm(index, 'env');
+                e.stopPropagation()
+                this.showConfirm(index, 'env')
               }}
               okText="确定"
               cancelText="取消"
@@ -185,13 +185,13 @@ class ProjectEnv extends Component {
             </Popconfirm>
           </span>
         </Row>
-      );
-    });
+      )
+    })
 
     return (
       <div className="m-env-panel">
         <Layout className="project-env">
-          <Sider width={195} style={{ background: '#fff' }}>
+          <Sider theme='light' width={195} style={{ background: '#fff' }}>
             <div style={{ height: '100%', borderRight: 0 }}>
               <Row className="first-menu-item menu-item">
                 <div className="env-icon-style">
@@ -221,8 +221,8 @@ class ProjectEnv extends Component {
           </Layout>
         </Layout>
       </div>
-    );
+    )
   }
 }
 
-export default ProjectEnv;
+export default ProjectEnv

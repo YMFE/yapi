@@ -1,18 +1,18 @@
-import './News.scss';
-import React, { PureComponent as Component } from 'react';
-import NewsTimeline from './NewsTimeline/NewsTimeline';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
-import { Button } from 'antd';
-import { getMockUrl } from '../../reducer/modules/news.js';
-import Subnav from '../../components/Subnav/Subnav.js';
+import './News.scss'
+import React, { PureComponent as Component } from 'react'
+import NewsTimeline from './NewsTimeline/NewsTimeline'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
+import { Button } from 'antd'
+import { getMockUrl } from '../../reducer/modules/news.js'
+import Subnav from '../../components/Subnav/Subnav.js'
 
 @connect(
   state => {
     return {
       uid: state.user.uid + ''
-    };
+    }
   },
   {
     getMockUrl: getMockUrl
@@ -20,16 +20,16 @@ import Subnav from '../../components/Subnav/Subnav.js';
 )
 class News extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       mockURL: ''
-    };
+    }
   }
   static propTypes = {
     uid: PropTypes.string,
     getMockUrl: PropTypes.func
   };
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     //const that = this;
     // this.props.getMockUrl(2724).then(function(data){
     //   const { prd_host, basepath, protocol } = data.payload.data.data;
@@ -73,8 +73,8 @@ class News extends Component {
           </section>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default News;
+export default News

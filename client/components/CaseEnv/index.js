@@ -1,15 +1,15 @@
 // 测试集合中的环境切换
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Select, Row, Col, Collapse, Icon, Tooltip } from 'antd';
-const Option = Select.Option;
-const Panel = Collapse.Panel;
-import './index.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Select, Row, Col, Collapse, Icon, Tooltip } from 'antd'
+import './index.scss'
+const Option = Select.Option
+const Panel = Collapse.Panel
 
 export default class CaseEnv extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   static propTypes = {
@@ -21,7 +21,7 @@ export default class CaseEnv extends React.Component {
   };
 
   callback = key => {
-    this.props.changeClose && this.props.changeClose(key);
+    this.props.changeClose && this.props.changeClose(key)
   };
 
   render() {
@@ -83,18 +83,18 @@ export default class CaseEnv extends React.Component {
                               <Option value={key.name} key={key._id}>
                                 {key.name + ': ' + key.domain}
                               </Option>
-                            );
+                            )
                           })}
                         </Select>
                       </Col>
                     </Row>
-                  );
+                  )
                 })}
               </div>
             )}
           </div>
         </Panel>
       </Collapse>
-    );
+    )
   }
 }

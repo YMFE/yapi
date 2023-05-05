@@ -10,6 +10,9 @@
             padding: 16px;
             background-color: white;
         }
+        .ant-upload.ant-upload-btn {
+          padding: 0;
+        }
         .dataImportTile{
             color: #2395f1;
             padding: 16px 0px;
@@ -31,8 +34,7 @@
           font-weight: 500;
           width: 100%;
           .label{
-            padding-right: 8px;
-            width: 150px;
+            width: 120px;
             display: inline-block;
           }
           .label:after {
@@ -61,10 +63,10 @@
         .export-desc{
             padding-bottom: 15px;
         }
-        .export-button{
-            width: 100px;
-            height:35px;
-        }
+        // .export-button{
+        //     width: 100px;
+        //     height:35px;
+        // }
 
         .wiki-btn {
           margin-left: 8px;

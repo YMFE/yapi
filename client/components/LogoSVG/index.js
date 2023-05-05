@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const LogoSVG = props => {
-  let length = props.length;
+  let length = props.length
   return (
     <svg className="svg" width={length} height={length} viewBox="0 0 64 64" version="1.1">
       <title>Icon</title>
@@ -62,11 +62,11 @@ const LogoSVG = props => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 LogoSVG.propTypes = {
   length: PropTypes.any
-};
+}
 
-export default LogoSVG;
+export default LogoSVG

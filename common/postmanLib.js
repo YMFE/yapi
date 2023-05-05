@@ -1,54 +1,27 @@
-const { isJson5, json_parse, handleJson, joinPath, safeArray } = require('./utils');
-const constants = require('../client/constants/variable.js');
-const _ = require('underscore');
-const URL = require('url');
-const utils = require('./power-string.js').utils;
-const HTTP_METHOD = constants.HTTP_METHOD;
-const axios = require('axios');
-const qs = require('qs');
-const CryptoJS = require('crypto-js');
-const jsrsasign = require('jsrsasign');
-const https = require('https');
+const {
+  isJson5,
+  json_parse,
+  handleJson,
+  joinPath,
+  safeArray,
+} = require('./utils')
+const constants = require('../client/constants/variable.js')
+const _ = require('underscore')
+const URL = require('url')
+const utils = require('./power-string.js').utils
+const HTTP_METHOD = constants.HTTP_METHOD
+const axios = require('axios')
+const qs = require('qs')
+const CryptoJS = require('crypto-js')
 
-const isNode = typeof global == 'object' && global.global === global;
+const isNode = typeof global === 'object' && global.global === global
 const ContentTypeMap = {
   'application/json': 'json',
   'application/xml': 'xml',
   'text/xml': 'xml',
   'application/html': 'html',
   'text/html': 'html',
-  other: 'text'
-};
-
-const getStorage = async (id)=>{
-  try{
-    if(isNode){
-      let storage = global.storageCreator(id);
-      let data = await storage.getItem();
-      return {
-        getItem: (name)=> data[name],
-        setItem: (name, value)=>{
-          data[name] = value;
-          storage.setItem(name, value)
-        }
-      }
-    }else{
-      return {
-        getItem: (name)=> window.localStorage.getItem(name),
-        setItem: (name, value)=>  window.localStorage.setItem(name, value)
-      }
-    }
-  }catch(e){
-    console.error(e)
-    return {
-      getItem: (name)=>{
-        console.error(name, e)
-      },
-      setItem: (name, value)=>{
-        console.error(name, value, e)
-      }
-    }
-  }
+  other: 'text',
 }
 
 async function httpRequestByNode(options) {
@@ -59,22 +32,22 @@ async function httpRequestByNode(options) {
           status: 500,
           body: isNode
             ? '请求出错, 内网服务器自动化测试无法访问到，请检查是否为内网服务器！'
-            : '请求出错'
-        }
-      };
+            : '请求出错',
+        },
+      }
     }
     return {
       res: {
         header: response.headers,
         status: response.status,
-        body: response.data
-      }
-    };
+        body: response.data,
+      },
+    }
   }
 
   function handleData() {
-    let contentTypeItem;
-    if (!options) return;
+    let contentTypeItem
+    if (!options) return
     if (typeof options.headers === 'object' && options.headers) {
       Object.keys(options.headers).forEach(key => {
         if (/content-type/i.test(key)) {
@@ -82,63 +55,62 @@ async function httpRequestByNode(options) {
             contentTypeItem = options.headers[key]
               .split(';')[0]
               .trim()
-              .toLowerCase();
+              .toLowerCase()
           }
         }
-        if (!options.headers[key]) delete options.headers[key];
-      });
+        if (!options.headers[key]) delete options.headers[key]
+      })
 
       if (
         contentTypeItem === 'application/x-www-form-urlencoded' &&
         typeof options.data === 'object' &&
         options.data
       ) {
-        options.data = qs.stringify(options.data);
+        options.data = qs.stringify(options.data)
       }
     }
   }
 
   try {
-    handleData(options);
+    handleData(options)
     let response = await axios({
       method: options.method,
       url: options.url,
       headers: options.headers,
-      timeout: 10000,
+      timeout: 5000,
       maxRedirects: 0,
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false
-      }),
-      data: options.data
-    });
-    return handleRes(response);
+      data: options.data,
+    })
+    return handleRes(response)
   } catch (err) {
     if (err.response === undefined) {
       return handleRes({
         headers: {},
         status: null,
-        data: err.message
-      });
+        data: err.message,
+      })
     }
-    return handleRes(err.response);
+    return handleRes(err.response)
   }
 }
 
 function handleContentType(headers) {
-  if (!headers || typeof headers !== 'object') return ContentTypeMap.other;
-  let contentTypeItem = 'other';
+  if (!headers || typeof headers !== 'object') return ContentTypeMap.other
+  let contentTypeItem = 'other'
   try {
     Object.keys(headers).forEach(key => {
       if (/content-type/i.test(key)) {
         contentTypeItem = headers[key]
           .split(';')[0]
           .trim()
-          .toLowerCase();
+          .toLowerCase()
       }
-    });
-    return ContentTypeMap[contentTypeItem] ? ContentTypeMap[contentTypeItem] : ContentTypeMap.other;
+    })
+    return ContentTypeMap[contentTypeItem]
+      ? ContentTypeMap[contentTypeItem]
+      : ContentTypeMap.other
   } catch (err) {
-    return ContentTypeMap.other;
+    return ContentTypeMap.other
   }
 }
 
@@ -149,129 +121,124 @@ function checkRequestBodyIsRaw(method, reqBodyType) {
     reqBodyType !== 'form' &&
     HTTP_METHOD[method].request_body
   ) {
-    return reqBodyType;
+    return reqBodyType
   }
-  return false;
+  return false
 }
 
 function checkNameIsExistInArray(name, arr) {
-  let isRepeat = false;
+  let isRepeat = false
   for (let i = 0; i < arr.length; i++) {
-    let item = arr[i];
+    let item = arr[i]
     if (item.name === name) {
-      isRepeat = true;
-      break;
+      isRepeat = true
+      break
     }
   }
-  return isRepeat;
+  return isRepeat
 }
 
 function handleCurrDomain(domains, case_env) {
-  let currDomain = _.find(domains, item => item.name === case_env);
+  let currDomain = _.find(domains, item => item.name === case_env)
 
   if (!currDomain) {
-    currDomain = domains[0];
+    currDomain = domains[0]
   }
-  return currDomain;
+  return currDomain
 }
 
 function sandboxByNode(sandbox = {}, script) {
-  const vm = require('vm');
-  script = new vm.Script(script);
-  const context = new vm.createContext(sandbox);
+  const vm = require('vm')
+  script = new vm.Script(script)
+  const context = new vm.createContext(sandbox)
   script.runInContext(context, {
-    timeout: 10000
-  });
-  return sandbox;
+    timeout: 3000,
+  })
+  return sandbox
 }
 
 async function sandbox(context = {}, script) {
   if (isNode) {
     try {
-      context.context = context;
-      context.console = console;
-      context.Promise = Promise;
-      context.setTimeout = setTimeout;
-      context = sandboxByNode(context, script);
+      context.context = context
+      context.console = console
+      context.Promise = Promise
+      context.setTimeout = setTimeout
+      context = sandboxByNode(context, script)
     } catch (err) {
       err.message = `Script: ${script}
-      message: ${err.message}`;
-      throw err;
+      message: ${err.message}`
+      throw err
     }
   } else {
-    context = sandboxByBrowser(context, script);
+    context = sandboxByBrowser(context, script)
   }
-  if (context.promise && typeof context.promise === 'object' && context.promise.then) {
+  if (
+    context.promise &&
+    typeof context.promise === 'object' &&
+    context.promise.then
+  ) {
     try {
-      await context.promise;
+      await context.promise
     } catch (err) {
       err.message = `Script: ${script}
-      message: ${err.message}`;
-      throw err;
+      message: ${err.message}`
+      throw err
     }
   }
-  return context;
+  return context
 }
 
 function sandboxByBrowser(context = {}, script) {
   if (!script || typeof script !== 'string') {
-    return context;
+    return context
   }
-  let beginScript = '';
+  let beginScript = ''
   for (var i in context) {
-    beginScript += `var ${i} = context.${i};`;
+    beginScript += `var ${i} = context.${i};`
   }
   try {
-    eval(beginScript + script);
+    eval(beginScript + script)
   } catch (err) {
     let message = `Script:
                    ----CodeBegin----:
                    ${beginScript}
                    ${script}
                    ----CodeEnd----
-                  `;
+                  `
     err.message = `Script: ${message}
-    message: ${err.message}`;
+    message: ${err.message}`
 
-    throw err;
+    throw err
   }
-  return context;
+  return context
 }
 
-/**
- * 
- * @param {*} defaultOptions 
- * @param {*} preScript 
- * @param {*} afterScript 
- * @param {*} commonContext  负责传递一些业务信息，crossRequest 不关注具体传什么，只负责当中间人
- */
-async function crossRequest(defaultOptions, preScript, afterScript, commonContext = {}) {
-  let options = Object.assign({}, defaultOptions);
-  const taskId = options.taskId || Math.random() + '';
+async function crossRequest(defaultOptions, preScript, afterScript) {
+  let options = Object.assign({}, defaultOptions)
   let urlObj = URL.parse(options.url, true),
-    query = {};
-  query = Object.assign(query, urlObj.query);
+    query = {}
+  query = Object.assign(query, urlObj.query)
   let context = {
-    isNode,
     get href() {
-      return urlObj.href;
+      return urlObj.href
     },
     set href(val) {
-      throw new Error('context.href 不能被赋值');
+      throw new Error('context.href 不能被赋值')
     },
     get hostname() {
-      return urlObj.hostname;
+      return urlObj.hostname
     },
     set hostname(val) {
-      throw new Error('context.hostname 不能被赋值');
+      throw new Error('context.hostname 不能被赋值')
     },
 
     get caseId() {
-      return options.caseId;
+      return options.caseId
     },
 
     set caseId(val) {
-      throw new Error('context.caseId 不能被赋值');
+      throw new Error('context.caseId 不能被赋值')
     },
 
     method: options.method,
@@ -280,15 +247,11 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     requestHeader: options.headers || {},
     requestBody: options.data,
     promise: false,
-    storage: await getStorage(taskId)
-  };
-
-  Object.assign(context, commonContext)
+  }
 
   context.utils = Object.freeze({
     _: _,
     CryptoJS: CryptoJS,
-    jsrsasign: jsrsasign,
     base64: utils.base64,
     md5: utils.md5,
     sha1: utils.sha1,
@@ -297,193 +260,234 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     sha384: utils.sha384,
     sha512: utils.sha512,
     unbase64: utils.unbase64,
-    axios: axios
-  });
+    axios: axios,
+  })
 
-  let scriptEnable = false;
-  try {
-    const yapi = require('../server/yapi');
-    scriptEnable = yapi.WEBCONFIG.scriptEnable === true;
-  } catch (err) {}
-
-  if (preScript && scriptEnable) {
-    context = await sandbox(context, preScript);
+  if (preScript) {
+    try {
+      context = await sandbox(context, preScript)
+    } catch (error) {}
     defaultOptions.url = options.url = URL.format({
       protocol: urlObj.protocol,
       host: urlObj.host,
       query: context.query,
-      pathname: context.pathname
-    });
-    defaultOptions.headers = options.headers = context.requestHeader;
-    defaultOptions.data = options.data = context.requestBody;
+      pathname: context.pathname,
+    })
+    defaultOptions.headers = options.headers = context.requestHeader
+    defaultOptions.data = options.data = context.requestBody
   }
 
-  let data;
+  let data
 
   if (isNode) {
-    data = await httpRequestByNode(options);
-    data.req = options;
+    data = await httpRequestByNode(options)
+    data.req = options
   } else {
     data = await new Promise((resolve, reject) => {
       options.error = options.success = function(res, header, data) {
-        let message = '';
+        let message = ''
         if (res && typeof res === 'string') {
-          res = json_parse(data.res.body);
-          data.res.body = res;
+          res = json_parse(data.res.body)
+          data.res.body = res
         }
-        if (!isNode) message = '请求异常，请检查 chrome network 错误信息... https://juejin.im/post/5c888a3e5188257dee0322af 通过该链接查看教程"）';
+        if (!isNode) message = '请求异常，请检查 Chrome Network 的错误信息'
         if (isNaN(data.res.status)) {
           reject({
             body: res || message,
             header,
-            message
-          });
+            message,
+          })
         }
-        resolve(data);
-      };
+        resolve(data)
+      }
 
-      window.crossRequest(options);
-    });
+      window.crossRequest(options)
+    })
   }
 
-  if (afterScript && scriptEnable) {
-    context.responseData = data.res.body;
-    context.responseHeader = data.res.header;
-    context.responseStatus = data.res.status;
-    context.runTime = data.runTime;
-    context = await sandbox(context, afterScript);
-    data.res.body = context.responseData;
-    data.res.header = context.responseHeader;
-    data.res.status = context.responseStatus;
-    data.runTime = context.runTime;
+  if (afterScript) {
+    context.responseData = data.res.body
+    context.responseHeader = data.res.header
+    context.responseStatus = data.res.status
+    context.runTime = data.runTime
+    context = await sandbox(context, afterScript)
+    data.res.body = context.responseData
+    data.res.header = context.responseHeader
+    data.res.status = context.responseStatus
+    data.runTime = context.runTime
   }
-  return data;
+  return data
 }
 
 function handleParams(interfaceData, handleValue, requestParams) {
-  let interfaceRunData = Object.assign({}, interfaceData);
+  let interfaceRunData = Object.assign({}, interfaceData)
   function paramsToObjectWithEnable(arr) {
-    const obj = {};
+    const obj = {}
     safeArray(arr).forEach(item => {
       if (item && item.name && (item.enable || item.required === '1')) {
-        obj[item.name] = handleValue(item.value, currDomain.global);
+        obj[item.name] = handleValue(
+          item.value || item.example,
+          currDomain.global,
+        )
         if (requestParams) {
-          requestParams[item.name] = obj[item.name];
+          requestParams[item.name] = obj[item.name]
         }
       }
-    });
-    return obj;
+    })
+    return obj
   }
 
   function paramsToObjectUnWithEnable(arr) {
-    const obj = {};
+    const obj = {}
     safeArray(arr).forEach(item => {
       if (item && item.name) {
-        obj[item.name] = handleValue(item.value, currDomain.global);
+        obj[item.name] = handleValue(item.value, currDomain.global)
         if (requestParams) {
-          requestParams[item.name] = obj[item.name];
+          requestParams[item.name] = obj[item.name]
         }
       }
-    });
-    return obj;
+    })
+    return obj
   }
 
-  let { case_env, path, env, _id } = interfaceRunData;
+  let { case_env, path, env, _id } = interfaceRunData
   let currDomain,
     requestBody,
-    requestOptions = {};
-  currDomain = handleCurrDomain(env, case_env);
-  interfaceRunData.req_params = interfaceRunData.req_params || [];
+    requestOptions = {}
+  currDomain = handleCurrDomain(env, case_env)
+  interfaceRunData.req_params = interfaceRunData.req_params || []
   interfaceRunData.req_params.forEach(item => {
-    let val = handleValue(item.value, currDomain.global);
+    let val = handleValue(item.value, currDomain.global)
     if (requestParams) {
-      requestParams[item.name] = val;
+      requestParams[item.name] = val
     }
-    path = path.replace(`:${item.name}`, val || `:${item.name}`);
-    path = path.replace(`{${item.name}}`, val || `{${item.name}}`);
-  });
+    path = path.replace(`:${item.name}`, val || `:${item.name}`)
+    path = path.replace(`{${item.name}}`, val || `{${item.name}}`)
+  })
 
-  const urlObj = URL.parse(joinPath(currDomain.domain, path), true);
+  const urlObj = URL.parse(joinPath(currDomain.domain, path), true)
   const url = URL.format({
     protocol: urlObj.protocol || 'http',
     host: urlObj.host,
     pathname: urlObj.pathname,
-    query: Object.assign(urlObj.query, paramsToObjectWithEnable(interfaceRunData.req_query))
-  });
+    query: Object.assign(
+      urlObj.query,
+      paramsToObjectWithEnable(interfaceRunData.req_query),
+    ),
+  })
 
-  let headers = paramsToObjectUnWithEnable(interfaceRunData.req_headers);
+  let headers = paramsToObjectUnWithEnable(interfaceRunData.req_headers)
   requestOptions = {
     url,
     caseId: _id,
     method: interfaceRunData.method,
-    headers,
-    timeout: 82400000
-  };
+    headers: {
+      // 增加 api 相关数据
+      'w-api-title': encodeURI(interfaceData.title),
+      ...headers,
+    },
+    timeout: 82400000,
+  }
 
   // 对 raw 类型的 form 处理
   try {
     if (interfaceRunData.req_body_type === 'raw') {
       if (headers && headers['Content-Type']) {
-        if (headers['Content-Type'].indexOf('application/x-www-form-urlencoded') >= 0) {
-          interfaceRunData.req_body_type = 'form';
-          let reqData = json_parse(interfaceRunData.req_body_other);
+        if (
+          headers['Content-Type'].indexOf(
+            'application/x-www-form-urlencoded',
+          ) >= 0
+        ) {
+          interfaceRunData.req_body_type = 'form'
+          let reqData = json_parse(interfaceRunData.req_body_other)
           if (reqData && typeof reqData === 'object') {
-            interfaceRunData.req_body_form = [];
+            interfaceRunData.req_body_form = []
             Object.keys(reqData).forEach(key => {
               interfaceRunData.req_body_form.push({
                 name: key,
                 type: 'text',
                 value: JSON.stringify(reqData[key]),
-                enable: true
-              });
-            });
+                enable: true,
+              })
+            })
           }
         } else if (headers['Content-Type'].indexOf('application/json') >= 0) {
-          interfaceRunData.req_body_type = 'json';
+          interfaceRunData.req_body_type = 'json'
         }
       }
     }
   } catch (e) {
-    console.error('err', e);
+    console.log('err', e)
   }
 
   if (HTTP_METHOD[interfaceRunData.method].request_body) {
     if (interfaceRunData.req_body_type === 'form') {
       requestBody = paramsToObjectWithEnable(
         safeArray(interfaceRunData.req_body_form).filter(item => {
-          return item.type == 'text';
-        })
-      );
+          return item.type == 'text'
+        }),
+      )
     } else if (interfaceRunData.req_body_type === 'json') {
-      let reqBody = isJson5(interfaceRunData.req_body_other);
+      let reqBody = isJson5(interfaceRunData.req_body_other)
       if (reqBody === false) {
-        requestBody = interfaceRunData.req_body_other;
+        requestBody = interfaceRunData.req_body_other
       } else {
         if (requestParams) {
-          requestParams = Object.assign(requestParams, reqBody);
+          requestParams = Object.assign(requestParams, reqBody)
         }
-        requestBody = handleJson(reqBody, val => handleValue(val, currDomain.global));
+        requestBody = handleJson(reqBody, val =>
+          handleValue(val, currDomain.global),
+        )
       }
     } else {
-      requestBody = interfaceRunData.req_body_other;
+      requestBody = interfaceRunData.req_body_other
     }
-    requestOptions.data = requestBody;
+    requestOptions.data = requestBody
     if (interfaceRunData.req_body_type === 'form') {
       requestOptions.files = paramsToObjectWithEnable(
         safeArray(interfaceRunData.req_body_form).filter(item => {
-          return item.type == 'file';
-        })
-      );
+          return item.type == 'file'
+        }),
+      )
     } else if (interfaceRunData.req_body_type === 'file') {
-      requestOptions.file = 'single-file';
+      requestOptions.file = 'single-file'
     }
   }
-  return requestOptions;
+  return requestOptions
 }
 
-exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw;
-exports.handleParams = handleParams;
-exports.handleContentType = handleContentType;
-exports.crossRequest = crossRequest;
-exports.handleCurrDomain = handleCurrDomain;
-exports.checkNameIsExistInArray = checkNameIsExistInArray;
+// function handleJsonParams(str) {
+//   try {
+//       JSON.parse(str);
+//   } catch (e) {
+//       return `${str}`;
+//   }
+//   if(typeof JSON.parse(str) === 'object') {
+//     return JSON.parse(str)
+//   } else {
+//     return `${str}`
+//   }
+// }
+
+function handleDubboParams(interfaceData) {
+  let interfaceRunData = Object.assign({}, interfaceData)
+  let { case_env, env } = interfaceRunData
+  let currDomain = handleCurrDomain(env, case_env)
+  const urlObj = URL.parse(currDomain.domain, true)
+  let resOption = {
+    ip: urlObj.hostname,
+    port: urlObj.port,
+    facade: interfaceRunData.r_facade,
+    method: interfaceRunData.r_method,
+    param: interfaceRunData.dubbo_params,
+  }
+  return resOption
+}
+
+exports.checkRequestBodyIsRaw = checkRequestBodyIsRaw
+exports.handleParams = handleParams
+exports.handleDubboParams = handleDubboParams
+exports.handleContentType = handleContentType
+exports.crossRequest = crossRequest
+exports.handleCurrDomain = handleCurrDomain
+exports.checkNameIsExistInArray = checkNameIsExistInArray

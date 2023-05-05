@@ -14,38 +14,48 @@ import StatisTable from './StatisTable';
 
 const CountOverview = props => (
   <Row type="flex" justify="space-start" className="m-row">
-    <Col className="gutter-row" span={6}>
+    <Col className="gutter-row" span={4}>
       <span>
         分组总数
-        <Tooltip placement="rightTop" title="统计yapi中一共开启了多少可见的公共分组">
+        <Tooltip placement="rightTop" title="统计落兵台中一共开启了多少可见的公共分组">
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
       <h2 className="gutter-box">{props.date.groupCount}</h2>
     </Col>
-    <Col className="gutter-row" span={6}>
+    <Col className="gutter-row" span={5}>
       <span>
         项目总数
-        <Tooltip placement="rightTop" title="统计yapi中建立的所有项目总数">
+        <Tooltip placement="rightTop" title="统计落兵台中建立的所有项目总数">
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
       <h2 className="gutter-box">{props.date.projectCount}</h2>
     </Col>
-    <Col className="gutter-row" span={6}>
+    <Col className="gutter-row" span={5}>
       <span>
         接口总数
-        <Tooltip placement="rightTop" title="统计yapi所有项目中的所有接口总数">
+        <Tooltip placement="rightTop" title="统计落兵台所有项目中的所有接口总数">
           {/*<a href="javascript:void(0)" className="m-a-help">?</a>*/}
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
       </span>
       <h2 className="gutter-box">{props.date.interfaceCount}</h2>
     </Col>
-    <Col className="gutter-row" span={6}>
+    <Col className="gutter-row" span={5}>
+      <span>
+        wiki 总数
+        <Tooltip placement="rightTop" title="统计落兵台所有项目中的所有 wiki 数量">
+          {/*<a href="javascript:void(0)" className="m-a-help">?</a>*/}
+          <Icon className="m-help" type="question-circle" />
+        </Tooltip>
+      </span>
+      <h2 className="gutter-box">{props.date.wikiCount}</h2>
+    </Col>
+    <Col className="gutter-row" span={5}>
       <span>
         测试接口总数
-        <Tooltip placement="rightTop" title="统计yapi所有项目中的所有测试接口总数">
+        <Tooltip placement="rightTop" title="统计落兵台所有项目中的所有测试接口总数">
           {/*<a href="javascript:void(0)" className="m-a-help">?</a>*/}
           <Icon className="m-help" type="question-circle" />
         </Tooltip>
@@ -127,7 +137,8 @@ class statisticsPage extends Component {
         groupCount: 0,
         projectCount: 0,
         interfaceCount: 0,
-        interfactCaseCount: 0
+        interfactCaseCount: 0,
+        wikiCount: 0
       },
       status: {
         mail: '',
@@ -140,7 +151,7 @@ class statisticsPage extends Component {
     };
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     this.props.setBreadcrumb([{ name: '系统信息' }]);
     this.getStatisData();
     this.getSystemStatusData();

@@ -1,0 +1,21 @@
+{
+  "port": "20568",
+  "adminAccount": "prod@admin.com",
+  "closeRegister": true,
+  "versionNotify": false,
+  "db-dev": {
+    "comment": "local db",
+    "servername": "127.0.0.1",
+    "DATABASE": "yapi",
+    "port": 27017
+  },
+  "db": {
+    "comment": "local db",
+    "servername": "127.0.0.1",
+    "DATABASE": "yapi",
+    "port": 27017
+  },
+  "mail": {
+    "enable": true
+  }
+}

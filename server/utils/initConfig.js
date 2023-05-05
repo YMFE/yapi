@@ -4,7 +4,7 @@ const config = require('../config.js');
 
 let runtimePath = config.runtime_path;
 fs.ensureDirSync(runtimePath);
-fs.ensureDirSync(path.join(runtimePath, 'log'));
+// fs.ensureDirSync(path.join(runtimePath, 'log'));
 let configPath = path.join(runtimePath, 'config.json');
 
 fs.writeFileSync(configPath,

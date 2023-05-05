@@ -1,9 +1,9 @@
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Input, Button } from 'antd';
-const FormItem = Form.Item;
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
+import { Form, Input, Button } from 'antd'
+const FormItem = Form.Item
 function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
+  return Object.keys(fieldsError).some(field => fieldsError[field])
 }
 class AddInterfaceForm extends Component {
   static propTypes = {
@@ -13,16 +13,16 @@ class AddInterfaceForm extends Component {
     catdata: PropTypes.object
   };
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.onSubmit(values);
+        this.props.onSubmit(values)
       }
-    });
+    })
   };
 
   render() {
-    const { getFieldDecorator, getFieldsError } = this.props.form;
+    const { getFieldDecorator, getFieldsError } = this.props.form
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -32,7 +32,7 @@ class AddInterfaceForm extends Component {
         xs: { span: 24 },
         sm: { span: 14 }
       }
-    };
+    }
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -62,8 +62,8 @@ class AddInterfaceForm extends Component {
           </Button>
         </FormItem>
       </Form>
-    );
+    )
   }
 }
 
-export default Form.create()(AddInterfaceForm);
+export default Form.create()(AddInterfaceForm)

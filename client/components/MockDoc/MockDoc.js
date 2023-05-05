@@ -1,6 +1,6 @@
-import './MockDoc.scss';
-import React, { PureComponent as Component } from 'react';
-import PropTypes from 'prop-types';
+import './MockDoc.scss'
+import React, { PureComponent as Component } from 'react'
+import PropTypes from 'prop-types'
 
 // 组件用法 <MockDoc mock= mockData doc= docData />
 // mockData: mock数据 格式为json
@@ -8,24 +8,20 @@ import PropTypes from 'prop-types';
 
 class MockDoc extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       release: []
-    };
+    }
   }
 
   static propTypes = {
     mock: PropTypes.object,
     doc: PropTypes.array
   };
-  // btnCol(start,col){
-  //   return function(){
-  //     console.log(start,col);
-  //   }
-  // }
+
   render() {
-    let htmlData = mockToArr(this.props.mock);
-    htmlData = arrToHtml(htmlData, this.props.doc);
+    let htmlData = mockToArr(this.props.mock)
+    htmlData = arrToHtml(htmlData, this.props.doc)
     return (
       <div className="MockDoc">
         {htmlData.map(function(item, i) {
@@ -33,29 +29,29 @@ class MockDoc extends Component {
             /*//类型：Object  必有字段  备注：qwqwqw*/
           }
           if (item.mes) {
-            var mes = [];
+            var mes = []
             item.mes.type
               ? mes.push(
-                  <span key={i} className="keymes">
-                    {' '}
+                <span key={i} className="keymes">
+                  {' '}
                     / /类型：{item.mes.type}
-                  </span>
+                </span>
                 )
-              : '';
+              : ''
             item.mes.required
               ? mes.push(
-                  <span key={i + 1} className="keymes">
+                <span key={i + 1} className="keymes">
                     必有字段
                   </span>
                 )
-              : '';
+              : ''
             item.mes.desc
               ? mes.push(
-                  <span key={i + 2} className="keymes">
+                <span key={i + 2} className="keymes">
                     备注：{item.mes.desc}
-                  </span>
+                </span>
                 )
-              : '';
+              : ''
           }
           return (
             <div className="jsonItem" key={i}>
@@ -64,10 +60,10 @@ class MockDoc extends Component {
               {setStrToHtml(item.str)}
               {mes}
             </div>
-          );
+          )
         })}
       </div>
-    );
+    )
   }
 }
 
@@ -101,107 +97,103 @@ MockDoc.defaultProps = {
     { type: 'object', key: 'data3', required: true, desc: '数据名1' },
     { type: 'object', key: 'data3.arr[]', required: true, desc: '数据名1' }
   ]
-};
+}
 function produceSpace(count) {
-  var space = [];
+  var space = []
   for (var i = 0; i < count; i++) {
-    space.push(<span key={i} className="spaces" />);
+    space.push(<span key={i} className="spaces" />)
   }
-  return space;
+  return space
 }
 
 function setStrToHtml(str) {
-  return <span dangerouslySetInnerHTML={{ __html: `${str}` }} />;
+  return <span dangerouslySetInnerHTML={{ __html: `${str}` }} />
 }
 function arrToHtml(mockArr, mock) {
   for (var i in mockArr) {
     for (var item in mock) {
-      // if(mockArr[i].key){
-      //   console.log(mockArr[i].key,mock[item].key)
-      // }
-
       if (mockArr[i].key && mockArr[i].key === mock[item].key) {
-        mockArr[i].mes = mock[item];
+        mockArr[i].mes = mock[item]
       }
     }
   }
-  return mockArr;
+  return mockArr
 }
 
 function mockToArr(mock, html, space, key) {
-  html = html || [];
-  space = space || 0;
-  key = key || [];
+  html = html || []
+  space = space || 0
+  key = key || []
   if (typeof mock === 'object' && space === 0) {
     if (mock.constructor === Array) {
       html.push({
         space: space,
         str: '['
-      });
-      space++;
+      })
+      space++
     } else {
       html.push({
         space: space,
         str: '{'
-      });
-      space++;
+      })
+      space++
     }
   }
   for (var i in mock) {
     if (!mock.hasOwnProperty(i)) {
-      continue;
+      continue
     }
-    var index = i;
+    var index = i
     if (/^\w+(\|\w+)?/.test(i)) {
-      index = i.split('|')[0];
+      index = i.split('|')[0]
     }
     if (typeof mock[i] === 'object') {
       if (mock[i].constructor === Array) {
         // shuzu
         if (mock.constructor != Array) {
           if (key.length) {
-            key.push('.' + index + '[]');
+            key.push('.' + index + '[]')
           } else {
-            key.push(index + '[]');
+            key.push(index + '[]')
           }
         } else {
-          key.push('[]');
+          key.push('[]')
         }
         html.push({
           space: space,
           str: index + ' : [',
           key: key.join('')
-        });
+        })
       } else {
         // object
         if (mock.constructor != Array) {
           if (key.length) {
-            key.push('.' + index);
+            key.push('.' + index)
           } else {
-            key.push(index);
+            key.push(index)
           }
           html.push({
             space: space,
             str: index + ' : {'
-          });
+          })
         } else {
           html.push({
             space: space,
             str: '{'
-          });
+          })
         }
       }
-      space++;
-      mockToArr(mock[i], html, space, key);
-      key.pop();
-      space--;
+      space++
+      mockToArr(mock[i], html, space, key)
+      key.pop()
+      space--
     } else {
       if (mock.constructor === Array) {
         // html.push(produceSpace(space) + mock[i]+ ",");
         html.push({
           space: space,
           str: `<span class = "valueLight">${mock[i]}</span>` + ','
-        });
+        })
       } else {
         // html.push(produceSpace(space) + index + ":" + mock[i] + ",");
         if (mock.constructor != Array) {
@@ -211,21 +203,21 @@ function mockToArr(mock, html, space, key) {
               space: space,
               str: index + ' : ' + `<span class = "valueLight">${mock[i]}</span>` + ',',
               key: key.join('') + '.' + index
-            });
+            })
           } else {
             // doc.push(key + index);
             html.push({
               space: space,
               str: index + ' : ' + `<span class = "valueLight">${mock[i]}</span>` + ',',
               key: key.join('') + index
-            });
+            })
           }
         } else {
           html.push({
             space: space,
             str: index + ' : ' + `<span class = "valueLight">${mock[i]}</span>` + ',',
             key: key.join('')
-          });
+          })
         }
       }
     }
@@ -234,27 +226,27 @@ function mockToArr(mock, html, space, key) {
     html[html.length - 1].str = html[html.length - 1].str.substr(
       0,
       html[html.length - 1].str.length - 1
-    );
+    )
     if (mock.constructor === Array) {
-      space--;
+      space--
       // html.push(produceSpace(space)+"]");
       html.push({
         space: space,
         str: ']'
-      });
+      })
     } else {
-      space--;
+      space--
       // html.push(produceSpace(space)+"}");
       html.push({
         space: space,
         str: '}'
-      });
+      })
     }
   }
   if (space != 0) {
-    html[html.length - 1].str = html[html.length - 1].str + ',';
+    html[html.length - 1].str = html[html.length - 1].str + ','
   }
-  return html;
+  return html
 }
 
-export default MockDoc;
+export default MockDoc
