@@ -1,7 +1,30 @@
 const path = require('path');
 const fs = require('fs-extra');
 const nodemailer = require('nodemailer');
-const config = require('../../config.json');
+// const config = require('../../config.json');
+const config = {
+  port: '3000',
+  adminAccount: 'admin@admin.com',
+  timeout: 120000,
+  db: {
+    servername: '127.0.0.1',
+    DATABASE: 'yapi',
+    port: 27017,
+    user: 'test1',
+    pass: 'test1',
+    authSource: ''
+  },
+  mail: {
+    enable: true,
+    host: 'smtp.163.com',
+    port: 465,
+    from: '***@163.com',
+    auth: {
+      user: '***@163.com',
+      pass: '*****'
+    }
+  }
+};
 
 let insts = new Map();
 let mail;
@@ -38,7 +61,6 @@ function delInst(m) {
     console.error(err); // eslint-disable-line
   }
 }
-
 
 let r = {
   fs: fs,
