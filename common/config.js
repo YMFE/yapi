@@ -1,6 +1,9 @@
 module.exports = {
   exts: [
     {
+      name: 'add-user',
+    },
+    {
       name: 'import-postman',
     },
     {
