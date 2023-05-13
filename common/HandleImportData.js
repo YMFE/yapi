@@ -62,9 +62,6 @@ async function handle(
   const handleAddInterface = async res => {
     const resCats = res.cats || []
     const cats = await handleAddCat(res.cats)
-    /* if (cats === false) {
-      return;
-    } */
     res = res.apis
     let len = res.length
     let count = 0
@@ -82,9 +79,12 @@ async function handle(
     // allInfoList 最终为对比之后多出来的 _id 集合，需要进行删除
     let allInfoList = []
     if (dataSync === 'merge') {
-      const allInfo = await axios.get(
-        `/api/interface/get_all?project_id=${projectId}&cat_id=${selectCatid}`,
-      )
+      let apipath = `/api/interface/get_all?project_id=${projectId}&cat_id=${selectCatid}`
+      if (isNode) {
+        apipath = 'http://127.0.0.1:' + port + apipath
+      }
+
+      const allInfo = await axios.get(apipath)
       allInfoList =
         (allInfo.data && allInfo.data.data && allInfo.data.data.list) || []
       resCats.length > 0 &&

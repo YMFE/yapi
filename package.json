@@ -13,6 +13,7 @@
     "test": "ava",
     "npm-publish": "node ./npm-publish.js",
     "fix": "eslint --fix --ext .js,.jsx client/",
+    "docker": "sh docker.sh",
     "dep-analyze": "webpack --color --config webpack.dev --profile --json > ./dist/DependenceNetwork.json"
   },
   "scripts-info": {

@@ -1,19 +1,25 @@
 {
-  "port": "20568",
-  "adminAccount": "prod@admin.com",
-  "closeRegister": true,
+  "port": "3000",
+  "adminAccount": "zzcheng.me@gmail.com",
+  "closeRegister": false,
   "versionNotify": false,
   "db-dev": {
     "comment": "local db",
-    "servername": "127.0.0.1",
-    "DATABASE": "yapi",
-    "port": 27017
+    "servername": "apps.danlu.netease.com",
+    "DATABASE": "admin",
+    "port": "15091",
+    "user": "admin",
+    "pass": "123456mongoD",
+    "authSource": "admin"
   },
   "db": {
     "comment": "local db",
-    "servername": "127.0.0.1",
-    "DATABASE": "yapi",
-    "port": 27017
+    "servername": "apps.danlu.netease.com",
+    "DATABASE": "admin",
+    "port": "15091",
+    "user": "admin",
+    "pass": "123456mongoD",
+    "authSource": "admin"
   },
   "mail": {
     "enable": true

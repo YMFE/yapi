@@ -20,7 +20,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     clientLogLevel: 'trace',
     host: '0.0.0.0',
     hot: true,
-    open: true,
+    // open: true,
     historyApiFallback: true,
   },
 })
