@@ -300,7 +300,13 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     axios: axios
   });
 
-  if (preScript) {
+  let scriptEnable = false;
+  try {
+    const yapi = require('../server/yapi');
+    scriptEnable = yapi.WEBCONFIG.scriptEnable === true;
+  } catch (err) {}
+
+  if (preScript && scriptEnable) {
     context = await sandbox(context, preScript);
     defaultOptions.url = options.url = URL.format({
       protocol: urlObj.protocol,
@@ -340,7 +346,7 @@ async function crossRequest(defaultOptions, preScript, afterScript, commonContex
     });
   }
 
-  if (afterScript) {
+  if (afterScript && scriptEnable) {
     context.responseData = data.res.body;
     context.responseHeader = data.res.header;
     context.responseStatus = data.res.status;
