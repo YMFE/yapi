@@ -23,7 +23,7 @@ export default class Notify extends Component {
   }
 
   render() {
-    const isShow = this.state.newVersion !== this.state.version;
+    const isShow = this.state.newVersion > this.state.version;
     return (
       <div>
         {isShow && (
