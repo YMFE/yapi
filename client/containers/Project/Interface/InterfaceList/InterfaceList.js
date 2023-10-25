@@ -213,7 +213,7 @@ class InterfaceList extends Component {
     this.handleRequest(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     let _actionId = nextProps.match.params.actionId;
 
     if (this.actionId !== _actionId) {

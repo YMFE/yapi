@@ -112,7 +112,7 @@ class InterfaceMenu extends Component {
         this.handleRequest();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.list !== nextProps.list) {
             // console.log('next', nextProps.list)
             this.setState({
@@ -385,6 +385,7 @@ class InterfaceMenu extends Component {
             case "api_to_cat":
                 axios.post('/api/interface/up', {id: dragKey, catid: dropObj._id});
                 break;
+            // eslint-disable-next-line no-case-declarations
             default:
                 // 同一个分类下的接口交换顺序
                 let colList = list[dropCatIndex].list;

@@ -28,7 +28,7 @@ export function requireAuthentication(Component) {
     componentWillMount() {
       this.checkAuth();
     }
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
       this.checkAuth();
     }
     checkAuth() {

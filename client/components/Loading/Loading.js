@@ -13,7 +13,7 @@ export default class Loading extends React.PureComponent {
     super(props);
     this.state = { show: props.visible };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ show: nextProps.visible });
   }
   render() {
