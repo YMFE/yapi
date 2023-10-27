@@ -103,6 +103,10 @@ h2 {
 }
 
 h3 {
+    font-size: 18px;
+}
+
+p + h2, p + h3, p + h4, p + h5, p + h6 {
     clear: both;
     font-weight: 400;
     margin-top: 20px;

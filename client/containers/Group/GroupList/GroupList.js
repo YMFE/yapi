@@ -198,7 +198,7 @@ export default class GroupList extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // GroupSetting 组件设置的分组信息，通过redux同步到左侧分组菜单中
     if (this.props.groupList !== nextProps.groupList) {
       this.setState({

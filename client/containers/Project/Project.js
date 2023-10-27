@@ -56,7 +56,7 @@ export default class Project extends Component {
     ]);
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     const currProjectId = this.props.match.params.id;
     const nextProjectId = nextProps.match.params.id;
     if (currProjectId !== nextProjectId) {

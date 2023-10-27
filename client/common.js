@@ -228,10 +228,12 @@ exports.arrayChangeIndex = (arr, start, end) => {
   newArr.splice(end, 0, startItem);
   let changes = [];
   newArr.forEach((item, index) => {
-    changes.push({
-      id: item._id,
-      index: index
-    });
+    if (undefined !== item) {
+      changes.push({
+        id: item._id,
+        index: index
+      });
+    }
   });
 
   return changes;

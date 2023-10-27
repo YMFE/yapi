@@ -95,7 +95,7 @@ export default class InterfaceCaseContent extends Component {
     this.setState({ editCasename: this.props.currCase.casename });
   }
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     const oldCaseId = this.props.match.params.actionId;
     const newCaseId = nextProps.match.params.actionId;
     const { interfaceColList } = nextProps;

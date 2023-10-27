@@ -26,7 +26,7 @@ class MyPopConfirm extends Component {
     this.setState({ visible: false });
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.setState({ visible: true });
   }
 

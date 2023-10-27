@@ -22,7 +22,7 @@ export default class Label extends Component {
   handleChange = event => {
     this.setState({ inputValue: event.target.value });
   };
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.desc === nextProps.desc) {
       this.setState({
         inputShow: false

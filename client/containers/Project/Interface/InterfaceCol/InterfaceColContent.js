@@ -480,7 +480,7 @@ class InterfaceColContent extends Component {
     this.aceEditor.editor.insertCode(code);
   };
 
-  async componentWillReceiveProps(nextProps) {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     let newColId = !isNaN(nextProps.match.params.actionId) ? +nextProps.match.params.actionId : 0;
 
     if (newColId && ((this.currColId && newColId !== this.currColId) || nextProps.isRander)) {

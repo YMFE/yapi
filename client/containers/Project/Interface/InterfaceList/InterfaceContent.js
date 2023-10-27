@@ -52,7 +52,7 @@ class Content extends Component {
     document.getElementsByTagName('title')[0].innerText = this.title;
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const params = nextProps.match.params;
     if (params.actionId !== this.actionId) {
       this.actionId = params.actionId;

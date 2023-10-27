@@ -41,6 +41,7 @@
     "deep-extend": "^0.5.0",
     "deref": "^0.7.3",
     "easy-json-schema": "0.0.2-beta",
+    "fs": "0.0.1-security",
     "fs-extra": "^3.0.1",
     "generate-schema": "^2.6.0",
     "immer": "^1.1.1",
@@ -80,7 +81,7 @@
     "safeify": "^5.0.5",
     "sha.js": "2.4.9",
     "sha1": "1.1.1",
-    "swagger-client": "^3.5.1",
+    "swagger-client": "3.5.1",
     "tslib": "1.8.0",
     "underscore": "1.8.3",
     "url": "0.11.0",
@@ -88,7 +89,7 @@
     "yapi-plugin-qsso": "^1.1.0"
   },
   "devDependencies": {
-    "antd": "3.2.2",
+    "antd": "^3.2.2",
     "anujs": "^1.2.6",
     "assets-webpack-plugin": "^3.5.1",
     "ava": "^0.22.0",
@@ -109,7 +110,6 @@
     "brace": "^0.10.0",
     "buffer-shims": "^1.0.0",
     "compression-webpack-plugin": "^1.0.0",
-    "conventional-changelog-cli": "^2.1.1",
     "copy-webpack-plugin": "^4.0.1",
     "core-decorators": "^0.17.0",
     "css-loader": "^0.28.4",

@@ -248,7 +248,7 @@ class interfaceModel extends baseModel {
       .skip((page - 1) * limit)
       .limit(limit)
       .select(
-        '_id title uid path method project_id catid edit_uid api_opened status add_time up_time, index, tag'
+        '_id index title uid path method project_id catid edit_uid api_opened status add_time up_time, index, tag'
       )
       .exec();
   }

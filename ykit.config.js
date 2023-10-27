@@ -10,7 +10,11 @@ var assetsPluginInstance = new AssetsPlugin({
 });
 var fs = require('fs');
 var package = require('./package.json');
-var yapi = require('./server/yapi');
+let nullableConfig = null;
+try {
+  nullableConfig = require('../config.json');
+} catch (ignore) {
+}
 var isWin = require('os').platform() === 'win32'
 
 var compressPlugin = new CompressionPlugin({
@@ -34,7 +38,10 @@ function createScript(plugin, pathAlias) {
 }
 
 function initPlugins(configPlugin) {
-  configPlugin = require('../config.json').plugins;
+  configPlugin = [];
+  if (nullableConfig && nullableConfig.plugins) {
+    configPlugin = nullableConfig.plugins;
+  }
   var systemConfigPlugin = require('./common/config.js').exts;
 
   var scripts = [];
@@ -127,7 +134,7 @@ module.exports = {
           new this.webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(ENV_PARAMS),
             'process.env.version': JSON.stringify(package.version),
-            'process.env.versionNotify': yapi.WEBCONFIG.versionNotify
+            'process.env.versionNotify': nullableConfig && nullableConfig.versionNotify
           })
         );
 
@@ -187,7 +194,11 @@ module.exports = {
           test: /\.json$/,
           loader: 'json-loader'
         });
-
+        baseConfig.module.preLoaders.push({
+          test: /\.(js|jsx)$/,
+          include: [path.resolve(__dirname, './node_modules/swagger-client')],
+          loader: 'babel-loader'
+        });
         if (this.env == 'prd') {
           baseConfig.plugins.push(
             new this.webpack.optimize.UglifyJsPlugin({
