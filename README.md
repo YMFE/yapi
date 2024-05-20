@@ -77,6 +77,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 * [yapi-to-typescript：根据 YApi 的接口定义生成 TypeScript 的请求函数](https://github.com/fjc0k/yapi-to-typescript)
 * [yapi-gen-js-code: 根据 YApi 的接口定义生成 javascript 的请求函数](https://github.com/hellosean1025/yapi-gen-js-code)
 * [SwiftJSONModeler:根据 YApi 的接口生成 Swift 模型代码](https://github.com/CodeOcenS/SwiftJSONModeler)
+* [yapi-to-code: 根据 YApi 的接口定义生成代码](https://github.com/czb3279338858/yapi-to-code)
 
 ### YApi docker部署（非官方）
 * [使用 alpine 版 docker 镜像快速部署 yapi](https://www.jianshu.com/p/a97d2efb23c5)
