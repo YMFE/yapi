@@ -158,10 +158,7 @@ module.exports = async (ctx, next) => {
   paths.splice(0, 3);
   path = '/' + paths.join('/');
 
-  ctx.set('Access-Control-Allow-Origin', header.origin);
-  ctx.set('Access-Control-Allow-Credentials', true);
-
-  // ctx.set('Access-Control-Allow-Origin', '*');
+  commonMock.setCommonResponseHeaders(ctx, header.origin);
 
   if (!projectId) {
     return (ctx.body = yapi.commons.resReturn(null, 400, 'projectId不能为空'));
