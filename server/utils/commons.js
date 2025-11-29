@@ -623,7 +623,8 @@ exports.handleMockScript = async function (script, context) {
     resHeader: context.resHeader,
     httpCode: context.httpCode,
     delay: context.httpCode,
-    Random: Mock.Random
+    Random: Mock.Random,
+    utils: commonMock.mockUtils
   };
   sandbox.cookie = {};
 
