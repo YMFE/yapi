@@ -88,7 +88,7 @@ export default class ProjectInterfaceSync extends Component {
     try{
       await this.props.handleSwaggerUrlData(value);
     } catch(e) {
-      callback('swagger地址不正确');
+      callback('OpenAPI/Swagger 地址不正确');
     } 
     callback()
   }
@@ -165,7 +165,7 @@ export default class ProjectInterfaceSync extends Component {
                       <br />
                       <h3 style={{ color: 'white' }}>智能合并</h3>
                       <p>
-                        已存在的接口，将合并返回数据的 response，适用于导入了 swagger
+                        已存在的接口，将合并返回数据的 response，适用于导入了 OpenAPI/Swagger
                         数据，保留对数据结构的改动
                       </p>
                       <br />
@@ -196,12 +196,12 @@ export default class ProjectInterfaceSync extends Component {
               )}
             </FormItem>
 
-            <FormItem {...formItemLayout} label="项目的swagger json地址">
+            <FormItem {...formItemLayout} label="项目的 OpenAPI/Swagger JSON 地址">
               {getFieldDecorator('sync_json_url', {
                 rules: [
                   {
                     required: true,
-                    message: '输入swagger地址'
+                    message: '输入 OpenAPI/Swagger 地址'
                   },
                   {
                     validator: this.validSwaggerUrl

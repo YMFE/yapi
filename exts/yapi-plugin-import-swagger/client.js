@@ -17,7 +17,7 @@ module.exports = function() {
           message.error('解析失败');
         }
       },
-      desc: `<p>Swagger数据导入（ 支持 v2.0+ ）</p>
+      desc: `<p>OpenAPI/Swagger 数据导入（ 支持 v2.0+，兼容 3.1+ ）</p>
       <p>
         <a target="_blank" href="https://hellosean1025.github.io/yapi/documents/data.html#通过命令行导入接口数据">通过命令行导入接口数据</a>
       </p>

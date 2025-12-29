@@ -1,4 +1,4 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 .postman {
 
 
@@ -95,10 +95,10 @@
     border-radius: 2px;
   }
   .res-code.success {
-    background-color: $color-antd-green;
+    background-color: mixin.$color-antd-green;
   }
   .res-code.fail {
-    background-color: $color-antd-red;
+    background-color: mixin.$color-antd-red;
   }
 
   // 容器：左侧是header 右侧是body

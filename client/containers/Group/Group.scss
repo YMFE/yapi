@@ -1,7 +1,7 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
 .g-doc {
-  @include row-width-limit;
+  @include mixin.row-width-limit;
   margin: 0 auto .24rem;
 }
 .news-box .news-timeline .ant-timeline-item .ant-timeline-item-content{

@@ -1,4 +1,4 @@
-@import '../../../styles/mixin.scss';
+@use '../../../styles/mixin.scss';
 
 .left-menu {
   min-height: 5rem;
@@ -15,7 +15,7 @@
   }
   .ant-tabs-nav {
     width: 100%;
-    background-color: $color-bg-gray;
+    background-color: mixin.$color-bg-gray;
   }
   .ant-tabs-tab {
     min-width: 49.4%;

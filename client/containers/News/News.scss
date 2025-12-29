@@ -1,7 +1,7 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
 .news-box {
-  @include row-width-limit;
+  @include mixin.row-width-limit;
 
   display: -webkit-box;
   -webkit-box-flex: 1;

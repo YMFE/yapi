@@ -90,6 +90,14 @@ class exportSwaggerController extends baseController {
                         ctx.set('Content-Disposition', `attachment; filename=swaggerApi.json`);
                         return (ctx.body = tp);
                     }
+                case 'OpenAPIV31':
+                    {
+                        let data = this.handleExistId(list);
+                        let model = await convertToOpenApiV31Model(data);
+                        tp = JSON.stringify(model, null, 2);
+                        ctx.set('Content-Disposition', `attachment; filename=openapi31.json`);
+                        return (ctx.body = tp);
+                    }
                 default:
                     {
                         ctx.body = yapi.commons.resReturn(null, 400, 'type 无效参数')
@@ -281,6 +289,242 @@ class exportSwaggerController extends baseController {
                 })()
             };
             return swaggerObj;
+        }
+
+        async function convertToOpenApiV31Model(list) {
+            const openapiObj = {
+                openapi: '3.1.1',
+                info: {
+                    title: curProject.name,
+                    version: 'last',
+                    description: curProject.desc
+                },
+                servers: [{
+                    url: curProject.basepath ? curProject.basepath : '/'
+                }],
+                tags: (() => {
+                    let tagArray = [];
+                    list.forEach(t => {
+                        tagArray.push({
+                            name: t.name,
+                            description: t.desc
+                        });
+                    });
+                    return tagArray;
+                })(),
+                paths: (() => {
+                    let apisObj = {};
+                    for (let aptTag of list) {
+                        for (let api of aptTag.list) {
+                            if (apisObj[api.path] == null) {
+                                apisObj[api.path] = {};
+                            }
+                            apisObj[api.path][api.method.toLowerCase()] = (() => {
+                                let apiItem = {};
+                                let parameters = [];
+                                apiItem['tags'] = [aptTag.name];
+                                apiItem['summary'] = api.title;
+                                apiItem['description'] = api.markdown;
+
+                                api.req_headers.forEach(p => {
+                                    if (p.name === 'Content-Type') {
+                                        return;
+                                    }
+                                    let headerParam = {
+                                        name: p.name,
+                                        in: 'header',
+                                        description: p.desc,
+                                        required: Number(p.required) === 1,
+                                        schema: {
+                                            type: 'string'
+                                        }
+                                    };
+                                    if (p.value !== undefined && p.value !== '') {
+                                        headerParam.schema.default = p.value;
+                                    }
+                                    parameters.push(headerParam);
+                                });
+                                api.req_params.forEach(p => {
+                                    parameters.push({
+                                        name: p.name,
+                                        in: 'path',
+                                        description: p.desc,
+                                        required: true,
+                                        schema: {
+                                            type: 'string'
+                                        }
+                                    });
+                                });
+                                api.req_query.forEach(p => {
+                                    parameters.push({
+                                        name: p.name,
+                                        in: 'query',
+                                        description: p.desc,
+                                        required: Number(p.required) === 1,
+                                        schema: {
+                                            type: 'string'
+                                        }
+                                    });
+                                });
+                                if (parameters.length > 0) {
+                                    apiItem['parameters'] = parameters;
+                                }
+
+                                let requestBody = buildOpenApiRequestBody(api);
+                                if (requestBody) {
+                                    apiItem['requestBody'] = requestBody;
+                                }
+                                apiItem['responses'] = buildOpenApiResponses(api);
+
+                                return apiItem;
+                            })();
+                        }
+                    }
+                    return apisObj;
+                })()
+            };
+            return openapiObj;
+        }
+
+        function buildOpenApiRequestBody(api) {
+            switch (api.req_body_type) {
+                case 'form':
+                    return buildOpenApiFormRequestBody(api);
+                case 'file':
+                    return buildOpenApiFileRequestBody(api);
+                case 'json':
+                    return buildOpenApiJsonRequestBody(api);
+                case 'raw':
+                default:
+                    return buildOpenApiRawRequestBody(api);
+            }
+        }
+
+        function buildOpenApiFormRequestBody(api) {
+            let schema = buildFormSchema(api.req_body_form);
+            if (!schema) return null;
+            let hasFile = api.req_body_form.some(item => item.type === 'file');
+            let contentType = hasFile ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
+            return {
+                content: {
+                    [contentType]: {
+                        schema
+                    }
+                }
+            };
+        }
+
+        function buildOpenApiFileRequestBody(api) {
+            return {
+                content: {
+                    'multipart/form-data': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                upfile: {
+                                    type: 'string',
+                                    format: 'binary',
+                                    description: api.req_body_other || 'file'
+                                }
+                            },
+                            required: ['upfile']
+                        }
+                    }
+                }
+            };
+        }
+
+        function buildOpenApiJsonRequestBody(api) {
+            let schema = parseJsonSchema(api.req_body_other) || {};
+            return {
+                content: {
+                    'application/json': {
+                        schema
+                    }
+                }
+            };
+        }
+
+        function buildOpenApiRawRequestBody(api) {
+            if (!api.req_body_other) return null;
+            return {
+                content: {
+                    'text/plain': {
+                        schema: {
+                            type: 'string'
+                        },
+                        example: api.req_body_other
+                    }
+                }
+            };
+        }
+
+        function buildOpenApiResponses(api) {
+            let response = {
+                description: 'successful operation'
+            };
+            if (api.res_body_type === 'json') {
+                let schema = parseJsonSchema(api.res_body) || {};
+                response.content = {
+                    'application/json': {
+                        schema
+                    }
+                };
+            } else if (api.res_body_type === 'raw') {
+                response.content = {
+                    'text/plain': {
+                        schema: {
+                            type: 'string'
+                        },
+                        example: api.res_body || ''
+                    }
+                };
+            }
+            return {
+                '200': response
+            };
+        }
+
+        function buildFormSchema(formParams) {
+            if (!Array.isArray(formParams) || formParams.length === 0) return null;
+            let properties = {};
+            let required = [];
+            formParams.forEach(item => {
+                if (!item || !item.name) return;
+                let propSchema = {
+                    type: 'string'
+                };
+                if (item.type === 'file') {
+                    propSchema.format = 'binary';
+                }
+                if (item.desc) {
+                    propSchema.description = item.desc;
+                }
+                if (item.example !== undefined) {
+                    propSchema.example = item.example;
+                }
+                properties[item.name] = propSchema;
+                if (Number(item.required) === 1) {
+                    required.push(item.name);
+                }
+            });
+            let schema = {
+                type: 'object',
+                properties
+            };
+            if (required.length > 0) {
+                schema.required = required;
+            }
+            return schema;
+        }
+
+        function parseJsonSchema(value) {
+            if (!value) return null;
+            try {
+                return JSON.parse(value);
+            } catch (e) {
+                return null;
+            }
         }
     }
 }

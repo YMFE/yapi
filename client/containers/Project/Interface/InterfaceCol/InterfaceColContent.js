@@ -31,7 +31,7 @@ const {
   crossRequest,
   handleCurrDomain,
   checkNameIsExistInArray
-} = require('common/postmanLib.js');
+} = require('common/postmanLib.browser.js');
 const { handleParamsValue, json_parse, ArrayToObject } = require('common/utils.js');
 import CaseEnv from 'client/components/CaseEnv';
 import Label from '../../../../components/Label/Label.js';

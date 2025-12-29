@@ -1,7 +1,9 @@
 const _ = require('underscore')
 const swagger = require('swagger-client');
 const compareVersions = require('compare-versions');
+const refParser = require('json-schema-ref-parser');
 
+  const HTTP_METHODS = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
   var SwaggerData, isOAS3;
   function handlePath(path) {
     if (path === '/') return path;
@@ -14,49 +16,165 @@ const compareVersions = require('compare-versions');
     return path;
   }
 
+  function normalizeVersion(version) {
+    return String(version || '').trim().split('-')[0];
+  }
+
+  function isOpenApi3Version(version) {
+    let cleanVersion = normalizeVersion(version);
+    if (!cleanVersion) return false;
+    try {
+      return compareVersions(cleanVersion, '3.0.0') >= 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function normalizeMimeType(type) {
+    return String(type || '')
+      .split(';')[0]
+      .trim()
+      .toLowerCase();
+  }
+
+  function collectContentEntries(content) {
+    if (!content || typeof content !== 'object') return [];
+    return Object.keys(content).map(key => {
+      return {
+        key,
+        mime: normalizeMimeType(key),
+        value: content[key]
+      };
+    });
+  }
+
+  function isJsonLikeMime(mime) {
+    return mime === 'application/json' || mime.endsWith('+json');
+  }
+
+  function pickContentEntry(content) {
+    const entries = collectContentEntries(content);
+    if (entries.length === 0) return null;
+    const priorities = [
+      entry => entry.mime === 'application/json',
+      entry => entry.mime.endsWith('+json'),
+      entry => entry.mime === 'application/hal+json',
+      entry => entry.mime === 'application/xml',
+      entry => entry.mime === 'text/plain',
+      entry => entry.mime === '*/*'
+    ];
+    for (let i = 0; i < priorities.length; i++) {
+      const entry = entries.find(priorities[i]);
+      if (entry) return entry;
+    }
+    return entries[0];
+  }
+
+  function mergeMediaTypes(target, next) {
+    let current = Array.isArray(target) ? target.slice() : [];
+    let additions = Array.isArray(next) ? next : [];
+    additions.forEach(item => {
+      if (current.indexOf(item) === -1) current.push(item);
+    });
+    return current;
+  }
+
+  function inferConsumes(content) {
+    const entries = collectContentEntries(content);
+    let consumes = entries.map(entry => entry.mime);
+    if (entries.some(entry => isJsonLikeMime(entry.mime))) {
+      consumes = mergeMediaTypes(consumes, ['application/json']);
+    }
+    return consumes;
+  }
+
+  function inferProduces(responses) {
+    let produces = [];
+    if (!responses || typeof responses !== 'object') return produces;
+    Object.keys(responses).forEach(code => {
+      let res = responses[code];
+      if (!res || typeof res !== 'object') return;
+      if (!res.content) return;
+      const entries = collectContentEntries(res.content);
+      entries.forEach(entry => {
+        if (isJsonLikeMime(entry.mime)) {
+          produces = mergeMediaTypes(produces, ['application/json']);
+        }
+      });
+    });
+    return produces;
+  }
+
+  function isFileSchema(schema) {
+    if (!schema || typeof schema !== 'object') return false;
+    let type = Array.isArray(schema.type) ? schema.type.filter(t => t !== 'null')[0] : schema.type;
+    return type === 'string' && schema.format === 'binary';
+  }
+
+  function buildFormDataParameters(schema) {
+    if (!schema || typeof schema !== 'object') return [];
+    if (schema.type !== 'object' || !schema.properties) return [];
+    const required = Array.isArray(schema.required) ? schema.required : [];
+    return Object.keys(schema.properties).map(name => {
+      let prop = schema.properties[name] || {};
+      let param = {
+        name,
+        in: 'formData',
+        description: prop.description,
+        required: required.indexOf(name) > -1
+      };
+      param.type = isFileSchema(prop) ? 'file' : 'text';
+      if (prop.example !== undefined) {
+        param.example = prop.example;
+      }
+      return param;
+    });
+  }
+
   function openapi2swagger(data) {
     data.swagger = '2.0';
     _.each(data.paths, apis => {
       _.each(apis, api => {
+        if (!api || typeof api !== 'object') return;
+        const produces = inferProduces(api.responses);
         _.each(api.responses, res => {
-          if (
-            res.content &&
-            res.content['application/json'] &&
-            typeof res.content['application/json'] === 'object'
-          ) {
-            Object.assign(res, res.content['application/json']);
-            delete res.content;
-          }          
-          if (
-            res.content &&
-            res.content['application/hal+json'] &&
-            typeof res.content['application/hal+json'] === 'object'
-          ) {
-            Object.assign(res, res.content['application/hal+json']);
-            delete res.content;
-          }          
-          if (
-            res.content &&
-            res.content['*/*'] &&
-            typeof res.content['*/*'] === 'object'
-          ) {
-            Object.assign(res, res.content['*/*']);
-            delete res.content;
+          if (!res || typeof res !== 'object') return;
+          if (res.content && typeof res.content === 'object') {
+            const entry = pickContentEntry(res.content);
+            if (entry && entry.value && typeof entry.value === 'object') {
+              if (entry.value.schema) {
+                res.schema = entry.value.schema;
+              }
+              delete res.content;
+            }
           }
         });
-        if (api.requestBody) {
+        api.produces = mergeMediaTypes(api.produces, produces);
+        if (api.requestBody && api.requestBody.content) {
           if (!api.parameters) api.parameters = [];
+          const consumes = inferConsumes(api.requestBody.content);
+          api.consumes = mergeMediaTypes(api.consumes, consumes);
+          const formEntry = collectContentEntries(api.requestBody.content).find(entry => {
+            return entry.mime === 'application/x-www-form-urlencoded' || entry.mime === 'multipart/form-data';
+          });
+          if (formEntry && formEntry.value && formEntry.value.schema) {
+            const formParams = buildFormDataParameters(formEntry.value.schema);
+            if (formParams.length > 0) {
+              formParams.forEach(param => api.parameters.push(param));
+              return;
+            }
+          }
           let body = {
             type: 'object',
             name: 'body',
             in: 'body'
           };
-          try {
-            body.schema = api.requestBody.content['application/json'].schema;
-          } catch (e) {
+          const entry = pickContentEntry(api.requestBody.content);
+          if (entry && entry.value && typeof entry.value === 'object') {
+            body.schema = entry.value.schema || {};
+          } else {
             body.schema = {};
           }
-
           api.parameters.push(body);
         }
       });
@@ -66,16 +184,22 @@ const compareVersions = require('compare-versions');
   }
 
   async function handleSwaggerData(res) {
-
-    return await new Promise(resolve => {
+    try {
+      if (res && res.openapi && isOpenApi3Version(res.openapi)) {
+        return await refParser.dereference(res, { dereference: { circular: 'ignore' } });
+      }
       let data = swagger({
         spec: res
       });
-
-      data.then(res => {
-        resolve(res.spec);
-      });
-    });
+      let result = await data;
+      return result.spec;
+    } catch (err) {
+      try {
+        return await refParser.dereference(res, { dereference: { circular: 'ignore' } });
+      } catch (e) {
+        return res;
+      }
+    }
   }
 
   async function run(res) {
@@ -88,7 +212,7 @@ const compareVersions = require('compare-versions');
         }
       }
 
-      isOAS3 = res.openapi && compareVersions(res.openapi,'3.0.0') >= 0;
+      isOAS3 = res.openapi && isOpenApi3Version(res.openapi);
       if (isOAS3) {
         res = openapi2swagger(res);
       }
@@ -96,6 +220,9 @@ const compareVersions = require('compare-versions');
       SwaggerData = res;
 
       interfaceData.basePath = res.basePath || '';
+      if (!interfaceData.basePath && res.servers && Array.isArray(res.servers)) {
+        interfaceData.basePath = getBasePathFromServers(res.servers);
+      }
 
       if (res.tags && Array.isArray(res.tags)) {
         res.tags.forEach(tag => {
@@ -109,11 +236,15 @@ const compareVersions = require('compare-versions');
       }
 
       _.each(res.paths, (apis, path) => {
-        // parameters is common parameters, not a method
-        delete apis.parameters;
+        if (!apis || typeof apis !== 'object') return;
+        let commonParams = Array.isArray(apis.parameters) ? apis.parameters : [];
         _.each(apis, (api, method) => {
+          if (HTTP_METHODS.indexOf(method) === -1) return;
           api.path = path;
           api.method = method;
+          if (commonParams.length > 0) {
+            api.parameters = mergeParameters(api.parameters, commonParams);
+          }
           let data = null;
           try {
             data = handleSwagger(api, res.tags);
@@ -235,8 +366,9 @@ const compareVersions = require('compare-versions');
     if (data.parameters && Array.isArray(data.parameters)) {
       data.parameters.forEach(param => {
         if (param && typeof param === 'object' && param.$ref) {
-          param = simpleJsonPathParse(param.$ref, { parameters: SwaggerData.parameters });
+          param = simpleJsonPathParse(param.$ref, SwaggerData);
         }
+        if (!param || typeof param !== 'object') return;
         let defaultParam = {
           name: param.name,
           desc: param.description,
@@ -276,7 +408,8 @@ const compareVersions = require('compare-versions');
 
   function isJson(json) {
     try {
-      return JSON.parse(json);
+      JSON.parse(json);
+      return true;
     } catch (e) {
       return false;
     }
@@ -300,7 +433,15 @@ const compareVersions = require('compare-versions');
     if (codes.length > 0) {
       if (codes.indexOf('200') > -1) {
         curCode = '200';
-      } else curCode = codes[0];
+      } else {
+        curCode = codes.find(code => /^[2][0-9][0-9]$/.test(code)) || codes.find(code => /^2xx$/i.test(code));
+        if (!curCode && codes.indexOf('default') > -1) {
+          curCode = 'default';
+        }
+        if (!curCode) {
+          curCode = codes[0];
+        }
+      }
 
       let res = api[curCode];
       if (res && typeof res === 'object') {
@@ -318,6 +459,26 @@ const compareVersions = require('compare-versions');
       res_body = '';
     }
     return res_body;
+  }
+
+  function mergeParameters(target, source) {
+    let current = Array.isArray(target) ? target.slice() : [];
+    let additions = Array.isArray(source) ? source : [];
+    return current.concat(additions);
+  }
+
+  function getBasePathFromServers(servers) {
+    if (!Array.isArray(servers) || servers.length === 0) return '';
+    const serverUrl = servers[0] && servers[0].url ? servers[0].url : '';
+    if (!serverUrl) return '';
+    if (serverUrl.indexOf('/') === 0) return serverUrl;
+    try {
+      const url = require('url');
+      const parsed = url.parse(serverUrl);
+      return parsed.pathname || '';
+    } catch (e) {
+      return '';
+    }
   }
 
 

@@ -1,4 +1,4 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
 .g-doc {
   margin: 0 auto 0.24rem;
@@ -6,7 +6,7 @@
 
 /* .user-box.css */
 .user-box {
-  @include row-width-limit;
+  @include mixin.row-width-limit;
   padding: 0;
   display: -webkit-box;
   -webkit-box-flex: 1;

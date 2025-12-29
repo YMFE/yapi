@@ -1,4 +1,4 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
 .nav-tooltip {
   color: red;
@@ -35,7 +35,7 @@
       display: block;
     }
     .logo-name {
-      color: $color-white;
+      color: mixin.$color-white;
       font-size: .24rem;
       font-weight: 300;
       margin-left: .38rem;

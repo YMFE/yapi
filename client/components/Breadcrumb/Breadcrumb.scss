@@ -1,4 +1,4 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
 .breadcrumb-container {
   .ant-breadcrumb {
@@ -12,7 +12,7 @@
   .ant-breadcrumb a {
     color: #fff;
     &:hover {
-      color: $color-blue
+      color: mixin.$color-blue
     }
   }
   .ant-breadcrumb > span:last-child {

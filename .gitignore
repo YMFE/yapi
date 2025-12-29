@@ -22,6 +22,7 @@ target/
 *.diff
 *.patch
 *.tmp
+.tmp_*.png
 
 # system ignore
 .DS_Store

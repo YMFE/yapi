@@ -1,7 +1,7 @@
-@import '../../../client/styles/mixin';
+@use '../../../client/styles/mixin';
 
 .g-statistic {
-  @include row-width-limit;
+  @include mixin.row-width-limit;
   margin: 0 auto .24rem;
   margin-top: 24px;
   min-width: 11.2rem;

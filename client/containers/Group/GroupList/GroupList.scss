@@ -1,4 +1,4 @@
-@import '../../../styles/mixin.scss';
+@use '../../../styles/mixin.scss';
 
 .group-bar {
   min-height: 5rem;
@@ -6,11 +6,11 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
              "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
              SimSun, sans-serif;
-    background-color: $color-bg-dark;
-    color: $color-white;
+    background-color: mixin.$color-bg-dark;
+    color: mixin.$color-white;
     padding: .24rem .24rem 0;
     .curr-group-name {
-      color: $color-white;
+      color: mixin.$color-white;
       font-size: .22rem;
       display: flex;
       justify-content: space-between;
@@ -59,7 +59,7 @@
       }
     }
     .curr-group-desc {
-      color: $color-white-secondary;
+      color: mixin.$color-white-secondary;
       font-size: 13px;
       max-height: 54px;
       margin-top: .16rem;
@@ -73,33 +73,33 @@
       font-size: 14px;
       margin-left: .08rem;
       cursor: pointer;
-      border: 1px solid $color-white;
+      border: 1px solid mixin.$color-white;
       padding: 6px 12px;
       border-radius: 4px;
       transition: all .2s;
     }
     .delete-group:hover, .edit-group:hover {
-      background-color: $color-blue;
-      border: 1px solid $color-blue;
+      background-color: mixin.$color-blue;
+      border: 1px solid mixin.$color-blue;
     }
   }
   .group-operate {
     padding: 16px 24px;
     display: flex;
     justify-content: space-around;
-    background-color: $color-bg-dark;
+    background-color: mixin.$color-bg-dark;
     .search {
       flex-grow: 1;
     }
     .ant-input {
-      color: $color-white;
-      background-color: $color-bg-dark;
+      color: mixin.$color-white;
+      background-color: mixin.$color-bg-dark;
     }
     .ant-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-      color: $color-white-secondary;
+      color: mixin.$color-white-secondary;
     }
     .ant-input-suffix {
-      color: $color-white;
+      color: mixin.$color-white;
     }
   }
   .group-list {

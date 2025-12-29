@@ -170,6 +170,7 @@ module.exports = {
         baseConfig.module.loaders.push({
           test: /\.(sass|scss)$/,
           loader: ykit.ExtractTextPlugin.extract(
+            require.resolve('style-loader'),
             require.resolve('css-loader') +
               '?sourceMap!' +
               require.resolve('sass-loader') +

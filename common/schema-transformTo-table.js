@@ -15,12 +15,87 @@ exports.schemaTransformToTable = schema => {
 //  自动添加type
 
 function checkJsonSchema(json) {
+  if (!json || typeof json !== 'object') return json;
   let newJson = Object.assign({}, json);
-  if (_.isUndefined(json.type) && _.isObject(json.properties)) {
+  newJson = normalizeCombinators(newJson);
+  if (_.isArray(newJson.type)) {
+    let type = newJson.type.find(item => item && item !== 'null') || newJson.type[0];
+    newJson.type = type;
+    newJson.nullable = true;
+  }
+  if (_.isUndefined(newJson.type) && _.isObject(newJson.properties)) {
     newJson.type = 'object';
   }
 
   return newJson;
+}
+
+function normalizeCombinators(schema) {
+  if (!schema || typeof schema !== 'object') return schema;
+  let result = Object.assign({}, schema);
+  if (_.isArray(result.allOf) && result.allOf.length > 0) {
+    let merged = mergeSchemas(result.allOf);
+    result = Object.assign({}, result, merged);
+    delete result.allOf;
+  }
+  if (_.isArray(result.oneOf) && result.oneOf.length > 0) {
+    let picked = pickSchemaCandidate(result.oneOf);
+    result = Object.assign({}, result, picked);
+    delete result.oneOf;
+  }
+  if (_.isArray(result.anyOf) && result.anyOf.length > 0) {
+    let picked = pickSchemaCandidate(result.anyOf);
+    result = Object.assign({}, result, picked);
+    delete result.anyOf;
+  }
+  if (_.isObject(result.properties)) {
+    Object.keys(result.properties).forEach(key => {
+      result.properties[key] = checkJsonSchema(result.properties[key]);
+    });
+  }
+  if (_.isObject(result.items)) {
+    result.items = checkJsonSchema(result.items);
+  }
+  return result;
+}
+
+function mergeSchemas(list) {
+  let merged = {};
+  let properties = {};
+  let required = [];
+  list.forEach(item => {
+    let schema = checkJsonSchema(item) || {};
+    if (schema.type && !merged.type) {
+      merged.type = schema.type;
+    }
+    if (schema.description && !merged.description) {
+      merged.description = schema.description;
+    }
+    if (schema.title && !merged.title) {
+      merged.title = schema.title;
+    }
+    if (_.isObject(schema.properties)) {
+      properties = Object.assign(properties, schema.properties);
+    }
+    if (_.isArray(schema.required)) {
+      schema.required.forEach(name => {
+        if (required.indexOf(name) === -1) required.push(name);
+      });
+    }
+  });
+  if (!_.isEmpty(properties)) {
+    merged.properties = properties;
+  }
+  if (required.length > 0) {
+    merged.required = required;
+  }
+  return merged;
+}
+
+function pickSchemaCandidate(list) {
+  let candidate = list.find(item => item && item.properties);
+  if (!candidate) candidate = list[0];
+  return checkJsonSchema(candidate) || {};
 }
 
 const mapping = function(data, index) {

@@ -13,7 +13,7 @@ import AceEditor from 'client/components/AceEditor/AceEditor';
 import axios from 'axios';
 import { MOCK_SOURCE } from '../../../../constants/variable.js';
 import Editor from 'common/tui-editor/dist/tui-editor-Editor-all.min.js';
-const jSchema = require('json-schema-editor-visual');
+const jSchema = require('json-schema-editor-visual/dist/main.js');
 const ResBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
 const ReqBodySchema = jSchema({ lang: 'zh_CN', mock: MOCK_SOURCE });
 const TabPane = Tabs.TabPane;

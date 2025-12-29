@@ -380,7 +380,7 @@ class ProjectData extends Component {
                         <br />
                         <h3 style={{ color: 'white' }}>智能合并</h3>
                         <p>
-                          已存在的接口，将合并返回数据的 response，适用于导入了 swagger
+                          已存在的接口，将合并返回数据的 response，适用于导入了 OpenAPI/Swagger
                           数据，保留对数据结构的改动
                         </p>
                         <br />
@@ -404,7 +404,7 @@ class ProjectData extends Component {
                 <div className="dataSync">
                   <span className="label">
                     开启url导入&nbsp;
-                    <Tooltip title="swagger url 导入">
+                    <Tooltip title="OpenAPI/Swagger url 导入">
                       <Icon type="question-circle-o" />
                     </Tooltip>{' '}
                     &nbsp;&nbsp;
@@ -416,7 +416,7 @@ class ProjectData extends Component {
               {this.state.isSwaggerUrl ? (
                 <div className="import-content url-import-content">
                   <Input
-                    placeholder="http://demo.swagger.io/v2/swagger.json"
+                    placeholder="https://petstore3.swagger.io/api/v3/openapi.json"
                     onChange={e => this.swaggerUrlInput(e.target.value)}
                   />
                   <Button

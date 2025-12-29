@@ -24,7 +24,7 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 *  类似 postman 的接口调试
 *  自动化测试, 支持对 Response 断言
 *  MockServer 除支持普通的随机 mock 外，还增加了 Mock 期望功能，根据设置的请求过滤规则，返回期望数据
-*  支持 postman, har, swagger 数据导入
+*  支持 postman, har, OpenAPI/Swagger 数据导入
 *  免费开源，内网部署，信息再也不怕泄露了
 
 ### 内网部署
@@ -127,4 +127,3 @@ YApi 是<strong>高效</strong>、<strong>易用</strong>、<strong>功能强大
 
 ### License
 Apache License 2.0
-

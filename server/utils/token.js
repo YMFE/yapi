@@ -7,36 +7,56 @@ const crypto = require('crypto');
 */
 
 // 创建加密算法
+const TOKEN_VERSION = 'v2';
+const TOKEN_PREFIX = `${TOKEN_VERSION}:`;
+const TOKEN_ALGO = 'aes-256-gcm';
+const TOKEN_IV_LENGTH = 12;
+const TOKEN_SALT = 'yapi-token';
+
+const deriveKey = function(password) {
+  return crypto.scryptSync(password, TOKEN_SALT, 32);
+};
+
 const aseEncode = function(data, password) {
-
-  // 如下方法使用指定的算法与密码来创建cipher对象
-  const cipher = crypto.createCipher('aes192', password);
-
-  // 使用该对象的update方法来指定需要被加密的数据
-  let crypted = cipher.update(data, 'utf-8', 'hex');
-
-  crypted += cipher.final('hex');
-
-  return crypted;
+  const key = deriveKey(password);
+  const iv = crypto.randomBytes(TOKEN_IV_LENGTH);
+  const cipher = crypto.createCipheriv(TOKEN_ALGO, key, iv);
+  const encrypted = Buffer.concat([cipher.update(data, 'utf-8'), cipher.final()]);
+  const tag = cipher.getAuthTag();
+  return `${TOKEN_PREFIX}${iv.toString('hex')}:${tag.toString('hex')}:${encrypted.toString('hex')}`;
 };
 
 // 创建解密算法
+const aseDecodeV2 = function(data, password) {
+  if (!data || data.indexOf(TOKEN_PREFIX) !== 0) return null;
+  const parts = data.split(':');
+  if (parts.length !== 4) return null;
+  const iv = Buffer.from(parts[1], 'hex');
+  const tag = Buffer.from(parts[2], 'hex');
+  const encrypted = Buffer.from(parts[3], 'hex');
+  const key = deriveKey(password);
+  const decipher = crypto.createDecipheriv(TOKEN_ALGO, key, iv);
+  decipher.setAuthTag(tag);
+  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+  return decrypted.toString('utf-8');
+};
+
+const aseDecodeLegacy = function(data, password) {
+  if (typeof crypto.createDecipher !== 'function') return null;
+  try {
+    const decipher = crypto.createDecipher('aes192', password);
+    let decrypted = decipher.update(data, 'hex', 'utf-8');
+    decrypted += decipher.final('utf-8');
+    return decrypted;
+  } catch (e) {
+    return null;
+  }
+};
+
 const aseDecode = function(data, password) {
-  /* 
-   该方法使用指定的算法与密码来创建 decipher对象, 第一个算法必须与加密数据时所使用的算法保持一致;
-   第二个参数用于指定解密时所使用的密码，其参数值为一个二进制格式的字符串或一个Buffer对象，该密码同样必须与加密该数据时所使用的密码保持一致
-  */
-  const decipher = crypto.createDecipher('aes192', password);
-
-  /*
-   第一个参数为一个Buffer对象或一个字符串，用于指定需要被解密的数据
-   第二个参数用于指定被解密数据所使用的编码格式，可指定的参数值为 'hex', 'binary', 'base64'等，
-   第三个参数用于指定输出解密数据时使用的编码格式，可选参数值为 'utf-8', 'ascii' 或 'binary';
-  */
-  let decrypted = decipher.update(data, 'hex', 'utf-8');
-
-  decrypted += decipher.final('utf-8');
-  return decrypted;
+  const v2 = aseDecodeV2(data, password);
+  if (v2) return v2;
+  return aseDecodeLegacy(data, password);
 }; 
 
 const defaultSalt = 'abcde';
@@ -53,7 +73,7 @@ exports.parseToken = function parseToken(token){
   let tokens;
   try{
     tokens = aseDecode(token, yapi.WEBCONFIG.passsalt)
-  }catch(e){}  
+  }catch(e){}
   if(tokens && typeof tokens === 'string' && tokens.indexOf('|') > 0){
     tokens = tokens.split('|')
     return {
@@ -62,6 +82,4 @@ exports.parseToken = function parseToken(token){
     }
   }
   return false;
-  
 }
-

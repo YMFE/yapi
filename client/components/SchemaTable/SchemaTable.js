@@ -21,7 +21,9 @@ const messageMap = {
   itemType: 'item 类型',
   format: 'format',
   itemFormat: 'format',
-  mock: 'mock'
+  mock: 'mock',
+  nullable: '可为空',
+  const: '常量值'
 };
 
 const columns = [

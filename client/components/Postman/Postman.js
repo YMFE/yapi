@@ -33,7 +33,7 @@ const {
   handleContentType,
   crossRequest,
   checkNameIsExistInArray
-} = require('common/postmanLib.js');
+} = require('common/postmanLib.browser.js');
 
 const plugin = require('client/plugin.js');
 

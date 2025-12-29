@@ -1,12 +1,12 @@
-@import '../../styles/mixin.scss';
+@use '../../styles/mixin.scss';
 
-$color-white : #fff;
+mixin.$color-white : #fff;
 $color-blue-lighter : #f1f5ff;
 $color-blue-grey-lighter : #f7fafc;
 $color-grey-lighter : #F7F7F7;
 $color-blue-light: #5dade2;
 $color-black-lighter: #404040;
-$color-text-dark: #2e2e5a;
+mixin.$color-text-dark: #2e2e5a;
 $color-text-light: #6d7c90;
 $color-bg-lightblue: #c6e2ff;
 .g-body {
@@ -152,7 +152,7 @@ $color-bg-lightblue: #c6e2ff;
       }
     }
     .login-form{
-      color: $color-white;
+      color: mixin.$color-white;
     }
     .main-one-left{
       padding-right: .15rem;
@@ -196,12 +196,12 @@ $color-bg-lightblue: #c6e2ff;
       background-color: $color-blue-lighter;
     }
     &:nth-child(even){
-      background-color: $color-white;
+      background-color: mixin.$color-white;
     }
   }
   .feat-part{
     padding: 1.5rem 0;
-    background-color: $color-white;
+    background-color: mixin.$color-white;
   }
   .section-feature {
     min-height: 6rem;
@@ -223,7 +223,7 @@ $color-bg-lightblue: #c6e2ff;
       width: 1.2rem;
       border-radius: 100%;
       margin-bottom: .2rem;
-      color: $color-white;
+      color: mixin.$color-white;
       i {
         line-height: 1.2rem;
         font-size: .6rem;
@@ -310,7 +310,7 @@ $color-bg-lightblue: #c6e2ff;
   text-align: center;
   -webkit-font-smoothing: antialiased;
   .title {
-    color: $color-text-dark;
+    color: mixin.$color-text-dark;
     line-height: .32rem;
     margin-bottom: .08rem;
     font-size: .24rem;
@@ -334,7 +334,7 @@ $color-bg-lightblue: #c6e2ff;
       margin-bottom: .24rem;
     }
     .title {
-      color: $color-text-dark;
+      color: mixin.$color-text-dark;
       font-size: .2rem;
     }
     .desc {
@@ -364,7 +364,7 @@ $color-bg-lightblue: #c6e2ff;
     }
     .ant-card-head-title {
       font-size: .17rem;
-      color: $color-text-dark;
+      color: mixin.$color-text-dark;
     }
     .ant-card-body {
       text-align: left;
