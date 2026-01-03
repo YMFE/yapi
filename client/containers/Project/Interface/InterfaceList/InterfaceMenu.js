@@ -240,7 +240,7 @@ class InterfaceMenu extends Component {
         that.props.history.push('/project/' + that.props.match.params.id + '/interface/api');
         ref.destroy();
       },
-      onCancel() {}
+      onCancel() { }
     });
   };
 
@@ -267,6 +267,20 @@ class InterfaceMenu extends Component {
         visible: false
       });
     });
+  };
+
+  copyCat = async catid => {
+    try {
+      let res = await axios.post('/api/interface/copy_cat', { catid });
+      if (res.data.errcode !== 0) {
+        return message.error(res.data.errmsg);
+      }
+      message.success('分类复制成功');
+      this.getList();
+      this.props.getProject(this.props.projectId);
+    } catch (e) {
+      message.error(e.message);
+    }
   };
 
   enterItem = id => {
@@ -597,6 +611,17 @@ class InterfaceMenu extends Component {
                                 this.setState({
                                   curCatdata: item
                                 });
+                              }}
+                            />
+                          </Tooltip>
+                          <Tooltip title="复制分类">
+                            <Icon
+                              type="copy"
+                              className="interface-delete-icon"
+                              style={{ display: this.state.delIcon == item._id ? 'block' : 'none' }}
+                              onClick={e => {
+                                e.stopPropagation();
+                                this.copyCat(item._id);
                               }}
                             />
                           </Tooltip>
