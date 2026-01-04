@@ -61,7 +61,7 @@ let routerConfig = {
       method: 'get'
     },
 
-    
+
     {
       action: 'list',
       path: 'list',
@@ -361,6 +361,11 @@ let routerConfig = {
     {
       action: 'delCat',
       path: 'del_cat',
+      method: 'post'
+    },
+    {
+      action: 'copyCat',
+      path: 'copy_cat',
       method: 'post'
     },
     {
